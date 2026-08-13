@@ -2,8 +2,8 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 async function request(path, options = {}) {
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { "Content-Type": "application/json" },
     ...options,
+    headers: { "Content-Type": "application/json", ...options.headers },
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
@@ -31,5 +31,26 @@ export const api = {
     request(`/venues/${venueId}/reviews`, {
       method: "POST",
       body: JSON.stringify(review),
+    }),
+
+  // --- адмінські методи: потребують X-Admin-Key ---
+  createVenue: (venue, adminKey) =>
+    request("/venues", {
+      method: "POST",
+      headers: { "X-Admin-Key": adminKey },
+      body: JSON.stringify(venue),
+    }),
+
+  updateVenue: (id, venue, adminKey) =>
+    request(`/venues/${id}`, {
+      method: "PUT",
+      headers: { "X-Admin-Key": adminKey },
+      body: JSON.stringify(venue),
+    }),
+
+  deleteVenue: (id, adminKey) =>
+    request(`/venues/${id}`, {
+      method: "DELETE",
+      headers: { "X-Admin-Key": adminKey },
     }),
 };

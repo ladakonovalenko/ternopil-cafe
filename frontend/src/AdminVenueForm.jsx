@@ -1,0 +1,257 @@
+import { useState, useEffect } from "react";
+import { uploadImage } from "../uploadImage.js";
+
+const CATEGORIES = ["кав'ярня", "ресторан", "бар", "інше"];
+const PRICE_LEVELS = ["$", "$$", "$$$"];
+
+const emptyVenue = {
+  name: "",
+  category: "кав'ярня",
+  description: "",
+  address: "",
+  lat: "",
+  lng: "",
+  price_level: "$$",
+  social_link: "",
+  image_urls: "",
+};
+
+export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting }) {
+  const [form, setForm] = useState(emptyVenue);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+
+  useEffect(() => {
+    if (initial) {
+      setForm({
+        ...initial,
+        lat: initial.lat ?? "",
+        lng: initial.lng ?? "",
+        image_urls: (initial.image_urls || []).join("\n"),
+      });
+    } else {
+      setForm(emptyVenue);
+    }
+  }, [initial]);
+
+  function update(field, value) {
+    setForm((f) => ({ ...f, [field]: value }));
+  }
+
+  async function handleFilesSelected(e) {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    setUploading(true);
+    setUploadError("");
+    try {
+      const urls = [];
+      for (const file of files) {
+        const url = await uploadImage(file);
+        urls.push(url);
+      }
+      setForm((f) => ({
+        ...f,
+        image_urls: [f.image_urls, ...urls].filter(Boolean).join("\n"),
+      }));
+    } catch (err) {
+      setUploadError(err.message);
+    } finally {
+      setUploading(false);
+      e.target.value = ""; // дозволяє вибрати той самий файл повторно
+    }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onSubmit({
+      name: form.name.trim(),
+      category: form.category,
+      description: form.description.trim(),
+      address: form.address.trim(),
+      lat: form.lat === "" ? null : parseFloat(form.lat),
+      lng: form.lng === "" ? null : parseFloat(form.lng),
+      price_level: form.price_level,
+      social_link: form.social_link.trim() || null,
+      image_urls: form.image_urls
+        .split("\n")
+        .map((s) => s.trim())
+        .filter(Boolean),
+    });
+  }
+
+  const inputClass =
+    "w-full bg-bg border border-line rounded-xl px-4 py-2.5 font-body text-sm " +
+    "focus:outline-none focus:border-accent";
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 bg-surface border border-line rounded-2xl p-6">
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label className="font-body text-xs text-ink-soft mb-1 block">Назва</label>
+          <input
+            required
+            value={form.name}
+            onChange={(e) => update("name", e.target.value)}
+            className={inputClass}
+          />
+        </div>
+
+        <div>
+          <label className="font-body text-xs text-ink-soft mb-1 block">Категорія</label>
+          <select
+            value={form.category}
+            onChange={(e) => update("category", e.target.value)}
+            className={inputClass}
+          >
+            {CATEGORIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label className="font-body text-xs text-ink-soft mb-1 block">Опис</label>
+        <textarea
+          required
+          rows={3}
+          value={form.description}
+          onChange={(e) => update("description", e.target.value)}
+          className={inputClass}
+        />
+      </div>
+
+      <div>
+        <label className="font-body text-xs text-ink-soft mb-1 block">Адреса</label>
+        <input
+          required
+          value={form.address}
+          onChange={(e) => update("address", e.target.value)}
+          placeholder="напр. вул. Валова, 12"
+          className={inputClass}
+        />
+      </div>
+
+      <div className="grid sm:grid-cols-3 gap-4">
+        <div>
+          <label className="font-body text-xs text-ink-soft mb-1 block">
+            Широта (lat)
+          </label>
+          <input
+            type="text"
+            inputMode="decimal"
+            value={form.lat}
+            onChange={(e) => update("lat", e.target.value)}
+            placeholder="49.5535"
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label className="font-body text-xs text-ink-soft mb-1 block">
+            Довгота (lng)
+          </label>
+          <input
+            type="text"
+            inputMode="decimal"
+            value={form.lng}
+            onChange={(e) => update("lng", e.target.value)}
+            placeholder="25.5948"
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label className="font-body text-xs text-ink-soft mb-1 block">Ціна</label>
+          <select
+            value={form.price_level}
+            onChange={(e) => update("price_level", e.target.value)}
+            className={inputClass}
+          >
+            {PRICE_LEVELS.map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <p className="font-body text-xs text-ink-soft -mt-2">
+        Координати простіше взяти з Google Maps: клацни правою кнопкою на закладі → перше
+        число скопійованого рядка — це lat, друге — lng.
+      </p>
+
+      <div>
+        <label className="font-body text-xs text-ink-soft mb-1 block">
+          Посилання на соцмережу (необов'язково)
+        </label>
+        <input
+          value={form.social_link}
+          onChange={(e) => update("social_link", e.target.value)}
+          placeholder="https://instagram.com/..."
+          className={inputClass}
+        />
+      </div>
+
+      <div>
+        <label className="font-body text-xs text-ink-soft mb-1 block">
+          Фото з галереї
+        </label>
+        <label
+          className="inline-flex items-center gap-2 cursor-pointer bg-bg border border-line
+                     rounded-xl px-4 py-2.5 font-body text-sm text-ink hover:border-accent
+                     transition-colors w-fit"
+        >
+          {uploading ? "Завантажую…" : "Обрати фото"}
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            disabled={uploading}
+            onChange={handleFilesSelected}
+            className="hidden"
+          />
+        </label>
+        {uploadError && (
+          <p className="font-body text-xs text-red-600 mt-1">{uploadError}</p>
+        )}
+      </div>
+
+      <div>
+        <label className="font-body text-xs text-ink-soft mb-1 block">
+          Посилання на фото (заповнюється саме після завантаження вище,
+          можна й додати вручну)
+        </label>
+        <textarea
+          rows={2}
+          value={form.image_urls}
+          onChange={(e) => update("image_urls", e.target.value)}
+          placeholder={"https://...\nhttps://..."}
+          className={inputClass}
+        />
+      </div>
+
+      <div className="flex gap-3 pt-2">
+        <button
+          type="submit"
+          disabled={submitting}
+          className="bg-accent hover:bg-accent-dark disabled:opacity-40 text-surface
+                     font-body font-medium rounded-full px-6 py-2.5 transition-colors"
+        >
+          {submitting ? "Зберігаю…" : initial ? "Зберегти зміни" : "Додати заклад"}
+        </button>
+        {initial && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="font-body text-sm text-ink-soft hover:text-ink"
+          >
+            Скасувати
+          </button>
+        )}
+      </div>
+    </form>
+  );
+}

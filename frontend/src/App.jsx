@@ -5,8 +5,22 @@ import CategoryFilter from "./components/CategoryFilter.jsx";
 import VenueGrid from "./components/VenueGrid.jsx";
 import MapView from "./components/MapView.jsx";
 import VenueDetail from "./components/VenueDetail.jsx";
+import AdminPanel from "./components/AdminPanel.jsx";
 
 export default function App() {
+  const isAdmin = useMemo(
+    () => new URLSearchParams(window.location.search).has("admin"),
+    []
+  );
+
+  if (isAdmin) {
+    return <AdminPanel />;
+  }
+
+  return <PublicSite />;
+}
+
+function PublicSite() {
   const [venues, setVenues] = useState([]);
   const [loadingVenues, setLoadingVenues] = useState(true);
   const [category, setCategory] = useState(null);
