@@ -110,8 +110,8 @@ export default function AdminPanel() {
 
   return (
     <div className="min-h-screen px-6 py-10 max-w-3xl mx-auto flex flex-col gap-8">
-      <div className="flex items-center justify-between">
-        <h1 className="font-display italic text-3xl text-ink">Адмінка закладів</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-display italic text-2xl sm:text-3xl text-ink">Адмінка закладів</h1>
         <button
           onClick={handleLogout}
           className="font-body text-sm text-ink-soft hover:text-ink"
@@ -155,7 +155,7 @@ export default function AdminPanel() {
             {venues.map((v) => (
               <li
                 key={v.id}
-                className="flex items-center justify-between gap-4 bg-surface border border-line
+                className="flex flex-wrap items-center justify-between gap-3 bg-surface border border-line
                            rounded-xl px-5 py-4"
               >
                 <div className="min-w-0">
