@@ -87,7 +87,7 @@ async def search_venues(search: SearchRequest):
 
     try:
         response = client.models.generate_content(
-            model="gemini-3.6-flash",
+            model="gemini-3.1-flash-lite",
             contents=prompt,
         )
     except Exception as e:
@@ -164,7 +164,7 @@ async def similar_venues(venue_id: int):
     )
 
     try:
-        response = client.models.generate_content(model="gemini-3.6-flash", contents=prompt)
+        response = client.models.generate_content(model="gemini-3.1-flash-lite", contents=prompt)
     except Exception as e:
         raise HTTPException(
             status_code=503,
