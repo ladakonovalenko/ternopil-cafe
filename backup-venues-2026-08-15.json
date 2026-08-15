@@ -1,0 +1,1228 @@
+[
+  {
+    "name": "7COFFEE",
+    "category": "кав'ярня",
+    "description": "Кав'ярня на Театральному майдані, тут пропонують каву з собою, десерти, піцу, хот-доги та паніні.\nГодини роботи: щодня з 09:00 до 22:00",
+    "address": "Театральний майдан, Тернопіль",
+    "lat": 49.55306,
+    "lng": 25.59426,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/seven.coffee_/",
+    "image_urls": [
+      "https://res.cloudinary.com/rprl4cw2/image/upload/v1786778000/o2xu5ct8kyclwtys17ex.jpg"
+    ],
+    "id": 164,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:27.714857Z"
+  },
+  {
+    "name": "ANTICA Eatery",
+    "category": "ресторан",
+    "description": "Ресторан класичної та авторської італійської кухні у Тернополі, що входить до відомої місцевої мережі «Сім'я ресторанів Файного Міста». Заклад пропонує сучасний погляд на античні кулінарні традиції Італії, поєднуючи затишний сучасний інтер'єр із автентичними смаками",
+    "address": "вул. 15-го Квітня, 2м, Тернопіль",
+    "lat": 49.550637,
+    "lng": 25.636277,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/antica_eatery/",
+    "image_urls": [
+      "https://res.cloudinary.com/rprl4cw2/image/upload/v1786778148/fyyojut9mz3yc9lfprj7.jpg"
+    ],
+    "id": 91,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:54.686908Z"
+  },
+  {
+    "name": "Anami",
+    "category": "кав'ярня",
+    "description": "Затишна кав'ярня з облаштованою дитячою ігровою зоною, літнім майданчиком та зручним пандусом. Окрім солодощів, тут можна замовити фірмовий кіш із келихом вина. Pet-friendly.",
+    "address": "вул. Ген. Мирона Тарнавського, 1, Тернопіль",
+    "lat": 49.56653,
+    "lng": 25.639204,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/anami_coffee_ternopil/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWn3aaSCtdOLNKM29k9iqOki6SIjQobR6_nZyCStVBcw7UhunQCwGyM21IsD8th0maCp59I10qTK2r98Vn4VSUG7dZdiSeIK7mKD8nc1ztl-qYGPxady4dRGtZiKRkLNTwB8WLV0ociua4mF=s680-w680-h510-rw"
+    ],
+    "id": 116,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:22.286708Z"
+  },
+  {
+    "name": "B&B Community",
+    "category": "ресторан",
+    "description": "Головна фішка закладу — сніданки «All Day», які можна замовити протягом усього дня без часових обмежень, поєднуючи їх як з якісною кавою, так і з келихом органічного вина чи коктейлем.",
+    "address": "вул. Олени Кульчицької, 5, Тернопіль",
+    "lat": 49.552421,
+    "lng": 25.59597,
+    "price_level": "$$",
+    "social_link": "http://instagram.com/bbcommunity.te/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmhIjTEeyO-ReReSxgYzfaiZ-aM2BiMYtpGIg3Pps_zLqXSsKBeAlKpnOj-oLfZvxtXU-jNDWuwDiCbrigjqrQEQXTTzHSDFcHy6CAEfGTWH7_CgIIMlKG2carTNf84YzUtKsQRYFflFAM=s680-w680-h510-rw"
+    ],
+    "id": 161,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:23.698874Z"
+  },
+  {
+    "name": "BarBarista",
+    "category": "кав'ярня",
+    "description": "Кав'ярня, відома якісними кавовими зернами, у пікові години бувають черги. Позиціонує себе як дружній та затишний заклад «де ти як вдома». Мережа є pet-friendly та активно розвиває кілька форматів у місті.",
+    "address": "вул. Патріарха Йосифа Сліпого, 1/25, Тернопіль",
+    "lat": 49.552343,
+    "lng": 25.591124,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/barbarista.te/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnm7uPbzlHEg9etBcmBlsTQO2sSM_J5VjtMSKSwEO_U4umAx0AaTTTlFdu5oMe8PtYp6UK5oihSOhzudelqkd8iwPbHrR81sPGgHpB7ucfh8c6x1BXGRe4_hH7_VBalhXu6eggduA=s680-w680-h510-rw"
+    ],
+    "id": 6,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T10:41:43.082037Z"
+  },
+  {
+    "name": "Beer Hub",
+    "category": "бар",
+    "description": "Сучасний магазин-бар з великим вибором сортів пива крафтового та розливного пива. Заклад працює щодня з 10:00 до 22:00.",
+    "address": "просп. Степана Бандери, 36, Тернопіль",
+    "lat": 49.551825,
+    "lng": 25.612453,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/beer_hub2025/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWld_hKMIatEG0U-CwxmB_EM8G2YXOruqSEFQTMkgcK_GbQczieFWTc-5xayT_QORDykOKTYxHyHKXSaLiK8LIe9ol-pkDiTtqLREZs4YGVOzzD6dWoro2W8a6x178KLqvhJCjT2tZc2H46Q=s680-w680-h510-rw"
+    ],
+    "id": 73,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:31.061342Z"
+  },
+  {
+    "name": "Bob Marley coffee",
+    "category": "кав'ярня",
+    "description": "Це тематичний концептуальний простір (кава-бар та лаунж-зона), який спеціалізується на функціональних і крафтових напоях для релаксації та фокусування",
+    "address": "вул. Митрополита Шептицького, 4а, Тернопіль",
+    "lat": 49.549045,
+    "lng": 25.594043,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/bob_marley_coffee/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmKSSjfsUOvwgKM78LnaTdNwvgq8FAjjMVGBANuf9MQMl_olrLf3C02lk3BTf6XskzmHQ6wiSA-poMJxtYKwXU7ZOr5t8LJ1z2TKeqNqIcN6CKg5G0v3if_kKta3JsG6UWvEpTMV8JH626c=s680-w680-h510-rw"
+    ],
+    "id": 19,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T10:41:59.979496Z"
+  },
+  {
+    "name": "Bude solodko",
+    "category": "кав'ярня",
+    "description": "Відома рожева кондитерська та кафе в самому центрі Тернополя, де створили знаменитий фірмовий «Тернопільський торт». Заклад поєднує натуральні інгредієнти, затишну атмосферу та кондитерські вироби власного виробництва.",
+    "address": "б-р Т. Шевченка, 21, Тернопіль",
+    "lat": 49.553804,
+    "lng": 25.595293,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/bude.solodko/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlSnb8BAsM8eiD4ULLzUQFYYukFCjuMNxF5d6eo5NlZPwewnrXhT9L6i1RD_SMaHv6FUD1NwY9Qw_J4E8bCgM_O6sCst-SPVVM8FAHBOTZ2FA_BxZXnFOVVADiSS8tuJ7V-77SXKUTyt-5P=s680-w680-h510-rw"
+    ],
+    "id": 113,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:18.232112Z"
+  },
+  {
+    "name": "COFFEE IS LOVE",
+    "category": "кав'ярня",
+    "description": "Затишна невелика кав'ярня, відома млинцями та креативними поєднаннями напоїв.",
+    "address": "вул. Шпитальна, 6, Тернопіль",
+    "lat": 49.548125,
+    "lng": 25.600123,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/_coffe_is_love/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWn83C211qizYW724EHeigP01tF6yuPIGrHdzKGC5-5iN4xzvDQ_5zb7LleUfo0TkIF2Xv3QbIXXU6nguO_3wrP-safeZVZSxHh05aca3EV5NC98p_NCKPej21E-VykR-woqE79NeI0LDGsP=s680-w680-h510-rw"
+    ],
+    "id": 8,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T10:41:45.809475Z"
+  },
+  {
+    "name": "Cafe Mone",
+    "category": "кав'ярня",
+    "description": "Меню здорового харчування, розроблене нашими професійними кухарями у супроводі досвідченого лікаря-нутриціолога.\nВідсутність у складі їжі та напоїв лактози, глютену, штучних ароматизаторів, барвників, підсилювачів смаку та інших шкідливих компонентів.\nМеню Cafe Mone включає безліч смачних страв, у тому числі ви можете обрати раціон харчування на тиждень з урахуванням індивідуальних побажань і потреб організму.\nЗбалансований вміст у їжі білків, жирів, вуглеводів, вітамінів, мікроелементів, що гарантує заряд бадьорості, стабілізацію ваги та відмінне самопочуття.",
+    "address": "вул. Гетьмана Сагайдачного, 6а, Тернопіль",
+    "lat": 49.553121,
+    "lng": 25.593592,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/mone.cafe/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnWSJtqUqYv5z4OrZnG-p5jlnTfAhUohlI84ckSvopWHqeY0kQTmFu4uJT8AJJeugasEezFLrjO0LV09gH5bLyZaQusUeLbv50Aw6sHsdr9i_oJDD-42lb5xdeaLinBFbNUweo=s680-w680-h510-rw"
+    ],
+    "id": 90,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:53.373393Z"
+  },
+  {
+    "name": "Cozy Kava",
+    "category": "кав'ярня",
+    "description": "Кав'ярня з дитячим куточком у східному районі міста, яка пропонує якісну каву, авторські десерти та затишну атмосферу для відпочинку чи роботи.",
+    "address": "вул. Миру, 2А, Тернопіль",
+    "lat": 49.546442,
+    "lng": 25.571295,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/cozykava/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmGAxR2GWVYZSgCOMWDAYdWm1SzjKsZpRYTW9L8DQWv7lprX8ecp5s7wQn3mIyAsD3hDmUJXjZptppvu66wUeRp4cf4PlFyA6Ddx5imlTBcAMCAOo9YxrQRc__RBXpYDknpM9bHjg=s680-w680-h510-rw"
+    ],
+    "id": 150,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:08.527685Z"
+  },
+  {
+    "name": "DIM Bakery",
+    "category": "кав'ярня",
+    "description": "Популярна затишна пекарня-кондитерська, яка розташована в самому центрі Тернополя та є частиною відомої Сім'ї ресторанів Файного міста. Заклад позиціонує себе як «тепле серце» мережі, де випікають крафтовий хліб на заквасці, створюють вишукані європейські десерти та пропонують повноцінні сніданки.",
+    "address": "б-р Т. Шевченка, 27, Тернопіль",
+    "lat": 49.551862,
+    "lng": 25.595835,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/dimbakery.ua/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnhJhLnraSjGwtAUdpHmnmAjO-WOAKJmDAXKXlpOtCINrbg_RboGKZE18UpOF9CfALZ-myhIJSCQLXXkbVltVHf5gGZbuEzEGg-dHKWP5FoCTqAAg9iTrXf0nOdPCGazdv-g6g6UjP5LFd5=s680-w680-h510-rw"
+    ],
+    "id": 162,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:25.020642Z"
+  },
+  {
+    "name": "Daily Dose Coffee (Євромайдану)",
+    "category": "кав'ярня",
+    "description": "Заклад відомий своєю приємною атмосферою, смачною класичною та авторською кавою, а також свіжою випічкою й трендовими новинками.",
+    "address": "пл. Героїв Євромайдану, 6, Тернопіль",
+    "lat": 49.548742,
+    "lng": 25.591589,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/dailydosetern/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnhANvdvMM5eamicQsAJOlVGg6pl0uBTB4I358XBETPj6f-q8irD7C4y8aVVBgXsHg86_KOBxGjiSFTwI6AYcS5ldr1SDwJWRwBVuDKmZ5yoUoeWUwbGuIqon3kg-HhfPtpg-hA46MWVVNC=s680-w680-h510-rw"
+    ],
+    "id": 168,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:33.081933Z"
+  },
+  {
+    "name": "Daily Dose Coffee (Привокзальна)",
+    "category": "кав'ярня",
+    "description": "Філія біля вокзалу, зручно перед потягом, є настільні ігри. Працюють з 07:00 до 23:00",
+    "address": "Привокзальна площа, 1, Тернопіль",
+    "lat": 49.553408,
+    "lng": 25.600392,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/dailydosetern/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkF1R9QtuHs70IrU6vA0CyRHLur6Spr6uJv743QlYR1czydeJevL23FmLGZreQsmLi-EK75tbZfF6UkR1gJ_dBnq6cn_iUE0KcfqwyD4kqEbZmeNB9RRBgZUw_WbOrynN8aADIzWB56xI6w=s680-w680-h510-rw"
+    ],
+    "id": 169,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:34.504505Z"
+  },
+  {
+    "name": "Daily Rest",
+    "category": "ресторан",
+    "description": "Сучасний заклад біля пл. Героїв Євромайдану, сніданки і страви за КБЖВ, тераса і кілька залів. Заклад відкрився на місці колишнього кафе «Мамонт». Позиціонує себе як затишне місце для щоденних зустрічей, неспішних ранків та теплих сімейних вечорів.",
+    "address": "пл. Героїв Євромайдану, 3, Тернопіль",
+    "lat": 49.549161,
+    "lng": 25.592691,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/dailyrest.te/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWn4JKT4EAJ4Hi6GzRfIGLhGHj5nPa6JKYlCGAh4aVSejJxbY6y21lilj5ZOCi3xliLXl6dDz2FjjYonUsgUkmsTeGYWwLjj_6dcRF8kijp6RI5DxTf3Nb3BoSVCT3qvBF6UAsP2CWnocXlw=s680-w680-h510-rw"
+    ],
+    "id": 50,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:52:58.642805Z"
+  },
+  {
+    "name": "Edes",
+    "category": "кав'ярня",
+    "description": "Смачні кюртоші (десерт походить з Угорщини, а саме з регіону Трансильванії), кава/чай у кав'ярні є настільні ігри для компанії.",
+    "address": "пров. Ген. Тарнавського, 1, Тернопіль",
+    "lat": 49.566248,
+    "lng": 25.638746,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/edes.ternopil/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmrbADT3MlFTXlN8AZQi2b1K3WyfH6rQEELmnJnBxvdQ9TqXDnQi0ZKZNootP2vzlQRNn1ukkHdvq78DPOHZ7a4Ya0NChmesFz9VpTg0jKXUysJNrBGSw7Tt9kIivaeF5t95RNO2N0v3Nl5=s680-w680-h510-rw"
+    ],
+    "id": 23,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T10:42:05.124928Z"
+  },
+  {
+    "name": "Estetica Coffee",
+    "category": "кав'ярня",
+    "description": "Заклад орієнтований на створення естетичної атмосфери та пропонує відвідувачам великий вибір кави, авторських напоїв і солодощів.",
+    "address": "просп. Злуки, 10, Тернопіль",
+    "lat": 49.559147,
+    "lng": 25.624229,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/estetica_coffee_/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWl52N87m25ZmyrpxBTYC6EjnZP-cUI6SwUL6B2kaYsYNXUYrb7LRn5hnmqtb_7fCZ-ABLGVEhUl2h_2vD-4xpIdJ5TjVe7YUbJWp9Zs2SQfHMOmwd5dHy0Ipr0MbQroWpdqtZg=s680-w680-h510-rw"
+    ],
+    "id": 94,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:58.601951Z"
+  },
+  {
+    "name": "FLOW Coffee & Tea",
+    "category": "кав'ярня",
+    "description": "Заклад пропонує затишну й тиху атмосферу, що чудово підходить для відпочинку чи зустрічей з друзями, спеціалізується на класичних кавових напоях, матчі та автентичній культурі китайського чаю.",
+    "address": "вул. Гетьмана Сагайдачного, 8, Тернопіль",
+    "lat": 49.553293,
+    "lng": 25.593319,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/flowcoffeetern/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkZ5fa8C69HyMc36U5DGzc3uvt0xXv68-LOEJdWEC-_cg-YsC5XTCLZajqh16z-R-O5-nGkV0P1p653x4Tgv8N7PJXQiOh6JFJ_naKT7JwEd_zLwaONvIjZkHB0uglYGyMNpFeAOpy2C0kG=s680-w680-h510-rw"
+    ],
+    "id": 108,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:11.407778Z"
+  },
+  {
+    "name": "Faine Misto",
+    "category": "бар",
+    "description": "Культовий пивний ресторан, відомий великими порціями за принципом «смачніше й дешевше, ніж вдома». Середній чек складає 200–400 грн. Тут подають легендарні деруни, панські пательні, борщ (139 грн) та піцу (від 240 грн).",
+    "address": "б-р Т. Шевченка, 23, Тернопіль",
+    "lat": 49.552781,
+    "lng": 25.595411,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/faine_misto_pub/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmLlja3gbTeX5ttEsdNjFKJ01vbeTjLAJj4sv8Kcw060MPeQ_G1lQkBB07T1ggh5u1tvamvfdwB7U-34-f_9H589fdT03gb-WhiLkGrUA8OA0dBiTwCPE9lUIA9AF6JuSacpoEP=s680-w680-h510-rw"
+    ],
+    "id": 71,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:28.423436Z"
+  },
+  {
+    "name": "Flamingo",
+    "category": "ресторан",
+    "description": "Італійська кухня і піца біля автовокзалу, великий вибір десертів.",
+    "address": "вул. Торговиця, 7, Тернопіль",
+    "lat": 49.543948,
+    "lng": 25.597538,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/flamingo_pizzeria/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/grass-cs/ACvplmNjMjR6nCqnQrgVe7-DcM0on7a12Wt-KqLEke-Fy46uAcM1LFhBvOGrzkskohIIe8AwjLXOC6e4cfaJWBHlGtz_oRn45NZ_7_pdGm7ecDj19rMr2WOa2B3KCV3-POegLLs0-SVE1w=s680-w680-h510-rw"
+    ],
+    "id": 136,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:49.071159Z"
+  },
+  {
+    "name": "Flowering Coffee Gallery",
+    "category": "кав'ярня",
+    "description": "Приємний цікавий заклад. Можна затишно влаштуватися на диванчиках, випити кави, з'їсти десерт або перекусити салатом чи круасаном. Можна поєднати це з роботою, є можливість підключити ноутбук. Можна посидіти насамоті за маленьким столиком або прийти компанією - місця вистачає всім і ніхто нікому не заважає. В закладі простір розділений на 2 зала, тому під настрій можна сховатися від сторонніх очей або, навпаки, зайняти місце, звідки видно всю кав'ярню. Просторо, багато зелені. Для діток є окремий куточок, персонал привітний до дітей. Та і взагалі, персонал приємний - дуже молоді дівчата і хлопці. Завжди вітаються, напам'ять розповідають асортимент макаронів та натуральних чаїв) памятають вподобання, якщо кілька разів замовляєш один і той самий напій.",
+    "address": "вулиця Генерала Мирона Тарнавського, 38, Тернопіль, Тернопільська область, 46024",
+    "lat": 49.56756061989167,
+    "lng": 25.639177569572503,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/flowering_coffee/",
+    "image_urls": [
+      "https://res.cloudinary.com/rprl4cw2/image/upload/v1786695597/w9ixdfhkfe2vgfoipdzn.jpg",
+      "https://res.cloudinary.com/rprl4cw2/image/upload/v1786695598/e79k5oxioczqu6kevjld.jpg",
+      "https://res.cloudinary.com/rprl4cw2/image/upload/v1786695599/debssm5wxequxjeyiv4l.jpg"
+    ],
+    "id": 2,
+    "avg_rating": 5,
+    "reviews_count": 1,
+    "created_at": "2026-08-14T08:24:23.609325Z"
+  },
+  {
+    "name": "Good Mood Coffee",
+    "category": "кав'ярня",
+    "description": "Невелика затишна затишна спешелті кав'ярня в Тернополі, яка позиціонує себе як локальний простір та об'єднує формат кави, десертів власного виробництва та настільних ігор.",
+    "address": "б-р Симона Петлюри, 2, Тернопіль",
+    "lat": 49.556035,
+    "lng": 25.642704,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/goodmood.coffee/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWl4n_RNEE2OHYQ5WkvCDQrkwhb-Gp1LmBC8c9t5WF00KdGkWbPHKpZrZ2a8HacxLECwPVIwj_gbA90GgTDFdgOxDE3s4tkttQD-dKZON6DtK_yiF37l-BS77LPyUNs8Kpusve9mSQ=s680-w680-h510-rw"
+    ],
+    "id": 102,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:03.083314Z"
+  },
+  {
+    "name": "Guru Food (Руська)",
+    "category": "ресторан",
+    "description": "Заклад, що спеціалізується на доставці та приготуванні страв японської та європейської кухні. Піца, суші, рамени, бургери, снеки, салати тощо.",
+    "address": "вул. Руська, 19, Тернопіль",
+    "lat": 49.550918,
+    "lng": 25.591591,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/guru_food_ua/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmT5KcMMFf_DSir1bYxpqsGNn0vOIlQy2vbZsBBsUgNF1K4OZVOZsXyhkJO9Njkb8NLrePR1eeLQAx2rvu2Oaq85t3zXnJ0ICm7JRcfNYpLWG0coF8AA-hh2_aW5M-XlKNvO5E2ew=s680-w680-h510-rw"
+    ],
+    "id": 165,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:29.030459Z"
+  },
+  {
+    "name": "Guru Food (Тарнавського)",
+    "category": "ресторан",
+    "description": "Друга філія мережі Guru Food, суші, піца на інші японські/європейські страви з доставкою.",
+    "address": "вул. Ген. Мирона Тарнавського, 32, Тернопіль",
+    "lat": 49.566062,
+    "lng": 25.637164,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/guru_food_ua/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkNRQR1_cF6_coye1JOvekA3_cqJ0CKRr9E2FHh1hKP4_CFphpKVV6SmA-TtnZMOI4lDSuo2BabeGhNDHyJ0ltBB39UXbzVhoUZk6HhEtP4j9b9K0y0P__4ZqhYRnlFP58VQ7w=s680-w680-h510-rw"
+    ],
+    "id": 166,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:30.350310Z"
+  },
+  {
+    "name": "IQ Pizza (Бандери)",
+    "category": "ресторан",
+    "description": "Піцерія IQ Pizza працює щодня з 10:00 до 22:00 та пропонує швидке приготування піци на відкритій кухні від 69 грн.",
+    "address": "просп. Степана Бандери, 80, Тернопіль",
+    "lat": 49.54922,
+    "lng": 25.624709,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/iq_pizza_ukraine/?hl=uk",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmPB5DDufzy-MvnM6xXeRRoYkQ_5Ka2dm17py_y5lNFmmS5uCxahfCS_4qz8GzWUuNCJZlEOfA6QQ4QSlj5sSUr-Zd3Z6SbtXiGFeLUDjbb9xIAJqjtuC7xOv4r6Ri6Lw4RfQO4MKdNCFtC=s680-w680-h510-rw"
+    ],
+    "id": 134,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:46.330520Z"
+  },
+  {
+    "name": "IQ Pizza (Злука)",
+    "category": "ресторан",
+    "description": "Мережа піцерій IQ Pizza - це інтелектуальний підхід до створення та розвитку нового продукту. Головні переваги бренду - якість, швидке приготування та свобода вибору для гостей піцерії.",
+    "address": "вул. 15-го Квітня, 1е, Тернопіль",
+    "lat": 49.547954,
+    "lng": 25.636815,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/iq_pizza_ukraine/?hl=uk",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkh7q2hYOdKV8E-Vdb7EmMFMAOSZuyib07jvESK17-ldh533wAj8gCvGci7cKw83GVwQZ4AhEqUI5DUwtClT1EFIHdXC5Tp5AzBAM0bQfmKExRnWWJQ8Cj5me03zG4elvHqBauIoaFPQTFN=s680-w680-h510-rw"
+    ],
+    "id": 135,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:47.759967Z"
+  },
+  {
+    "name": "La Farina",
+    "category": "ресторан",
+    "description": "Популярна служба доставки, що спеціалізується на справжній італійській піці на дровах із витриманого тіста та різноманітних суші-сетах. Заклад працює у форматі «dark kitchen» щодня з 10:00 до 22:00, пропонуючи швидку доставку по місту або знижку за самовивіз.",
+    "address": "вул. Князя Острозького, 4, Тернопіль",
+    "lat": 49.550375,
+    "lng": 25.593791,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/lafarina.te/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWn9mcJ35z0MxfCm5JxBHwIeXIIttSGapjp7WgyjjvKYfCj8VKcOdLkiUUqgMSUiLy42Di8dRD0qeZrcK8pqmUy3GomWCTiaLWPQ1_rSst7RpxWMd8PAEKy5rwUB-AZeFZ6_8KvhDxd7uLnD=s680-w680-h510-rw"
+    ],
+    "id": 63,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:15.926860Z"
+  },
+  {
+    "name": "MIRAX",
+    "category": "ресторан",
+    "description": "Сучасний ресторан української та кавказької кухні, де подають фірмові страви з тандира й мангала. Заклад чудово підходить як для затишних сімейних обідів, так і для великих святкувань у банкетному залі чи літніх альтанках.",
+    "address": "вул. 15-го Квітня, 28В, Тернопіль",
+    "lat": 49.562973,
+    "lng": 25.647931,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/mirax.restaurant/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnibWEElwq6_9InsJBDRZ8__Vdx_6nIqbZUfskr5DB31VsHILYIDgWr77PgcItopEPfumpknhNZPX2hBre5xT1LRA5orG1Lv-2ZZvCMNOIIDIgc36581-z9aqZJudkIw9C5bKn1HYOT8hWQ=s680-w680-h510-rw"
+    ],
+    "id": 56,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:06.785364Z"
+  },
+  {
+    "name": "NA NEBI grill & wine",
+    "category": "ресторан",
+    "description": "Вишуканий ресторан сучасної української та європейської кухні, розташований у самому центрі Тернополя. Заклад відомий своєю відкритою кухнею зі стравами на грилі, унікальною винною картою та затишною терасою з панорамним краєвидом на історичну частину міста.",
+    "address": "вул. Олени Кульчицької, 2, Тернопіль",
+    "lat": 49.5522,
+    "lng": 25.595936,
+    "price_level": "$$$",
+    "social_link": "https://www.instagram.com/na.nebi/?hl=uk",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkPt0qUVA4B1LWdxYCYNq-8sxxE_yG66ETdeXEoZkhb7BpKEKuCFNdCJLYRBgTbDodQDDzE0dIIl8R_IY0WF6nli-Eq_RACfTP7ZVJYMVewUD7rOW3X11-83Kpe5cLVClQg9aqmTczuxOq2=s680-w680-h510-rw"
+    ],
+    "id": 54,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:04.169490Z"
+  },
+  {
+    "name": "NONAME (Нонаме)",
+    "category": "бар",
+    "description": "Драйвовий мексиканський дайв-бар у центрі Тернополя, відомий своєю андеграундною атмосферою, неоновим інтер'єром та регулярними DJ-сетами. Заклад пропонує гостям автентичний латиноамериканський стріт-фуд, великий вибір текіли та авторських коктейлів за доступними цінами.",
+    "address": "вул. Олени Кульчицької, 2а, Тернопіль",
+    "lat": 49.552224,
+    "lng": 25.595778,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/noname.nobar/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlhE1l_FDKv9kujoIx6ltXV38liPXCCx8KPbr0jJ8CHFjN4iofTT8NLCnQTscmf-8mnMak6XyqJXQ8KsR6oFXL2svM5catLNY-G_w3z8J1KfsP7-cnhYmiiNPExmW7EiF8Dw1Oz=s680-w680-h510-rw"
+    ],
+    "id": 158,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:19.662164Z"
+  },
+  {
+    "name": "Natura",
+    "category": "ресторан",
+    "description": "Затишний гастропаб у Тернополі з каміном та літньою терасою, який пропонує страви з вогню, стейки та багату винну карту. Заклад чудово підходить як для швидких бізнес-ланчів, так і для атмосферних вечірніх святкувань у колі близьких.",
+    "address": "вул. Митрополита Шептицького, 11, Тернопіль",
+    "lat": 49.54684,
+    "lng": 25.593223,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/natura_rest/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWn0aPirqK_NHWN4OQ-Lo3fQecp1Xb2OfwoX6tJDJ-iZJ3VRV1vU4tKa0fUffIgty8ngrl6eby2-noL74efQMZf1JBu1qzgTHPd7SwStxL02LvZ4NSLAfJdvoMPZ_VLzqEYEkAC5=s680-w680-h510-rw"
+    ],
+    "id": 62,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:14.609360Z"
+  },
+  {
+    "name": "Old Tom Bar",
+    "category": "бар",
+    "description": "Камерний, концептуальний бар у стилі 1920-х років із камерною атмосферою та живою музикою. Головною фішкою закладу є zero-menu філософія, де бармени створюють унікальні авторські коктейлі індивідуально під смак кожного гостя.",
+    "address": "вул. Січових Стрільців, 5, Тернопіль",
+    "lat": 49.550446,
+    "lng": 25.598272,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/old_tom_bar/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlXSIfA8xOHkylfyDuNEKZZ7sj9gyRq5Nrb1V2q8XNszWEjKqnVEh6nfBkXqaoiO_rEyKnqBlPLt5gIepvxIW_642ggyEFkURz5NOBUyo64-D1jOWUFyyN6vqlMH-TiyXbSEYvH=s680-w680-h510-rw"
+    ],
+    "id": 76,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:34.997050Z"
+  },
+  {
+    "name": "ROAD (Роуд)",
+    "category": "ресторан",
+    "description": "Сучасний ресторан домашньої та мангальної кухні від мережі «Файне Місто», зручно розташований на об'їзній Тернополя навпроти ТЦ «Метро». Заклад чудово підходить для святкування банкетів чи ситного перекусу в дорозі, а його головною фішкою є величезна вітрина алкоголю за помірними магазинними цінами.",
+    "address": "вул. Об'їзна, 19, Тернопіль",
+    "lat": 49.528902,
+    "lng": 25.61339,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/road.cafe.te/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmbgPf8ez6xgyWuy2v4SaiWn1ObJaJ31s6VI5aSbALHzXZDt3YXzQ90bMOPxVZDgv2oLmMyNBjhaWHbGjZQxXalSAmCLMUNMORi-m3R7EYRTgZZoaOdCZnI_68-h3vDdtm9IitYyJejKWOV=s680-w680-h510-rw"
+    ],
+    "id": 129,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:39.666802Z"
+  },
+  {
+    "name": "STARCOFFEE",
+    "category": "кав'ярня",
+    "description": "Затишна та популярна кав'ярня, розташована на пішохідній вулиці в самому центрі Тернополя. Заклад відомий своїми великими порціями кави, різноманітними десертами та дружньою до тварин атмосферою, яка чудово підходить як для відпочинку, так і для роботи.",
+    "address": "вул. Гетьмана Сагайдачного, 8, Тернопіль",
+    "lat": 49.553212,
+    "lng": 25.59273,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/starcoffeeua/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWk-e6pflQb1Wk0Ea7jo_SOKgMc6KyivxHj186w4qYVKkvf6EqBGnjy6tLmw2XQPFuwLmhLDJQnU2CVwgaj5NVCavBydrugvpEaO8V8TmBHU1ci-K8nyDbMjG_uUAcpiQsfK8S3bqryTsLyT=s680-w680-h510-rw"
+    ],
+    "id": 18,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T10:41:58.689051Z"
+  },
+  {
+    "name": "Stone Street Кафе",
+    "category": "кав'ярня",
+    "description": "Популярний гастрономічний заклад, відомий своєю затишною атмосферою та різноманітним меню. У ньому поєднуються класичні страви європейської кухні, авторські десерти та вишукана кавова карта для ідеального відпочинку.",
+    "address": "вул. Руська, 18, Тернопіль",
+    "lat": 49.550514,
+    "lng": 25.590629,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/stone.street.cafe/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWls9ca2FsUQCTMWptGMnvouZaz_JfzSVUEyHBCXVlBh_SEmfcC0NcMa5GBSL_FHk6-FKsIGoTz0vvVAN_bZ7Y4DFadCzMHSTAwW1K2HrfiF0oOMB-gqp4BDEypO1GwMPRnU-70g_Q=s680-w680-h510-rw"
+    ],
+    "id": 36,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:52:40.227443Z"
+  },
+  {
+    "name": "Trattoria Parmigiano",
+    "category": "ресторан",
+    "description": "Затишний ресторан італійської кухні в самому центрі Тернополя, відомий своєю домашньою пастою, піцою на тонкому тісті та dog-friendly атмосферою. Заклад має високий рейтинг, пропонує вишукані страви за доступними цінами та чудово підходить як для сімейних обідів, так і для романтичних вечерь.",
+    "address": "вул. Гетьмана Сагайдачного, 8, Тернопіль",
+    "lat": 49.553219,
+    "lng": 25.593254,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/trattoria.parmigiano_te/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlO__UxeZf2WJJsvBbEqckrIGCLTHYKLl_Z2iSuhFwtOQezZr-yoLeO8ssQPORH2dVmGpQDMhBecPJTFsxXluWmacqBCJNUxP6WZq4QmJvuCejb_4XOkMkq62gnHbRbAJS-7zg6=s680-w680-h510-rw"
+    ],
+    "id": 53,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:02.848657Z"
+  },
+  {
+    "name": "YOUNG",
+    "category": "ресторан",
+    "description": "Стильний паназійський ресторан та лаунж-бар у центрі Тернополя, який поєднує автентичну східну кухню з концепцією нічного клубу та вечірок. Заклад відомий своїм неоновим інтер'єром, авторськими коктейлями, суші та WOK-меню, а також регулярними діджей-сетами й кальянами.",
+    "address": "вул. Олени Кульчицької, 2А, Тернопіль",
+    "lat": 49.552222,
+    "lng": 25.595833,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/young_party_restaurant/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmNaVThc0lhG4iG49MJ55bjkg9KZNcyaRgaA2zQJMySVF9MDt4YkPCfpvAoTocqrfiN5umTdfdrKdLO0ISkK9iMUHiBGMI5MWRzKWyqFSJdLbybApXYkH029g5lCoJVRbaK1c7UOfGb8XQ7=s680-w680-h510-rw"
+    ],
+    "id": 156,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:16.778856Z"
+  },
+  {
+    "name": "Ахтамар",
+    "category": "бар",
+    "description": "Заклад розташований на околиці міста, у затишній зеленій зоні смт Велика Березовиця. Це популярне місце для відпочинку на природі, сімейних свят або великих компаній. Відома шашлична колиба та бар, що спеціалізується на вірменській кухні.",
+    "address": "вул. Микулинецька, 70, с. Велика Березовиця, Тернопільський р-н",
+    "lat": 49.495125,
+    "lng": 25.615282,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/ahtamar.te/",
+    "image_urls": [
+      "https://res.cloudinary.com/rprl4cw2/image/upload/v1786778270/spcrkja5cy36q0w9cebt.jpg"
+    ],
+    "id": 146,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:03.034185Z"
+  },
+  {
+    "name": "Бахус",
+    "category": "ресторан",
+    "description": "Ресторан у Тернополі, оформлений у величній давньогрецькій тематиці та розрахований на великі бенкети до 200 гостей. Заклад пропонує страви української та європейської кухні, живу музику, великий танцювальний майданчик і затишну VIP-зону для відпочинку.",
+    "address": "вул. Ген. Мирона Тарнавського, 26а, Тернопіль",
+    "lat": 49.565047,
+    "lng": 25.634133,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/restaurant.bahus/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmzkBlOy8g2x8MX4eI99UQ3v6TMkDbPP2M94Z_uZZQT532MEMOZw6fulKyzkIXK13C0g6WmDjLqlTFchWP2j-mMKVqyZ3cV0I-Fhjm0rRluE1YmWQ2p3XzTF7hDq4xKFqYvDVehQA=s680-w680-h510-rw"
+    ],
+    "id": 152,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:11.154196Z"
+  },
+  {
+    "name": "Володар",
+    "category": "ресторан",
+    "description": "Просторий банкетний комплекс української та європейської кухні, що спеціалізується на проведенні великих свят і весіль. Заклад пропонує затишні зали, літні альтанки, фірмові страви з тандиру та окремі ігрові кімнати для відпочинку з дітьми.",
+    "address": "вул. Сергія Корольова, 57, Тернопіль",
+    "lat": 49.546842,
+    "lng": 25.548695,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/volodar_restaurant/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnsar5vR05wihmeR-DwYrXNOvUpP0k3G4kEvjmK3v2ctMQmBFhx3QeJGlJgBlSEH0oVWogb-Sni0QBCvoTpSVcnEkVzNmAOci9IXoSwdUTjHuLQkz8AJ_bBmtPRPw5s_yPBnsw=s680-w680-h510-rw"
+    ],
+    "id": 55,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:05.470401Z"
+  },
+  {
+    "name": "Гастропаб Вибагливий Хлоп",
+    "category": "бар",
+    "description": "Популярний гастропаб у Тернополі, відомий величезним асортиментом крафтового пива та фірмовими вареними раками в оригінальних соусах. Заклад поєднує формат затишного бару для відпочинку з друзями та м'ясного магазину зі швидкою доставкою страв по всьому місту.",
+    "address": "просп. Злуки, 8, Тернопіль",
+    "lat": 49.560704,
+    "lng": 25.618279,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/vibagliviy_hlop_/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkuX0YaGYaG74Bs_Y-2ORriF2LbDw0SL9Lk4c0Fwigm95AVzg5ycywj6O8_OItfIknjj-mvaoLIMuguUJGgf50U39kfOY2jHW8ZoHOe8XBRgiTDTlMCLwDKbAypHj1dKG5gcujy=s680-w680-h510-rw"
+    ],
+    "id": 74,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:32.380874Z"
+  },
+  {
+    "name": "Грильова ресторація \"Вугіль\"",
+    "category": "ресторан",
+    "description": "Концептуальний м'ясний ресторан у Тернополі, який спеціалізується на стравах європейської кухні, приготованих у хоспері, на мангалі та у власному смокері. Заклад пропонує затишну атмосферу із критим залом та літнім майданчиком, що чудово підходить для сімейного відпочинку, великих компаній або святкувань.",
+    "address": "вул. Текстильна, 22, Тернопіль",
+    "lat": 49.576408,
+    "lng": 25.630854,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/vugil.rest/?hl=uk",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnzN3XdD0W3-WOD-Lj_rRtcqKrajdwJNTCxuUMeeafL717_iYP7YC4Y6LBV8HLdGfupSOc6Qd60HLclqJ1Wu2ChNcLWoC_zAtIXiXtaxetJ8nidsNXoblIHye5801xVhioF-n-X=s680-w680-h510-rw"
+    ],
+    "id": 84,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:45.480527Z"
+  },
+  {
+    "name": "Гуцульщина",
+    "category": "ресторан",
+    "description": "Колоритний бар-ресторан на околиці Тернополя, оформлений у традиційному дерев'яному стилі карпатської хати. Заклад пропонує автентичні страви української та гуцульської кухні, затишні кабінки для відпочинку та великий бенкетний зал.",
+    "address": "вул. Об'їзна, 7, Тернопіль",
+    "lat": 49.532589,
+    "lng": 25.626138,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/reel/DO6UUlrCJqU/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWn4CB0HWA7qs8jIGLTQWugrpGfeBjz-eL1BnfFUDW_fpTUop9PJ2w2AWayHMqh1gLmuYSMqcdF5VcSOiIeCaJA3aLyYH9JVEbQ75bgMUdrNjuIOyw5HU6Maxg0aW1-qhvb9kVhH=s680-w680-h510-rw"
+    ],
+    "id": 61,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:13.306169Z"
+  },
+  {
+    "name": "Друзі",
+    "category": "кав'ярня",
+    "description": "Затишний простір, ідеальний для теплих розмов за чашкою кави та десертом. Тут діє концепція передбачень у кожному чеку та є великий вибір фільтр-кави.",
+    "address": "вул. Наливайка, 1г",
+    "lat": 49.562938,
+    "lng": 25.591642,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/druzi_friendsplace/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnX2V5mfZX4cyYUKsjMQQGkqtoLXuXJHi_gdOgs-xwLytT8km8a5I35jFOa6UKtmQE7HPdA_MEgJ8EFasBXztDED-Bk3GvBs5WckQ1XmiQb4hOQ7fT2vYDY8PDuyJy6y4ptKuwEFzY1JW4G=s680-w680-h510-rw"
+    ],
+    "id": 109,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:12.719491Z"
+  },
+  {
+    "name": "КЛУБ Файного Міста",
+    "category": "ресторан",
+    "description": "Популярне сіті-кафе у центрі Тернополя, яке входить до відомої місцевої мережі «Сім'я ресторанів Файного Міста». Заклад поєднує сучасний затишний інтер'єр у стилі ф'южн із різноманітним меню, що включає європейську, українську та паназійську кухні",
+    "address": "вул. Олени Кульчицької, 1, Тернопіль",
+    "lat": 49.552403,
+    "lng": 25.595397,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/klub_fainogo_mista/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmln2D8LW5626qJ-JY9VHk0mUHbzrUxnV-RR__CKtJVDkI4gELpJ3vB1NEE_ujlypHZxM_zVhRi9kaIirs5hoXEXDQ98H_pkMGjyA8qJY7DYmb_7U6jVfC5iprkgjS6u_G4QhZLWQ=s680-w680-h510-rw"
+    ],
+    "id": 151,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:09.837570Z"
+  },
+  {
+    "name": "Кав'ярня Remember",
+    "category": "кав'ярня",
+    "description": "Затишний і концептуальний заклад на Дружбі, створений у пам'ять про загиблого захисника України. Тут пропонують якісну класичну та альтернативну каву, смачні десерти, а також настільні ігри та книжки для душевного відпочинку.",
+    "address": "вул. Карпенка, 2, Тернопіль",
+    "lat": 49.541009,
+    "lng": 25.576614,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/remember_coffee/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWm8-ip82JJ7YG7-crCil7l9MZ3c_mAX2pNRaP32jxW8wTvRYO870VkYQdZRnPvi-dUuT8FjYYDEF5_phPfgU7ZNfsUmItBRkARgl-Ni-3BnLN3UftLcJ7Z1sObnHkmG9yAwQaPB=s680-w680-h510-rw"
+    ],
+    "id": 103,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:04.608676Z"
+  },
+  {
+    "name": "Кав'ярня Блажевських",
+    "category": "кав'ярня",
+    "description": "Естетичний pet-friendly заклад із затишним сучасним інтер'єром та великою літньою терасою. Тут подають смачні сніданки протягом усього дня, альтернативну каву, коктейлі та відомі в місті авторські мусові десерти й торти.",
+    "address": "вул. Грушевського, 1, Тернопіль",
+    "lat": 49.553881,
+    "lng": 25.593481,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/blazhevskyy.cafe/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWl8m1PGXOC1TZgf0HKzYJ86xdVaR7p8K2_E6Ly5p4a7kRzc57h9zhW4lUuAOuoUc3Bm1pY4HSVWaHB5NFhJNYqNmNDvP9bWjA1Yh7p0a74HcPgb9MR0pPXXKF_wGo4fNCBAlZLcaceG-hUw=s680-w680-h510-rw"
+    ],
+    "id": 112,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:16.885649Z"
+  },
+  {
+    "name": "Кав'ярня Сова",
+    "category": "кав'ярня",
+    "description": "Кав'ярня пропонує гостям класичну каву, духмяні чаї, ситні паніні та смачні десерти. Обидві локації мають сучасний інтер'єр, привітний персонал та раді відвідувачам із домашніми улюбленцями.",
+    "address": "вул. Ген. Мирона Тарнавського, 1, Тернопіль",
+    "lat": 49.566303,
+    "lng": 25.638886,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/sova_ternopil/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWm26ZZjKUldQR90PyAI_BXs4vAI2Xu80dpEfc3mE1XSuM2MABYEQfSKx-V1GWVqXD8kwB8nVc3LM13O_y6L6ARCcqpOHZWYkJTgU2kXXQkrR94vil9H6xhRh2IvPN7GxbtOI5H9=s680-w680-h510-rw"
+    ],
+    "id": 117,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:23.616472Z"
+  },
+  {
+    "name": "Кав'ярня Фабула",
+    "category": "кав'ярня",
+    "description": "Затишне місце зі стильним інтер'єром, де пропонують якісну каву, ароматні чаї та різноманітні десерти. Тут облаштовано комфортну зону для відпочинку дорослих і спеціальний дитячий куточок для найменших відвідувачів.",
+    "address": "вул. Білогірська, 8, Тернопіль",
+    "lat": 49.540851,
+    "lng": 25.592157,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/fabula_coffee/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWm-1UAM9kFEqm-qVu-ScsOk5xRRDoE-0co4uKAx4_7cFHHEx6Hkltg3VPiad_5MdZ3N0MFJWds0E_GtZpGG_BlUbHXG4wmJnMegN-HcxpeTEQVa2O_tsgwH4b-tDTWLpOxoWSQ=s680-w680-h510-rw"
+    ],
+    "id": 12,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T10:41:50.976876Z"
+  },
+  {
+    "name": "Карма Кава",
+    "category": "кав'ярня",
+    "description": "Популярна мережа кав'ярень у центрі Тернополя, відома своєю якісною спешелті-кавою зі свіжого зерна власного обсмажування. Заклади поєднують стильний інтер'єр, дружню pet-friendly атмосферу та смачні сучасні сніданки й десерти.",
+    "address": "вул. Гетьмана Сагайдачного, 13, Тернопіль",
+    "lat": 49.552454,
+    "lng": 25.592174,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/karmakava.society/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmS1asQy3iS8s_IHuvK-B44FMgoyKHL_I0I6I2CgBIk7BElaJGbn-NOVbXdgh-BGPbRIvXG-5AbZmjVk4RFweCpEe9K40gTSZK3Jnb7KGKIGZXLKGwNa7DjN-wIgFQRbgRnYebR=s680-w680-h510-rw"
+    ],
+    "id": 97,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:37:56.092526Z"
+  },
+  {
+    "name": "Карма Кава (Modern Society)",
+    "category": "кав'ярня",
+    "description": "Сучасна концептуальна локація у стилі лофт на вулиці Валовій у Тернополі, що спеціалізується на якісній спешелті-каві власного обсмажування. Заклад пропонує формат повноцінного міського кафе, де великий вибір класичних та альтернативних напоїв доповнюють авторські сніданки, свіжі бейгли та десерти від власної пекарні.",
+    "address": "вул. Валова, 5, Тернопіль",
+    "lat": 49.552061,
+    "lng": 25.593127,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/karmakava.society/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnk4FarbiMBZ28hYbTaTr1-s5oy6yUhCztf6rQvtGWI6SSPV0Hp0RPVlI3Eaokk5LqUUKsSUdjfdC2dj7er3nRJNO_SCWjIPTR3GzEmjwXhFJKmki0aY2VBvz-e9JmkuPSYlAxEbg=s680-w680-h510-rw"
+    ],
+    "id": 95,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:37:53.298178Z"
+  },
+  {
+    "name": "Кафе Друг",
+    "category": "ресторан",
+    "description": "Сучасний міський заклад, який позиціонує себе як простір із корисною їжею, кавою третьої хвилі та регулярними культурними подіями. Знаходиться у бізнес-центрі К15.",
+    "address": "вул. 15-го Квітня, 2м, Тернопіль",
+    "lat": 49.550789,
+    "lng": 25.636434,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/druh.cafe/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlCVCsEp1TqGQJPEjjFgbI-faOabwupdyfDinlmrMsJJHdYYnnOkF72S7p_HgS2pBOxaMc7cqRNNGfxnqi8AIsqk9wTBCT9Ev33MHM1UZPa9ZT47GwTsSfjAG0ikbesdlMGce1r=s680-w680-h510-rw"
+    ],
+    "id": 57,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:08.094004Z"
+  },
+  {
+    "name": "Ковчег",
+    "category": "бар",
+    "description": "Пивоварна ресторація «Ковчег» вражає своєю унікальною архітектурою у формі великого корабля та екологічним концептом посеред паркової зони. Тут гості можуть спробувати справжнє крафтове пиво з власної броварні та страви європейської, української чи грузинської кухонь на найбільшій літній терасі міста.",
+    "address": "вул. Торговиця, 5А, Тернопіль",
+    "lat": 49.547745,
+    "lng": 25.584945,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/kovcheg_rest/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnxVrhH_gJcZjJ6KT6YPBytzPrG-mkaw0al68nRUhdlzDNl73xV_1QBNRuEBHKeCwWbPwhiEi8tAOta2tM9HX3H0uyfL07FNjegnp92hMjKeG11Drtpf_eHQG3kR-63ogZhbbh1Mg=s680-w680-h510-rw"
+    ],
+    "id": 69,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:25.807138Z"
+  },
+  {
+    "name": "Коза Na Пошті",
+    "category": "бар",
+    "description": "Популярний креативний паб та фудхол у самому центрі Тернополя, відомий своєю неформальною атмосферою. Тут пропонують великий вибір локального крафтового пива, авторські коктейлі та регулярно проводять вечірки й культурні події.",
+    "address": "вул. Чорновола, 4, Тернопіль",
+    "lat": 49.552988,
+    "lng": 25.597311,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/koza.naposhti/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlaF0MeI7CfhjYvGM-8Fr_DxN6x9yVBHeRavEv0pRXsqzxalCnzIfKZDdOowTLHDn_ZWtoxO1PP8zbV3P4-tDHTsrXxt3roP0h5KCy8xrHdP_L_HLjgILvXNMvuQRRzZRG3URDM4g=s680-w680-h510-rw"
+    ],
+    "id": 75,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:33.693105Z"
+  },
+  {
+    "name": "Крафт Паб Le Rock",
+    "category": "бар",
+    "description": "Колоритний тернопільський крафт-паб, який пропонує гостям п'ять фірмових сортів власного пива та ситні м'ясні страви з BBQ-меню. Заклад ідеально підходить для компаній завдяки великим пивним сетам, трансляціям спортивних подій та регулярним вечорам живої рок-музики.",
+    "address": "вул. Олени Кульчицької, 2, Тернопіль",
+    "lat": 49.552198,
+    "lng": 25.595885,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/lerock2017/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkndFR79UPrJQKpGeb3f6WlHUeWVMwLuQBPGuQ_rUr935NXWmHZvTKzrjIL9jYK5yYfYpKk6mP0bWp5zsiBbedDAjIkS4O_7-mf14jDfews98nClQmZRZ9wEtJcedA-EZ_x0gg=s680-w680-h510-rw"
+    ],
+    "id": 72,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:29.732430Z"
+  },
+  {
+    "name": "Культура",
+    "category": "кав'ярня",
+    "description": "Благодійна кав'ярня «Культура» у Тернополі є сучасним громадським простором, створеним американськими волонтерами для популяризації кавової естетики та взаємодопомоги. Заклад спрямовує свій прибуток на благодійність, об'єднуючи містян навколо добрих справ, культурних подій та розмов за якісними напоями.",
+    "address": "вул. Б. Хмельницького, 9а, Тернопіль",
+    "lat": 49.552228,
+    "lng": 25.598794,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/kultura.kava/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkfwP37WUrcel0EdIzoNI_578j5_5ppQA0oQzKYAiT_RwXPptpUdslqUR-Gk_ijKU-IagR4l2m4WHbQ5AKvDyIGGwpdAwmIxQ3mx68AuKGKdMbvsgc_-pfiqLMBuLuW0eIOHhauQRDfYErb=s680-w680-h510-rw"
+    ],
+    "id": 9,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T10:41:47.098496Z"
+  },
+  {
+    "name": "Куштуй",
+    "category": "ресторан",
+    "description": "Сучасна італійська піцерія в Тернополі, схована у затишному дворикуі. Заклад відомий своєю авторською піцою на 48-годинному тісті, ситними сендвічами та швидкою доставкою по місту.",
+    "address": "вул. Крушельницької, 17а, Тернопіль",
+    "lat": 49.557743,
+    "lng": 25.594517,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/kushtuy.te/?hl=uk",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnMdfIlRvcrknSdOrddh_xL27y7MGc7xXi_ufuX8O9dpqkorgqcIRnvLagujzZvA-2OOsctn03odV7wUcJyEc21GBm9bbHHIcz9iJ731g_RfbluF_-nexEEv8RsVIYA5wvYIuumD__wQ6o=s680-w680-h510-rw"
+    ],
+    "id": 133,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:45.017902Z"
+  },
+  {
+    "name": "Локаль",
+    "category": "ресторан",
+    "description": "Затишний міський заклад у самому центрі Тернополя, який пропонує гостям смачну піцу, ароматну каву та приємну європейську атмосферу для відпочинку. Завдяки зручному розташуванню на бульварі Шевченка, воно є популярним місцем як для швидкого ланчу, так і для теплих вечірніх зустрічей з друзями.",
+    "address": "б-р Т. Шевченка, 5, Тернопіль",
+    "lat": 49.555546,
+    "lng": 25.595703,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/locale.cafe/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmHbJOtCtP_K9otqC35Hks941mGz3vCLu8PFAk20GMXZq4hwUMF_ryL67oRRGGhUGrKl9NvsD4A8U-_xVC4tzYPBWDazP7VtQcYF_5meFRnTJrKApnZcbJFIjo-OTZaH6wmG9Jq=s680-w680-h510-rw"
+    ],
+    "id": 68,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:24.480549Z"
+  },
+  {
+    "name": "Ляпота",
+    "category": "інше",
+    "description": "Бюджетне кафе у форматі їдальні, знижки після 15:00, у вихідні зачинено.",
+    "address": "вул. Руська, 56а, Тернопіль",
+    "lat": 49.550597,
+    "lng": 25.600319,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/lapota.ternopil/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlW2rtsTrWX9sCeHfXG7MClbdwSQC0xRy_KABz4zodqAwQJVOwl1lASuMdkEvSLy9qQJvkhxTF7r6xLEHuNk19TTTp-RHvXpGQ1KyJyNXzEC5WxqGgl6La3ZWcVeLfRHcG18_ci=s680-w680-h510-rw"
+    ],
+    "id": 15,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T10:41:54.853916Z"
+  },
+  {
+    "name": "Мешканці міста",
+    "category": "кав'ярня",
+    "description": "Сучасна естетична кав'ярня з власною кондитерською в Тернополі, яка славиться затишним інтер'єром, якісною кавою та крафтовою пастою. Заклад є важливим культурним осередком району, де регулярно проводять творчі майстер-класи, капінги та затишні вечори для містян.",
+    "address": "просп. Злуки, 49, Тернопіль",
+    "lat": 49.557148,
+    "lng": 25.634274,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/meshkantsi.mista/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkrCvYVx5CQYvmoaY3Hfmi_-3Ej5yuNNHs7rl8ocG-qtqjqAniwaPKDD__LB-6aaeCvHEi_mT_ulRcu4Z9w8SwwDGKo4jBlNFguG8wzen32orMGEF8qHDs51AkmMzgOACltFmojuroxmmA=s680-w680-h510-rw"
+    ],
+    "id": 22,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T10:42:03.836039Z"
+  },
+  {
+    "name": "Нео Рум",
+    "category": "бар",
+    "description": "Сучасний лаундж-бар та ресторан у Тернополі, який поєднує стильний неоновий інтер'єр із широким вибором страв європейської та азійської кухонь. Заклад відомий своїми регулярними акціями, великим асортиментом піци та суші, а також зручною безкоштовною доставкою їжі по всьому місту.",
+    "address": "вул. Максима Кривоноса, 2б, Тернопіль",
+    "lat": 49.546486,
+    "lng": 25.564147,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/neoroom.bar/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnFwHqGfAqBSHxJp8OKxpnZTr1GLojyGvrj3GJ2VKbX8O7dukJXlev-MqdtaHh-g8vJ8HS6VwuLHEqQPjt2LKIZPrejqBwlGRdIYQw6lVqZVKw-3-q_gZGwH4BJXjge0uOQQal3gA=s680-w680-h510-rw"
+    ],
+    "id": 128,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:38.312506Z"
+  },
+  {
+    "name": "Панська Садиба",
+    "category": "ресторан",
+    "description": "Затишний заміський ресторанний комплекс на виїзді з Тернополя, який спеціалізується на традиційній українській кухні, фірмових м'ясних стравах із тандира та живій музиці. Заклад чудово підходить як для масштабних бенкетів у просторих залах, так і для відпочинку в окремих дерев'яних альтанках на зеленій території.",
+    "address": "вул. Шумська, 5, с. Байківці, Тернопільський р-н",
+    "lat": 49.576274,
+    "lng": 25.66953,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/panska.sadyba/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlDPHrce7-SQ1MqF7nRex_g3F4kf3apHJzHvCMPHBx4qZojWlm1FwlF3kv9RCFyVEwQQzs_gBgT7Pz7cf4_oOpp5H_8Gg80ESCDkijk2CW-C-rFttOqDkUXYNecs07AaI-ddB0M=s680-w680-h510-rw"
+    ],
+    "id": 86,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:48.133724Z"
+  },
+  {
+    "name": "Пасаж Адлера 13",
+    "category": "бар",
+    "description": "Відомий коктейльний бар у центрі Тернополя з найбільшою в місті картою авторських напоїв та американсько-мексиканською кухнею. Наразі основне приміщення закладу відновлюється після пожежі, проте гості можуть відпочити й замовити фірмові бургери на затишній літній терасі.",
+    "address": "б-р Т. Шевченка, 25, Тернопіль",
+    "lat": 49.552223,
+    "lng": 25.595416,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/passage_13/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlr-1OvjKKCHNE0AqGP0fhdVY5uSB07eIvXaYh8NoA_TSEs0oUT92G5H6MAd07dUe2-ak55lzV3zyv6ntJICE6vqYU-oI03M4VsJCoinfcO-sQVyV7OnQHWbZdEZLtfGOXIlYSBAU9CbbE=s680-w680-h510-rw"
+    ],
+    "id": 157,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:18.218898Z"
+  },
+  {
+    "name": "Полонія Паб Крафтового Пива",
+    "category": "бар",
+    "description": "Затишний гастропаб у самому центрі Тернополя, який пропонує найбільший у місті вибір українського крафтового пива на кранах та в пляшках. Заклад славиться своїми ситними м'ясними стравами, соковитими бургерами, трансляціями матчів та можливістю швидкої доставки їжі й напоїв.",
+    "address": "вул. Грушевського, 1, Тернопіль",
+    "lat": 49.55336,
+    "lng": 25.594273,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/polonia_pub/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlAwh6h6EnkwLYLAg69Q__MyPrlpgIHKLp7yXNFC9nYDpB8lGVJEm_nA_yA_vmR258Z0LXHpw6HDYdmLwwf8_xMnrCXbTsjQexel427xufUsZFFcvh1HL4anlKWfJmCGFkESBH0Fw=s680-w680-h510-rw"
+    ],
+    "id": 70,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:27.129505Z"
+  },
+  {
+    "name": "СТАРИЙ МЛИН",
+    "category": "ресторан",
+    "description": "Унікальна музейна ресторація у стилі Гауді, збудована на фундаменті старовинного млина, де зібрано понад 3000 історичних експонатів. Заклад славиться автентичною галицько-подільською кухнею, страви якої готують на дровах у справжніх п'єцах за традиційними рецептами.",
+    "address": "вул. Бродівська, 1а, Тернопіль",
+    "lat": 49.559827,
+    "lng": 25.599931,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/staryi_mlyn/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnq29BosBPbBdByq9rQ1h54ONWscrUz_RxVmtr2j8tDN9BqrXZMu5fwIVVDB4UGDygrtr81b9458mC_xBvoK--PUCkQu91TypXFHCE874p0E-3lcseQQ8Gn_Kg8fJwmEJanpu64=s680-w680-h510-rw"
+    ],
+    "id": 118,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:24.939825Z"
+  },
+  {
+    "name": "Скаварідка",
+    "category": "кав'ярня",
+    "description": "Мережа кав'ярень у центрі Тернополя, яка самостійно обсмажує кавові зерна та пропонує гостям свіжу авторську каву. У закладах також можна скуштувати різноманітні десерти власного виробництва та поживні сніданки, які подають майже протягом усього дня.",
+    "address": "вул. Валова, 1, Тернопіль",
+    "lat": 49.552344,
+    "lng": 25.592874,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/skavaridka/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmMUocxowB-f9luPCbDxWDVbJORM22hvljKjPb-6NBZjoEVLvOSFthqmUwbkQXC1DpSt65c6D0eZ8etHl5yEtDQkIg1bm6Nm4KiZDBgSPDlePv-z6LVPS2xzFzhtYWA9VsDiPIHBqGGpeXW=s680-w680-h510-rw"
+    ],
+    "id": 96,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:37:54.641506Z"
+  },
+  {
+    "name": "Скоринка",
+    "category": "кав'ярня",
+    "description": "Пекарня-кав'ярня в центрі Тернополя на вулиці Медовій, яка славиться завжди свіжим крафтовим хлібом та фірмовою випічкою. Тут можна відпочити за горнятком якісної кави, поласувати ароматними круасанами або взяти із собою корисну свіжоспечену продукцію. Є також на вул.Симона Петлюри 4а.",
+    "address": "вул. Медова, 20, Тернопіль",
+    "lat": 49.547114,
+    "lng": 25.592427,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/skorynka.bakery/",
+    "image_urls": [
+      "https://res.cloudinary.com/rprl4cw2/image/upload/v1786790537/it1b2w9a7lrkxjverewz.jpg"
+    ],
+    "id": 149,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:07.222587Z"
+  },
+  {
+    "name": "Суші/Піца 39",
+    "category": "ресторан",
+    "description": "Мережа закладів швидкої доставки їжі за 39 хвилин, що пропонує великий вибір суші-сетів, гарячої піци, боулів тощо. Чотири локації міста працюють у зручному форматі «з собою» із вигідними знижками за самовивіз, а деякі точки мають затишні зали для відвідувачів.",
+    "address": "вул. Ген. Мирона Тарнавського, 32, Тернопіль",
+    "lat": 49.565984,
+    "lng": 25.637463,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/39sushi.pizza.ua/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlHQlmNtl3bY8M4FsTDVc-F18ABt5_lBtaQL-FmABnu-twyT81YpvKpQBzkWoUsnSbyjSD7k33_uKAjjPY5L62CJ1ahJMLqUFg9QF1D_RumBuEU76KrfKeczEM8JC1anJ3jRyQ=s680-w680-h510-rw"
+    ],
+    "id": 167,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:31.751688Z"
+  },
+  {
+    "name": "ТРИ МИКОЛИ",
+    "category": "ресторан",
+    "description": "Популярна сімейна ресторація в Тернополі поблизу автовокзалу, що пропонує ситні страви традиційної української кухні та піцу. Заклад приваблює відвідувачів затишним двоповерховим інтер'єром у заміському етно-стилі, наявністю дитячої кімнати та доступними цінами.",
+    "address": "вул. Торговиця, 1а, Тернопіль",
+    "lat": 49.543244,
+    "lng": 25.601727,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/trumukolu/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlW691g0JrXqAuaD7r3yK9TZCFLdJpmvhrX7pKtjIqwEjLt85rLSUvKPZ3d0cjS3UgVY9yZdR85-61PHTOUFAr-whLyXrqRsWAS7D-Hy7oscZN65D6vA1B9FegI5anAQisjaJPc=s680-w680-h510-rw"
+    ],
+    "id": 52,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-14T13:53:01.548708Z"
+  },
+  {
+    "name": "Фляшка Ресторація",
+    "category": "ресторан",
+    "description": "Ресторан у центрі з вишуканим інтер'єром, винною картою і європейською кухнею. Заклад у самому центрі міста, який спеціалізується на стародавній кухні Австрії, Угорщини, Польщі та України в сучасній подачі.",
+    "address": "б-р Т. Шевченка, 1, Тернопіль",
+    "lat": 49.556101,
+    "lng": 25.59625,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/flyashka_ternopil/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmiSJvlldS_LstfQfJr6-3wNNoN6Oio3VMxuopncj3au3rWEVO1cTZ8WsACK5uU2nAqwSSknzHSEeN0kuotcfNSNoZghOA6WlWquuplkjIIYuCJgz3AtwvXIKQ1-zAwgPa8Gx4N=s680-w680-h510-rw"
+    ],
+    "id": 120,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:27.702701Z"
+  },
+  {
+    "name": "Хліб з маслом",
+    "category": "кав'ярня",
+    "description": "Затишна pet-friendly кав'ярня-пекарня в Тернополі, яка завоювала популярність завдяки естетичному інтер'єру та крафтовому хлібу на заквасці. Головною фішкою закладу є сніданки протягом усього дня та різноманітні фірмові види вершкового масла з унікальними смаками.",
+    "address": "вул. Корольова, 1а, Тернопіль",
+    "lat": 49.553,
+    "lng": 25.648125,
+    "price_level": "$$",
+    "social_link": "https://www.instagram.com/khlib.zmaslom/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWno-qdHDMz2pQqVtLG_5p5_MJcH5yVCnZK3AK2GB5-XxR-k7NFj19c0NWOk84MVNG-7gl5kx6ViQx0uRLmZJo-67eshHHxOhQIH8kqm2IFDeJpcNx3unqoSA2sdevmUb2Kn98e5nY5mUus=s680-w680-h510-rw"
+    ],
+    "id": 148,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:39:05.909259Z"
+  },
+  {
+    "name": "Хюґе",
+    "category": "кав'ярня",
+    "description": "Затишна сімейна кав'ярня-ростерія, заснована ветераном, де кавові зерна обсмажують безпосередньо на місці. Заклад повністю відтворює датську філософію домашнього комфорту завдяки світлому інтер'єру, свіжій випічці та атмосферним вечірнім кінопереглядам.",
+    "address": "вул. Старий Ринок, 5, Тернопіль",
+    "lat": 49.551088,
+    "lng": 25.587044,
+    "price_level": "$",
+    "social_link": "https://www.instagram.com/hygge.te/",
+    "image_urls": [
+      "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmH2u-FNMjW3kvc-j2kNHCynrHBHbgRCxbqZ3b7RLAVtx2drxAHh0hqBqi--flSFYnZ_ObbonRlW_mdye7OXFEORjU-PunaFvbQTheGy42VK1Z_TDw9q0LPR0-1gTrH0sRzw2WhTn2SNo_3=s680-w680-h510-rw"
+    ],
+    "id": 106,
+    "avg_rating": 0,
+    "reviews_count": 0,
+    "created_at": "2026-08-15T06:38:08.702830Z"
+  }
+]

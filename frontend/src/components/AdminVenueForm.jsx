@@ -1,12 +1,24 @@
 import { useState, useEffect } from "react";
 import { uploadImage } from "../uploadImage.js";
 
-const CATEGORIES = ["кав'ярня", "ресторан", "бар", "інше"];
+const CATEGORIES = ["кав'ярня", "кафе", "ресторан", "бар", "інше"];
 const PRICE_LEVELS = ["$", "$$", "$$$"];
+const DISTRICTS = [
+  "Центр",
+  "Східний",
+  "Дружба",
+  "Старий парк",
+  "Пронятин",
+  "Березовиця",
+  "Кутківці",
+  "Об'їзна дорога",
+];
 
 const emptyVenue = {
   name: "",
   category: "кав'ярня",
+  district: "",
+  tags: "",
   description: "",
   address: "",
   lat: "",
@@ -25,8 +37,11 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
     if (initial) {
       setForm({
         ...initial,
+        district: initial.district ?? "",
+        tags: (initial.tags || []).join(", "),
         lat: initial.lat ?? "",
         lng: initial.lng ?? "",
+        social_link: initial.social_link ?? "",
         image_urls: (initial.image_urls || []).join("\n"),
       });
     } else {
@@ -67,12 +82,17 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
     onSubmit({
       name: form.name.trim(),
       category: form.category,
+      district: form.district || null,
+      tags: form.tags
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
       description: form.description.trim(),
       address: form.address.trim(),
       lat: form.lat === "" ? null : parseFloat(form.lat),
       lng: form.lng === "" ? null : parseFloat(form.lng),
       price_level: form.price_level,
-      social_link: form.social_link.trim() || null,
+      social_link: (form.social_link || "").trim() || null,
       image_urls: form.image_urls
         .split("\n")
         .map((s) => s.trim())
@@ -86,7 +106,7 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 bg-surface border border-line rounded-2xl p-6">
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid sm:grid-cols-3 gap-4">
         <div>
           <label className="font-body text-xs text-ink-soft mb-1 block">Назва</label>
           <input
@@ -111,6 +131,22 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
             ))}
           </select>
         </div>
+
+        <div>
+          <label className="font-body text-xs text-ink-soft mb-1 block">Район</label>
+          <select
+            value={form.district}
+            onChange={(e) => update("district", e.target.value)}
+            className={inputClass}
+          >
+            <option value="">— не вказано —</option>
+            {DISTRICTS.map((d) => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div>
@@ -120,6 +156,18 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
           rows={3}
           value={form.description}
           onChange={(e) => update("description", e.target.value)}
+          className={inputClass}
+        />
+      </div>
+
+      <div>
+        <label className="font-body text-xs text-ink-soft mb-1 block">
+          Ключові слова (через кому) — допомагають LLM точніше підбирати заклад
+        </label>
+        <input
+          value={form.tags}
+          onChange={(e) => update("tags", e.target.value)}
+          placeholder="напр. повноцінні страви, обід, вечеря"
           className={inputClass}
         />
       </div>

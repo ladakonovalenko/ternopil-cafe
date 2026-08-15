@@ -1,14 +1,21 @@
-const DEFAULT_CATEGORIES = ["Усі", "Кав'ярні", "Ресторани", "Бари", "Інше"];
+const CATEGORIES = [
+  { label: "Усі", value: null },
+  { label: "Кав'ярні", value: "кав'ярня" },
+  { label: "Кафе", value: "кафе" },
+  { label: "Ресторани", value: "ресторан" },
+  { label: "Бари", value: "бар" },
+  { label: "Інше", value: "інше" },
+];
 
-export default function CategoryFilter({ categories = DEFAULT_CATEGORIES, active, onChange }) {
+export default function CategoryFilter({ active, onChange }) {
   return (
     <div className="flex flex-wrap justify-center gap-2 px-6">
-      {categories.map((cat) => {
-        const isActive = active === cat || (cat === "Усі" && !active);
+      {CATEGORIES.map(({ label, value }) => {
+        const isActive = active === value;
         return (
           <button
-            key={cat}
-            onClick={() => onChange(cat === "Усі" ? null : cat)}
+            key={label}
+            onClick={() => onChange(value)}
             className={`font-body text-sm px-4 py-2 rounded-full border transition-colors
               ${
                 isActive
@@ -16,7 +23,7 @@ export default function CategoryFilter({ categories = DEFAULT_CATEGORIES, active
                   : "bg-transparent text-ink-soft border-line hover:border-accent hover:text-accent"
               }`}
           >
-            {cat}
+            {label}
           </button>
         );
       })}

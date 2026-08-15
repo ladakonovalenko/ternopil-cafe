@@ -4,7 +4,9 @@
 CREATE TABLE IF NOT EXISTS venues (
     id SERIAL PRIMARY KEY,
     name VARCHAR(200) NOT NULL,
-    category VARCHAR(100) NOT NULL,          -- напр. "кав'ярня", "ресторан", "бар"
+    category VARCHAR(100) NOT NULL,          -- напр. "кав'ярня", "кафе", "ресторан", "бар"
+    district VARCHAR(100),                   -- напр. "Центр", "Східний", "Дружба"
+    tags TEXT[] DEFAULT '{}',                -- ключові слова для точнішого LLM-пошуку
     description TEXT NOT NULL,
     address VARCHAR(300) NOT NULL,
     lat DOUBLE PRECISION,

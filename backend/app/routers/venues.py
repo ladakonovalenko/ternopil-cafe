@@ -15,13 +15,22 @@ def check_admin(x_admin_key: str | None):
 
 
 @router.get("", response_model=list[VenueOut])
-async def list_venues(category: str | None = None):
-    """Публічний список закладів, з опційним фільтром по категорії."""
+async def list_venues(category: str | None = None, district: str | None = None):
+    """Публічний список закладів, з опційними фільтрами по категорії й району."""
     conn = await get_connection()
     try:
-        if category:
+        if category and district:
+            rows = await conn.fetch(
+                "SELECT * FROM venues WHERE category = $1 AND district = $2 ORDER BY name",
+                category, district,
+            )
+        elif category:
             rows = await conn.fetch(
                 "SELECT * FROM venues WHERE category = $1 ORDER BY name", category
+            )
+        elif district:
+            rows = await conn.fetch(
+                "SELECT * FROM venues WHERE district = $1 ORDER BY name", district
             )
         else:
             rows = await conn.fetch("SELECT * FROM venues ORDER BY name")
@@ -51,12 +60,13 @@ async def create_venue(venue: VenueIn, x_admin_key: str | None = Header(default=
         row = await conn.fetchrow(
             """
             INSERT INTO venues
-                (name, category, description, address, lat, lng,
+                (name, category, district, tags, description, address, lat, lng,
                  price_level, social_link, image_urls)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
             RETURNING *
             """,
-            venue.name, venue.category, venue.description, venue.address,
+            venue.name, venue.category, venue.district, venue.tags,
+            venue.description, venue.address,
             venue.lat, venue.lng, venue.price_level, venue.social_link,
             venue.image_urls,
         )
@@ -73,12 +83,13 @@ async def update_venue(venue_id: int, venue: VenueIn, x_admin_key: str | None = 
         row = await conn.fetchrow(
             """
             UPDATE venues SET
-                name=$1, category=$2, description=$3, address=$4,
-                lat=$5, lng=$6, price_level=$7, social_link=$8, image_urls=$9
-            WHERE id=$10
+                name=$1, category=$2, district=$3, tags=$4, description=$5, address=$6,
+                lat=$7, lng=$8, price_level=$9, social_link=$10, image_urls=$11
+            WHERE id=$12
             RETURNING *
             """,
-            venue.name, venue.category, venue.description, venue.address,
+            venue.name, venue.category, venue.district, venue.tags,
+            venue.description, venue.address,
             venue.lat, venue.lng, venue.price_level, venue.social_link,
             venue.image_urls, venue_id,
         )

@@ -7,6 +7,8 @@ class VenueIn(BaseModel):
     """Дані для створення/оновлення закладу — заповнює тільки адмінка."""
     name: str
     category: str
+    district: Optional[str] = None
+    tags: list[str] = Field(default_factory=list)
     description: str
     address: str
     lat: Optional[float] = None
