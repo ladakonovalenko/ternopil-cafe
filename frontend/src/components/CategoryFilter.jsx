@@ -1,7 +1,6 @@
 const CATEGORIES = [
   { label: "Усі", value: null },
   { label: "Кав'ярні", value: "кав'ярня" },
-  { label: "Кафе", value: "кафе" },
   { label: "Ресторани", value: "ресторан" },
   { label: "Бари", value: "бар" },
   { label: "Інше", value: "інше" },

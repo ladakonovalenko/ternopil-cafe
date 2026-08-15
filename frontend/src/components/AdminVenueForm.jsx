@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { uploadImage } from "../uploadImage.js";
 
-const CATEGORIES = ["кав'ярня", "кафе", "ресторан", "бар", "інше"];
+const CATEGORIES = ["кав'ярня", "ресторан", "бар", "інше"];
 const PRICE_LEVELS = ["$", "$$", "$$$"];
 const DISTRICTS = [
   "Центр",
@@ -12,6 +12,7 @@ const DISTRICTS = [
   "Березовиця",
   "Кутківці",
   "Об'їзна дорога",
+  "Сонячний (БАМ) / Аляска",
 ];
 
 const emptyVenue = {

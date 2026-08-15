@@ -11,7 +11,7 @@ export default function Hero({ onSearch, loading, venueCount }) {
   return (
     <header className="px-4 sm:px-6 pt-14 sm:pt-20 pb-14 text-center max-w-2xl mx-auto">
       <a
-        href="https://t.me/ladookk"
+        href="https://t.me/твій_юзернейм"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-block font-body text-xs text-accent hover:text-accent-dark
@@ -21,7 +21,7 @@ export default function Hero({ onSearch, loading, venueCount }) {
       </a>
 
       <p className="font-body text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase text-ink-soft mb-4">
-        Тернопіль · заклади від людей, а не від алгоритму
+        Тернопіль · заклади від людей
       </p>
       <h1 className="font-display italic text-3xl sm:text-5xl leading-tight text-ink mb-8">
         Куди підеш сьогодні?
