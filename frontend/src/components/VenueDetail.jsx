@@ -21,7 +21,7 @@ export default function VenueDetail({ venue, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 bg-ink/40 flex items-end sm:items-center justify-center z-50 p-0 sm:p-6"
+      className="fixed inset-0 bg-ink/40 flex items-end sm:items-center justify-center z-[9999] p-0 sm:p-6"
       onClick={onClose}
     >
       <div
