@@ -85,10 +85,16 @@ async def search_venues(search: SearchRequest):
         f"Запит користувача: {search.query}"
     )
 
-    response = client.models.generate_content(
-        model="gemini-3.6-flash",
-        contents=prompt,
-    )
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.6-flash",
+            contents=prompt,
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=503,
+            detail=f"Тимчасово недоступно (можливо, вичерпано ліміт запитів Gemini): {e}",
+        )
 
     raw_text = response.text.strip()
     # Gemini інколи все ж огортає відповідь в ```json ... ``` — знімаємо це.
@@ -157,7 +163,13 @@ async def similar_venues(venue_id: int):
         f"Список інших закладів:\n{others_json}"
     )
 
-    response = client.models.generate_content(model="gemini-3.6-flash", contents=prompt)
+    try:
+        response = client.models.generate_content(model="gemini-3.6-flash", contents=prompt)
+    except Exception as e:
+        raise HTTPException(
+            status_code=503,
+            detail=f"Тимчасово недоступно (можливо, вичерпано ліміт запитів Gemini): {e}",
+        )
 
     raw_text = response.text.strip()
     if raw_text.startswith("```"):

@@ -8,7 +8,23 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [linkCopied, setLinkCopied] = useState(false);
   const [similar, setSimilar] = useState([]);
-  const [loadingSimilar, setLoadingSimilar] = useState(true);
+  const [loadingSimilar, setLoadingSimilar] = useState(false);
+  const [similarLoaded, setSimilarLoaded] = useState(false);
+
+  function loadSimilar() {
+    setLoadingSimilar(true);
+    api
+      .similarVenues(venue.id)
+      .then((res) => {
+        const byId = new Map(venues.map((v) => [v.id, v]));
+        setSimilar(res.results.map((r) => byId.get(r.venue_id)).filter(Boolean));
+      })
+      .catch(() => setSimilar([]))
+      .finally(() => {
+        setLoadingSimilar(false);
+        setSimilarLoaded(true);
+      });
+  }
 
   function copyLink() {
     const url = new URL(window.location);
@@ -32,16 +48,11 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
   }, [loadReviews]);
 
   useEffect(() => {
-    setLoadingSimilar(true);
-    api
-      .similarVenues(venue.id)
-      .then((res) => {
-        const byId = new Map(venues.map((v) => [v.id, v]));
-        setSimilar(res.results.map((r) => byId.get(r.venue_id)).filter(Boolean));
-      })
-      .catch(() => setSimilar([]))
-      .finally(() => setLoadingSimilar(false));
-  }, [venue.id, venues]);
+    // при переході на інший заклад (через "Схожі заклади") — скидаємо,
+    // щоб знову треба було натиснути кнопку, а не одразу бити по Gemini
+    setSimilar([]);
+    setSimilarLoaded(false);
+  }, [venue.id]);
 
   return (
     <div
@@ -132,33 +143,37 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
             <ReviewForm venueId={venue.id} onSubmitted={loadReviews} />
           </div>
 
-          {(loadingSimilar || similar.length > 0) && (
-            <>
-              <hr className="border-line" />
-              <div>
-                <h3 className="font-display text-xl text-ink mb-4">Схожі заклади</h3>
-                {loadingSimilar ? (
-                  <p className="font-body text-sm text-ink-soft">Завантажую…</p>
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    {similar.map((s) => (
-                      <button
-                        key={s.id}
-                        onClick={() => onSelect?.(s)}
-                        className="text-left flex items-center justify-between gap-3
-                                   border border-line rounded-xl px-4 py-3 hover:border-accent transition-colors"
-                      >
-                        <span className="font-display text-base text-ink">{s.name}</span>
-                        <span className="font-body text-xs text-ink-soft shrink-0">
-                          {s.category}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                )}
+          <hr className="border-line" />
+          <div>
+            <h3 className="font-display text-xl text-ink mb-4">Схожі заклади</h3>
+            {!similarLoaded ? (
+              <button
+                onClick={loadSimilar}
+                disabled={loadingSimilar}
+                className="font-body text-sm text-accent hover:text-accent-dark disabled:opacity-50"
+              >
+                {loadingSimilar ? "Шукаю схожі…" : "Показати схожі заклади"}
+              </button>
+            ) : similar.length === 0 ? (
+              <p className="font-body text-sm text-ink-soft">Не вдалось підібрати схожі.</p>
+            ) : (
+              <div className="flex flex-col gap-2">
+                {similar.map((s) => (
+                  <button
+                    key={s.id}
+                    onClick={() => onSelect?.(s)}
+                    className="text-left flex items-center justify-between gap-3
+                               border border-line rounded-xl px-4 py-3 hover:border-accent transition-colors"
+                  >
+                    <span className="font-display text-base text-ink">{s.name}</span>
+                    <span className="font-body text-xs text-ink-soft shrink-0">
+                      {s.category}
+                    </span>
+                  </button>
+                ))}
               </div>
-            </>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
