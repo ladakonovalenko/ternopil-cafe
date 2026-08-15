@@ -1,5 +1,13 @@
 import StarRating from "./StarRating.jsx";
 
+const NEW_BADGE_DAYS = 7;
+
+function isRecentlyAdded(createdAt) {
+  if (!createdAt) return false;
+  const days = (Date.now() - new Date(createdAt).getTime()) / (1000 * 60 * 60 * 24);
+  return days <= NEW_BADGE_DAYS;
+}
+
 export default function VenueCard({ venue, reason, onClick }) {
   const image = venue.image_urls?.[0];
 
@@ -9,7 +17,15 @@ export default function VenueCard({ venue, reason, onClick }) {
       className="text-left bg-surface border border-line rounded-2xl overflow-hidden
                  hover:border-accent transition-colors flex flex-col"
     >
-      <div className="aspect-[4/3] bg-accent-soft overflow-hidden">
+      <div className="relative aspect-[4/3] bg-accent-soft overflow-hidden">
+        {isRecentlyAdded(venue.created_at) && (
+          <span
+            className="absolute top-3 left-3 bg-accent text-surface font-body text-xs
+                       font-medium px-2.5 py-1 rounded-full"
+          >
+            Нове
+          </span>
+        )}
         {image ? (
           <img src={image} alt={venue.name} className="w-full h-full object-cover" />
         ) : (

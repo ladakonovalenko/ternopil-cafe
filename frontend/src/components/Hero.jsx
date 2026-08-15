@@ -1,7 +1,37 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function Hero({ onSearch, loading, venueCount }) {
   const [query, setQuery] = useState("");
+  const [listening, setListening] = useState(false);
+  const recognitionRef = useRef(null);
+
+  const SpeechRecognitionAPI =
+    typeof window !== "undefined" &&
+    (window.SpeechRecognition || window.webkitSpeechRecognition);
+
+  function handleVoiceInput() {
+    if (!SpeechRecognitionAPI) return;
+
+    if (!recognitionRef.current) {
+      const recognition = new SpeechRecognitionAPI();
+      recognition.lang = "uk-UA";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setQuery(transcript);
+        onSearch(transcript);
+      };
+      recognition.onend = () => setListening(false);
+      recognition.onerror = () => setListening(false);
+
+      recognitionRef.current = recognition;
+    }
+
+    setListening(true);
+    recognitionRef.current.start();
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -28,15 +58,30 @@ export default function Hero({ onSearch, loading, venueCount }) {
       </h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Наприклад: тиха кав'ярня в центрі, недорого"
-          className="flex-1 min-w-0 bg-surface border border-line rounded-full px-5 sm:px-6 py-4
-                     font-body text-base text-ink placeholder:text-ink-soft/70
-                     focus:outline-none focus:border-accent transition-colors"
-        />
+        <div className="relative flex-1 min-w-0">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Наприклад: тиха кав'ярня в центрі, недорого"
+            className={`w-full bg-surface border border-line rounded-full px-5 sm:px-6 py-4
+                       font-body text-base text-ink placeholder:text-ink-soft/70
+                       focus:outline-none focus:border-accent transition-colors
+                       ${SpeechRecognitionAPI ? "pr-14" : ""}`}
+          />
+          {SpeechRecognitionAPI && (
+            <button
+              type="button"
+              onClick={handleVoiceInput}
+              aria-label="Голосовий пошук"
+              className={`absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full
+                         flex items-center justify-center transition-colors
+                         ${listening ? "bg-accent text-surface animate-pulse" : "text-ink-soft hover:text-accent"}`}
+            >
+              🎤
+            </button>
+          )}
+        </div>
         <button
           type="submit"
           disabled={loading || !query.trim()}
@@ -48,6 +93,23 @@ export default function Hero({ onSearch, loading, venueCount }) {
         </button>
       </form>
 
+      <div className="flex flex-wrap justify-center gap-2 mt-4">
+        {EXAMPLE_QUERIES.map((ex) => (
+          <button
+            key={ex}
+            type="button"
+            onClick={() => {
+              setQuery(ex);
+              onSearch(ex);
+            }}
+            className="font-body text-xs text-ink-soft border border-line rounded-full
+                       px-3 py-1.5 hover:border-accent hover:text-accent transition-colors"
+          >
+            {ex}
+          </button>
+        ))}
+      </div>
+
       <p className="mt-6 font-body text-sm text-ink-soft">
         {venueCount > 0
           ? `${venueCount} ${pluralizeVenues(venueCount)} у базі · оновлюю вручну щотижня`
@@ -56,6 +118,13 @@ export default function Hero({ onSearch, loading, venueCount }) {
     </header>
   );
 }
+
+const EXAMPLE_QUERIES = [
+  "тиха кав'ярня в центрі",
+  "хочу на сніданок",
+  "куди піти з дитиною",
+  "випити пива з друзями",
+];
 
 function pluralizeVenues(n) {
   const mod10 = n % 10;

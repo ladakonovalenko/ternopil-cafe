@@ -3,9 +3,21 @@ import { api } from "../api.js";
 import StarRating from "./StarRating.jsx";
 import ReviewForm from "./ReviewForm.jsx";
 
-export default function VenueDetail({ venue, onClose }) {
+export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
   const [reviews, setReviews] = useState([]);
   const [loadingReviews, setLoadingReviews] = useState(true);
+  const [linkCopied, setLinkCopied] = useState(false);
+  const [similar, setSimilar] = useState([]);
+  const [loadingSimilar, setLoadingSimilar] = useState(true);
+
+  function copyLink() {
+    const url = new URL(window.location);
+    url.searchParams.set("venue", venue.id);
+    navigator.clipboard.writeText(url.toString()).then(() => {
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    });
+  }
 
   const loadReviews = useCallback(() => {
     setLoadingReviews(true);
@@ -18,6 +30,18 @@ export default function VenueDetail({ venue, onClose }) {
   useEffect(() => {
     loadReviews();
   }, [loadReviews]);
+
+  useEffect(() => {
+    setLoadingSimilar(true);
+    api
+      .similarVenues(venue.id)
+      .then((res) => {
+        const byId = new Map(venues.map((v) => [v.id, v]));
+        setSimilar(res.results.map((r) => byId.get(r.venue_id)).filter(Boolean));
+      })
+      .catch(() => setSimilar([]))
+      .finally(() => setLoadingSimilar(false));
+  }, [venue.id, venues]);
 
   return (
     <div
@@ -37,13 +61,21 @@ export default function VenueDetail({ venue, onClose }) {
         )}
 
         <div className="p-6 sm:p-8 flex flex-col gap-6">
-          <button
-            onClick={onClose}
-            className="self-end -mt-2 font-body text-sm text-ink-soft hover:text-ink"
-            aria-label="Закрити"
-          >
-            Закрити ✕
-          </button>
+          <div className="self-end -mt-2 flex items-center gap-4">
+            <button
+              onClick={copyLink}
+              className="font-body text-sm text-ink-soft hover:text-accent"
+            >
+              {linkCopied ? "Скопійовано ✓" : "Скопіювати посилання"}
+            </button>
+            <button
+              onClick={onClose}
+              className="font-body text-sm text-ink-soft hover:text-ink"
+              aria-label="Закрити"
+            >
+              Закрити ✕
+            </button>
+          </div>
 
           <div>
             <h2 className="font-display text-3xl text-ink mb-2">{venue.name}</h2>
@@ -99,6 +131,34 @@ export default function VenueDetail({ venue, onClose }) {
 
             <ReviewForm venueId={venue.id} onSubmitted={loadReviews} />
           </div>
+
+          {(loadingSimilar || similar.length > 0) && (
+            <>
+              <hr className="border-line" />
+              <div>
+                <h3 className="font-display text-xl text-ink mb-4">Схожі заклади</h3>
+                {loadingSimilar ? (
+                  <p className="font-body text-sm text-ink-soft">Завантажую…</p>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    {similar.map((s) => (
+                      <button
+                        key={s.id}
+                        onClick={() => onSelect?.(s)}
+                        className="text-left flex items-center justify-between gap-3
+                                   border border-line rounded-xl px-4 py-3 hover:border-accent transition-colors"
+                      >
+                        <span className="font-display text-base text-ink">{s.name}</span>
+                        <span className="font-body text-xs text-ink-soft shrink-0">
+                          {s.category}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

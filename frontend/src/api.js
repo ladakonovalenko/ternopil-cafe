@@ -28,6 +28,8 @@ export const api = {
       body: JSON.stringify({ query }),
     }),
 
+  similarVenues: (venueId) => request(`/search/${venueId}/similar`),
+
   listReviews: (venueId) => request(`/venues/${venueId}/reviews`),
 
   createReview: (venueId, review) =>

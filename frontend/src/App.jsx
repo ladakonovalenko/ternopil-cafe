@@ -40,6 +40,13 @@ function PublicSite() {
       .finally(() => setLoadingVenues(false));
   }, []);
 
+  // Пряме посилання на заклад: ?venue=<id> одразу відкриває його картку.
+  useEffect(() => {
+    const venueId = new URLSearchParams(window.location.search).get("venue");
+    if (!venueId) return;
+    api.getVenue(venueId).then(setSelectedVenue).catch(() => {});
+  }, []);
+
   async function handleSearch(query) {
     setSearchLoading(true);
     setSearchError("");
@@ -62,8 +69,11 @@ function PublicSite() {
   }
 
   const filteredVenues = useMemo(() => {
-    if (!category) return venues;
-    return venues.filter((v) => v.category === category);
+    const list = category ? venues.filter((v) => v.category === category) : venues;
+    return [...list].sort((a, b) => {
+      if (b.avg_rating !== a.avg_rating) return b.avg_rating - a.avg_rating;
+      return a.name.localeCompare(b.name, "uk");
+    });
   }, [venues, category]);
 
   const searchVenues = useMemo(() => {
@@ -144,7 +154,17 @@ function PublicSite() {
       </footer>
 
       {selectedVenue && (
-        <VenueDetail venue={selectedVenue} onClose={() => setSelectedVenue(null)} />
+        <VenueDetail
+          venue={selectedVenue}
+          venues={venues}
+          onSelect={setSelectedVenue}
+          onClose={() => {
+            setSelectedVenue(null);
+            const url = new URL(window.location);
+            url.searchParams.delete("venue");
+            window.history.replaceState({}, "", url);
+          }}
+        />
       )}
     </div>
   );
