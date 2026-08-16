@@ -40,15 +40,28 @@ export default function Hero({ onSearch, loading, venueCount }) {
 
   return (
     <header className="px-4 sm:px-6 pt-14 sm:pt-20 pb-14 text-center max-w-2xl mx-auto">
-      <a
-        href="https://t.me/ladookk"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-block font-body text-xs text-accent hover:text-accent-dark
-                   underline underline-offset-2 mb-6"
-      >
-        Запропонувати заклад →
-      </a>
+      <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+        <a
+          href="https://t.me/ladookk"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block font-body text-xs text-accent hover:text-accent-dark
+                     underline underline-offset-2"
+        >
+          Запропонувати заклад →
+        </a>
+
+        <a
+          href="https://send.monobank.ua/jar/6MTqiY4SEb"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 font-body text-xs font-medium
+                     bg-accent-soft hover:bg-accent hover:text-surface text-accent-dark
+                     rounded-full px-4 py-1.5 transition-colors"
+        >
+          ☕ Підтримати проєкт
+        </a>
+      </div>
 
       <p className="font-body text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase text-ink-soft mb-4">
         Тернопіль · заклади від людей
