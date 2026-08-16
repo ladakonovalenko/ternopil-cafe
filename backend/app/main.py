@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Header
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import venues, reviews, search
+from app.routers.venues import check_admin
 
 app = FastAPI(title="Заклади Тернополя API")
 
@@ -25,3 +26,12 @@ app.include_router(search.router)
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+
+@app.get("/admin/verify")
+async def verify_admin(x_admin_key: str | None = Header(default=None)):
+    """Реальна перевірка ключа на сервері — та сама безпечна функція,
+    що вже захищає POST/PUT/DELETE. Викликається формою входу в адмінку
+    ДО того, як показати дашборд, а не замість перевірки на кожній дії."""
+    check_admin(x_admin_key)
+    return {"valid": True}

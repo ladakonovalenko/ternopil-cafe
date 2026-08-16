@@ -8,6 +8,9 @@ const STORAGE_KEY = "ternopil-cafe-admin-key";
 export default function AdminPanel() {
   const [adminKey, setAdminKey] = useState(() => sessionStorage.getItem(STORAGE_KEY) || "");
   const [keyInput, setKeyInput] = useState("");
+  const [verifying, setVerifying] = useState(true);
+  const [unlockError, setUnlockError] = useState("");
+  const [unlocking, setUnlocking] = useState(false);
 
   const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,14 +27,40 @@ export default function AdminPanel() {
       .finally(() => setLoading(false));
   }, []);
 
+  // При завантаженні сторінки — якщо ключ уже лежить у sessionStorage
+  // (з попереднього візиту), перевіряємо його на сервері, а не довіряємо
+  // сліпо. Ключ, збережений до цього фіксу, міг бути невірним.
   useEffect(() => {
-    if (adminKey) loadVenues();
-  }, [adminKey, loadVenues]);
+    if (!adminKey) {
+      setVerifying(false);
+      return;
+    }
+    api
+      .verifyAdmin(adminKey)
+      .then(() => loadVenues())
+      .catch(() => {
+        sessionStorage.removeItem(STORAGE_KEY);
+        setAdminKey("");
+      })
+      .finally(() => setVerifying(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  function handleUnlock(e) {
+  async function handleUnlock(e) {
     e.preventDefault();
-    sessionStorage.setItem(STORAGE_KEY, keyInput);
-    setAdminKey(keyInput);
+    setUnlocking(true);
+    setUnlockError("");
+    try {
+      await api.verifyAdmin(keyInput);
+      sessionStorage.setItem(STORAGE_KEY, keyInput);
+      setAdminKey(keyInput);
+      loadVenues();
+    } catch (err) {
+      setUnlockError("Невірний ключ");
+      setKeyInput("");
+    } finally {
+      setUnlocking(false);
+    }
   }
 
   function handleLogout() {
@@ -79,6 +108,14 @@ export default function AdminPanel() {
     }
   }
 
+  if (verifying) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6">
+        <p className="font-body text-ink-soft">Перевіряю…</p>
+      </div>
+    );
+  }
+
   if (!adminKey) {
     return (
       <div className="min-h-screen flex items-center justify-center px-6">
@@ -96,12 +133,16 @@ export default function AdminPanel() {
             className="bg-bg border border-line rounded-xl px-4 py-3 font-body text-sm
                        focus:outline-none focus:border-accent"
           />
+          {unlockError && (
+            <p className="font-body text-sm text-red-600 text-center">{unlockError}</p>
+          )}
           <button
             type="submit"
-            className="bg-accent hover:bg-accent-dark text-surface font-body font-medium
+            disabled={unlocking || !keyInput}
+            className="bg-accent hover:bg-accent-dark disabled:opacity-40 text-surface font-body font-medium
                        rounded-full px-6 py-3 transition-colors"
           >
-            Увійти
+            {unlocking ? "Перевіряю…" : "Увійти"}
           </button>
         </form>
       </div>

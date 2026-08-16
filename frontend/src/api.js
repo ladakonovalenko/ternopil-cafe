@@ -39,6 +39,11 @@ export const api = {
     }),
 
   // --- адмінські методи: потребують X-Admin-Key ---
+  verifyAdmin: (adminKey) =>
+    request("/admin/verify", {
+      headers: { "X-Admin-Key": adminKey },
+    }),
+
   createVenue: (venue, adminKey) =>
     request("/venues", {
       method: "POST",
