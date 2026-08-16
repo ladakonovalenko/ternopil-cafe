@@ -4,12 +4,17 @@ from app.routers import venues, reviews, search
 
 app = FastAPI(title="Заклади Тернополя API")
 
-# На проді звузь origins до реальної адреси свого фронтенду на Vercel
+# Звужено до реального фронтенду замість "*" — див. security review.
+# Якщо колись підключиш власний домен, додай його в цей список теж.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=[
+        "https://ternopil-cafe-frontend.vercel.app",
+        "https://ternopilcafes.com",
+        "https://www.ternopilcafes.com",
+    ],
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["Content-Type", "X-Admin-Key"],
 )
 
 app.include_router(venues.router)
