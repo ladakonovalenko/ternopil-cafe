@@ -41,7 +41,7 @@ export default function Hero({ onSearch, loading, venueCount }) {
   return (
     <header className="px-4 sm:px-6 pt-14 sm:pt-20 pb-14 text-center max-w-2xl mx-auto">
       <a
-        href="https://t.me/твій_юзернейм"
+        href="https://t.me/ladookk"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-block font-body text-xs text-accent hover:text-accent-dark
