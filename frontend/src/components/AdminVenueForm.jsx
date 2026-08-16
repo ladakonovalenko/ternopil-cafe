@@ -33,6 +33,14 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
   const [form, setForm] = useState(emptyVenue);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
+  const [coordError, setCoordError] = useState("");
+
+  // Щедрий "коридор" навколо Тернополя й найближчих сіл (Байківці,
+  // Велика Березовиця тощо) — щоб не блокувати реальні заклади на
+  // околицях, але ловити явні одруківки чи випадково переплутані
+  // місцями широту/довготу.
+  const LAT_RANGE = [49.35, 49.65];
+  const LNG_RANGE = [25.35, 25.80];
 
   useEffect(() => {
     if (initial) {
@@ -78,8 +86,30 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
     }
   }
 
+  function validateCoord(value, range, label) {
+    if (value === "") return null; // порожньо — ок, координати необов'язкові
+    if (!/^-?\d+(\.\d+)?$/.test(value.trim())) {
+      return `${label}: це не схоже на число`;
+    }
+    const num = parseFloat(value);
+    if (!Number.isFinite(num) || num < range[0] || num > range[1]) {
+      return `${label}: схоже на помилку (очікується приблизно ${range[0]}–${range[1]})`;
+    }
+    return null;
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
+
+    const latErr = validateCoord(form.lat, LAT_RANGE, "Широта");
+    const lngErr = validateCoord(form.lng, LNG_RANGE, "Довгота");
+    const err = latErr || lngErr;
+    if (err) {
+      setCoordError(err);
+      return;
+    }
+    setCoordError("");
+
     onSubmit({
       name: form.name.trim(),
       category: form.category,
@@ -231,6 +261,9 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
         Координати простіше взяти з Google Maps: клацни правою кнопкою на закладі → перше
         число скопійованого рядка — це lat, друге — lng.
       </p>
+      {coordError && (
+        <p className="font-body text-xs text-red-600 -mt-2">{coordError}</p>
+      )}
 
       <div>
         <label className="font-body text-xs text-ink-soft mb-1 block">

@@ -76,7 +76,7 @@ export default function Hero({ onSearch, loading, venueCount }) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Наприклад: тиха кав'ярня в центрі, недорого"
+            placeholder="Наприклад: тиха кав'ярня в центрі"
             className={`w-full bg-surface border border-line rounded-full px-5 sm:px-6 py-4
                        font-body text-base text-ink placeholder:text-ink-soft/70
                        focus:outline-none focus:border-accent transition-colors

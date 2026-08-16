@@ -60,9 +60,18 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
       onClick={onClose}
     >
       <div
-        className="bg-surface w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl max-h-[90vh] overflow-y-auto"
+        className="relative bg-surface w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
+        <button
+          onClick={onClose}
+          aria-label="Закрити"
+          className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-ink/50 hover:bg-ink/70
+                     text-surface flex items-center justify-center backdrop-blur-sm transition-colors"
+        >
+          ✕
+        </button>
+
         {venue.image_urls?.[0] && (
           <img
             src={venue.image_urls[0]}
@@ -71,22 +80,17 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
           />
         )}
 
-        <div className="p-6 sm:p-8 flex flex-col gap-6">
-          <div className="self-end -mt-2 flex items-center gap-4">
-            <button
-              onClick={copyLink}
-              className="font-body text-sm text-ink-soft hover:text-accent"
-            >
-              {linkCopied ? "Скопійовано ✓" : "Скопіювати посилання"}
-            </button>
-            <button
-              onClick={onClose}
-              className="font-body text-sm text-ink-soft hover:text-ink"
-              aria-label="Закрити"
-            >
-              Закрити ✕
-            </button>
-          </div>
+        <div
+          className={`p-6 sm:p-8 flex flex-col gap-6 ${
+            !venue.image_urls?.[0] ? "pt-14 sm:pt-16" : ""
+          }`}
+        >
+          <button
+            onClick={copyLink}
+            className="self-end -mt-2 font-body text-sm text-ink-soft hover:text-accent"
+          >
+            {linkCopied ? "Скопійовано ✓" : "Скопіювати посилання"}
+          </button>
 
           <div>
             <h2 className="font-display text-3xl text-ink mb-2">{venue.name}</h2>

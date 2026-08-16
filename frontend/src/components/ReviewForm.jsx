@@ -34,32 +34,39 @@ export default function ReviewForm({ venueId, onSubmitted }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="flex gap-3">
+      <div>
+        <label className="font-body text-xs text-ink-soft mb-1 block">
+          Ваше ім'я <span className="text-red-600">*</span>
+        </label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Ваше ім'я"
           required
           maxLength={100}
-          className="flex-1 bg-bg border border-line rounded-xl px-4 py-3
+          className="w-full bg-bg border border-line rounded-xl px-4 py-3
                      font-body text-sm focus:outline-none focus:border-accent"
         />
       </div>
 
-      <div className="flex items-center gap-1" role="radiogroup" aria-label="Оцінка">
-        {[1, 2, 3, 4, 5].map((n) => (
-          <button
-            key={n}
-            type="button"
-            onClick={() => setRating(n)}
-            aria-label={`${n} з 5`}
-            className="text-2xl leading-none transition-transform hover:scale-110"
-            style={{ color: n <= rating ? "#B98A3E" : "#DFE3DD" }}
-          >
-            ★
-          </button>
-        ))}
+      <div>
+        <label className="font-body text-xs text-ink-soft mb-1 block">
+          Оцінка <span className="text-red-600">*</span>
+        </label>
+        <div className="flex items-center gap-1" role="radiogroup" aria-label="Оцінка">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <button
+              key={n}
+              type="button"
+              onClick={() => setRating(n)}
+              aria-label={`${n} з 5`}
+              className="text-2xl leading-none transition-transform hover:scale-110"
+              style={{ color: n <= rating ? "#B98A3E" : "#DFE3DD" }}
+            >
+              ★
+            </button>
+          ))}
+        </div>
       </div>
 
       <textarea

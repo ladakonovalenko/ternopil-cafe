@@ -108,7 +108,9 @@ function PublicSite() {
               </button>
             </div>
 
-            {searchError ? (
+            {searchLoading ? (
+              <p className="text-center font-body text-ink-soft py-16">Шукаю…</p>
+            ) : searchError ? (
               <p className="text-center font-body text-ink-soft py-16">{searchError}</p>
             ) : (
               <VenueGrid
