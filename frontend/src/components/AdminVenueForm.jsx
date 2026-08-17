@@ -48,8 +48,8 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
         ...initial,
         district: initial.district ?? "",
         tags: (initial.tags || []).join(", "),
-        lat: initial.lat ?? "",
-        lng: initial.lng ?? "",
+        lat: initial.lat != null ? String(initial.lat) : "",
+        lng: initial.lng != null ? String(initial.lng) : "",
         social_link: initial.social_link ?? "",
         image_urls: (initial.image_urls || []).join("\n"),
       });
