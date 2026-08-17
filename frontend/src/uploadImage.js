@@ -2,23 +2,20 @@ const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:8000").
   /\/+$/,
   ""
 );
-const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 
 /**
  * Завантажує один файл у Cloudinary через ПІДПИСАНЕ завантаження.
- * Замінює попередній unsigned preset, який був відкритий будь-кому
- * в інтернеті — тепер підпис видає тільки бекенд, і тільки тобі,
- * за адмін-ключем. api_secret ніколи не потрапляє у фронтенд-код.
+ * cloud_name тепер бере ВИКЛЮЧНО з відповіді бекенду (не з власної
+ * VITE_-змінної) — раніше значення дублювалось у двох місцях, що могло
+ * розійтись, якщо колись зміниш Cloudinary-акаунт і забудеш оновити
+ * одне з двох. Тепер єдине джерело правди — бекенд.
  */
 export async function uploadImage(file, adminKey) {
-  if (!CLOUD_NAME) {
-    throw new Error("Не налаштовано VITE_CLOUDINARY_CLOUD_NAME");
-  }
   if (!adminKey) {
     throw new Error("Немає адмін-ключа для завантаження");
   }
 
-  // 1. Питаємо в бекенду дозвіл (короткоживучий підпис)
+  // 1. Питаємо в бекенду дозвіл (короткоживучий підпис + cloud_name)
   const sigRes = await fetch(`${API_BASE}/venues/upload-signature`, {
     method: "POST",
     headers: { "X-Admin-Key": adminKey },
@@ -26,7 +23,7 @@ export async function uploadImage(file, adminKey) {
   if (!sigRes.ok) {
     throw new Error("Не вдалося отримати дозвіл на завантаження (перевір адмін-ключ)");
   }
-  const { timestamp, signature, api_key, folder } = await sigRes.json();
+  const { timestamp, signature, api_key, folder, cloud_name } = await sigRes.json();
 
   // 2. Завантажуємо файл напряму в Cloudinary з цим підписом
   const formData = new FormData();
@@ -36,7 +33,7 @@ export async function uploadImage(file, adminKey) {
   formData.append("signature", signature);
   formData.append("folder", folder);
 
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
     method: "POST",
     body: formData,
   });
