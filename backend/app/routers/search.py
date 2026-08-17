@@ -1,8 +1,10 @@
+import hashlib
 import json
 import os
 import time
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from google import genai
+from pydantic import ValidationError
 from app.database import get_connection
 from app.models import SearchRequest, SearchResponse, SearchResultItem
 
@@ -10,6 +12,7 @@ router = APIRouter(prefix="/search", tags=["search"])
 
 GEMINI_API_KEY = os.environ["GEMINI_API_KEY"]
 client = genai.Client(api_key=GEMINI_API_KEY)
+IP_SALT = os.environ.get("IP_HASH_SALT", "change-me")
 
 # Простий кеш в пам'яті процесу — рятує тільки поки serverless-функція
 # "тепла" (той самий контейнер), Vercel на безкоштовному тарифі часто
@@ -17,6 +20,33 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 # на надійний кеш — це просто приємний бонус, коли спрацьовує.
 _CACHE = {}
 _CACHE_TTL_SECONDS = 5 * 60
+
+# Rate-limit по IP — той самий принцип (хеш IP, не сирий IP), той самий
+# застереження: пам'ять живе, поки контейнер "теплий". Це не залізобетонний
+# захист, а бар'єр проти найпростішого зловживання (хтось лупить запити в
+# циклі й спалює денний ліміт Gemini) — саме та проблема, яку ми щойно
+# реально зловили. Для повністю надійного rate-limit знадобилась би БД чи
+# зовнішній сервіс типу Upstash — поза обсягом цього проєкту зараз.
+_RATE_LIMIT = {}
+_RATE_LIMIT_WINDOW_SECONDS = 60
+_RATE_LIMIT_MAX_REQUESTS = 10
+
+
+def check_rate_limit(request: Request):
+    client_ip = request.client.host if request.client else "unknown"
+    ip_hash = hashlib.sha256(f"{IP_SALT}{client_ip}".encode()).hexdigest()
+
+    now = time.time()
+    timestamps = [t for t in _RATE_LIMIT.get(ip_hash, []) if now - t < _RATE_LIMIT_WINDOW_SECONDS]
+
+    if len(timestamps) >= _RATE_LIMIT_MAX_REQUESTS:
+        raise HTTPException(
+            status_code=429,
+            detail="Забагато запитів — зачекай хвилину і спробуй ще раз.",
+        )
+
+    timestamps.append(now)
+    _RATE_LIMIT[ip_hash] = timestamps
 
 SYSTEM_PROMPT = """\
 Ти — рекомендаційний асистент для сайту закладів Тернополя.
@@ -57,7 +87,9 @@ SYSTEM_PROMPT = """\
 
 
 @router.post("", response_model=SearchResponse)
-async def search_venues(search: SearchRequest):
+async def search_venues(search: SearchRequest, request: Request):
+    check_rate_limit(request)
+
     cache_key = search.query.strip().lower()
     cached = _CACHE.get(cache_key)
     if cached and (time.time() - cached["ts"]) < _CACHE_TTL_SECONDS:
@@ -91,9 +123,10 @@ async def search_venues(search: SearchRequest):
             contents=prompt,
         )
     except Exception as e:
+        print(f"[search] Gemini error: {e}")  # у логи Vercel, не користувачу
         raise HTTPException(
             status_code=503,
-            detail=f"Тимчасово недоступно (можливо, вичерпано ліміт запитів Gemini): {e}",
+            detail="Тимчасово недоступно (можливо, вичерпано ліміт запитів Gemini). Спробуй трохи пізніше.",
         )
 
     raw_text = response.text.strip()
@@ -104,13 +137,14 @@ async def search_venues(search: SearchRequest):
 
     try:
         parsed = json.loads(raw_text)
-    except json.JSONDecodeError:
+        results = [SearchResultItem(**item) for item in parsed]
+    except (json.JSONDecodeError, TypeError, KeyError, ValidationError) as e:
+        print(f"[search] Bad LLM response shape: {e} | raw: {raw_text[:300]}")
         raise HTTPException(
             status_code=502,
             detail="Не вдалося розібрати відповідь LLM. Спробуй ще раз.",
         )
 
-    results = [SearchResultItem(**item) for item in parsed]
     _CACHE[cache_key] = {"results": results, "ts": time.time()}
     return SearchResponse(results=results)
 
@@ -129,7 +163,9 @@ SIMILAR_PROMPT = """\
 
 
 @router.get("/{venue_id}/similar", response_model=SearchResponse)
-async def similar_venues(venue_id: int):
+async def similar_venues(venue_id: int, request: Request):
+    check_rate_limit(request)
+
     conn = await get_connection()
     try:
         current = await conn.fetchrow(
@@ -166,9 +202,10 @@ async def similar_venues(venue_id: int):
     try:
         response = client.models.generate_content(model="gemini-3.1-flash-lite", contents=prompt)
     except Exception as e:
+        print(f"[similar_venues] Gemini error: {e}")  # у логи Vercel, не користувачу
         raise HTTPException(
             status_code=503,
-            detail=f"Тимчасово недоступно (можливо, вичерпано ліміт запитів Gemini): {e}",
+            detail="Тимчасово недоступно (можливо, вичерпано ліміт запитів Gemini). Спробуй трохи пізніше.",
         )
 
     raw_text = response.text.strip()
@@ -178,9 +215,10 @@ async def similar_venues(venue_id: int):
 
     try:
         parsed = json.loads(raw_text)
-    except json.JSONDecodeError:
+        results = [SearchResultItem(**item) for item in parsed]
+    except (json.JSONDecodeError, TypeError, KeyError, ValidationError) as e:
+        print(f"[similar_venues] Bad LLM response shape: {e} | raw: {raw_text[:300]}")
         raise HTTPException(status_code=502, detail="Не вдалося розібрати відповідь LLM.")
 
-    results = [SearchResultItem(**item) for item in parsed]
     _CACHE[cache_key] = {"results": results, "ts": time.time()}
     return SearchResponse(results=results)

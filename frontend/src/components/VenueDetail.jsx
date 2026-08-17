@@ -48,6 +48,14 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
   }, [loadReviews]);
 
   useEffect(() => {
+    function handleEscape(e) {
+      if (e.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [onClose]);
+
+  useEffect(() => {
     // при переході на інший заклад (через "Схожі заклади") — скидаємо,
     // щоб знову треба було натиснути кнопку, а не одразу бити по Gemini
     setSimilar([]);
@@ -144,7 +152,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
               </ul>
             )}
 
-            <ReviewForm venueId={venue.id} onSubmitted={loadReviews} />
+            <ReviewForm key={venue.id} venueId={venue.id} onSubmitted={loadReviews} />
           </div>
 
           <hr className="border-line" />

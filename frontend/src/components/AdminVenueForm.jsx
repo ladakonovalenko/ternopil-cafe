@@ -29,7 +29,7 @@ const emptyVenue = {
   image_urls: "",
 };
 
-export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting }) {
+export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting, adminKey }) {
   const [form, setForm] = useState(emptyVenue);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
@@ -71,7 +71,7 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
     try {
       const urls = [];
       for (const file of files) {
-        const url = await uploadImage(file);
+        const url = await uploadImage(file, adminKey);
         urls.push(url);
       }
       setForm((f) => ({
@@ -103,7 +103,11 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
 
     const latErr = validateCoord(form.lat, LAT_RANGE, "Широта");
     const lngErr = validateCoord(form.lng, LNG_RANGE, "Довгота");
-    const err = latErr || lngErr;
+    const isPartialPair = (form.lat === "") !== (form.lng === "");
+    const err =
+      latErr || lngErr || (isPartialPair
+        ? "Заповни і широту, і довготу разом — інакше заклад не з'явиться на карті"
+        : null);
     if (err) {
       setCoordError(err);
       return;

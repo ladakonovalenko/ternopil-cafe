@@ -1,16 +1,33 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 
-export default function Hero({ onSearch, loading, venueCount }) {
-  const [query, setQuery] = useState("");
+export default function Hero({ onSearch, loading, venueCount, query, onQueryChange }) {
   const [listening, setListening] = useState(false);
+  const [voiceError, setVoiceError] = useState("");
   const recognitionRef = useRef(null);
 
   const SpeechRecognitionAPI =
     typeof window !== "undefined" &&
     (window.SpeechRecognition || window.webkitSpeechRecognition);
 
+  function voiceErrorMessage(errorCode) {
+    switch (errorCode) {
+      case "not-allowed":
+      case "permission-denied":
+        return "Немає доступу до мікрофона — дозволь у налаштуваннях браузера.";
+      case "no-speech":
+        return "Не почула нічого — спробуй ще раз.";
+      case "audio-capture":
+        return "Не знайшла мікрофон.";
+      case "network":
+        return "Проблема з мережею під час розпізнавання.";
+      default:
+        return "Не вдалося розпізнати голос — спробуй ще раз.";
+    }
+  }
+
   function handleVoiceInput() {
     if (!SpeechRecognitionAPI) return;
+    setVoiceError("");
 
     if (!recognitionRef.current) {
       const recognition = new SpeechRecognitionAPI();
@@ -20,11 +37,14 @@ export default function Hero({ onSearch, loading, venueCount }) {
 
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        setQuery(transcript);
+        onQueryChange(transcript);
         onSearch(transcript);
       };
       recognition.onend = () => setListening(false);
-      recognition.onerror = () => setListening(false);
+      recognition.onerror = (event) => {
+        setListening(false);
+        setVoiceError(voiceErrorMessage(event.error));
+      };
 
       recognitionRef.current = recognition;
     }
@@ -42,7 +62,7 @@ export default function Hero({ onSearch, loading, venueCount }) {
     <header className="px-4 sm:px-6 pt-14 sm:pt-20 pb-14 text-center max-w-2xl mx-auto">
       <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
         <a
-          href="https://t.me/ladookk"
+          href="https://t.me/твій_юзернейм"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block font-body text-xs text-accent hover:text-accent-dark
@@ -52,7 +72,7 @@ export default function Hero({ onSearch, loading, venueCount }) {
         </a>
 
         <a
-          href="https://send.monobank.ua/jar/6MTqiY4SEb"
+          href="https://send.monobank.ua/твоє-посилання"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 font-body text-xs font-medium
@@ -75,7 +95,7 @@ export default function Hero({ onSearch, loading, venueCount }) {
           <input
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => onQueryChange(e.target.value)}
             placeholder="Наприклад: тиха кав'ярня в центрі"
             className={`w-full bg-surface border border-line rounded-full px-5 sm:px-6 py-4
                        font-body text-base text-ink placeholder:text-ink-soft/70
@@ -106,13 +126,17 @@ export default function Hero({ onSearch, loading, venueCount }) {
         </button>
       </form>
 
+      {voiceError && (
+        <p className="mt-2 font-body text-xs text-red-600">{voiceError}</p>
+      )}
+
       <div className="flex flex-wrap justify-center gap-2 mt-4">
         {EXAMPLE_QUERIES.map((ex) => (
           <button
             key={ex}
             type="button"
             onClick={() => {
-              setQuery(ex);
+              onQueryChange(ex);
               onSearch(ex);
             }}
             className="font-body text-xs text-ink-soft border border-line rounded-full

@@ -27,6 +27,7 @@ function PublicSite() {
   const [view, setView] = useState("grid"); // grid | map
   const [selectedVenue, setSelectedVenue] = useState(null);
 
+  const [query, setQuery] = useState("");
   const [searchQuery, setSearchQuery] = useState(null);
   const [searchResults, setSearchResults] = useState(null); // [{venue_id, name, reason}]
   const [searchLoading, setSearchLoading] = useState(false);
@@ -63,6 +64,7 @@ function PublicSite() {
   }
 
   function clearSearch() {
+    setQuery("");
     setSearchQuery(null);
     setSearchResults(null);
     setSearchError("");
@@ -91,7 +93,13 @@ function PublicSite() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Hero onSearch={handleSearch} loading={searchLoading} venueCount={venues.length} />
+      <Hero
+        onSearch={handleSearch}
+        loading={searchLoading}
+        venueCount={venues.length}
+        query={query}
+        onQueryChange={setQuery}
+      />
 
       <main className="flex-1 pb-24">
         {searchQuery ? (
