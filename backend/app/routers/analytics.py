@@ -45,9 +45,12 @@ async def log_pageview(request: Request):
 
     conn = await get_connection()
     try:
-        await conn.execute(
-            "INSERT INTO page_views (path, ip_hash) VALUES ($1, $2)", path, ip_hash
-        )
+        try:
+            await conn.execute(
+                "INSERT INTO page_views (path, ip_hash) VALUES ($1, $2)", path, ip_hash
+            )
+        except Exception as e:
+            print(f"[analytics] Не вдалось записати відвідування: {e}")
     finally:
         await conn.close()
 
@@ -65,24 +68,31 @@ async def get_stats(period: str, request: Request, x_admin_key: str | None = Hea
 
     conn = await get_connection()
     try:
-        rows = await conn.fetch(
-            f"""
-            SELECT date_trunc('{bucket_unit}', created_at) AS bucket,
-                   COUNT(*) AS views,
-                   COUNT(DISTINCT ip_hash) AS visitors
-            FROM page_views
-            WHERE created_at > now() - interval '{interval}'
-            GROUP BY bucket
-            ORDER BY bucket
-            """
-        )
-        totals = await conn.fetchrow(
-            f"""
-            SELECT COUNT(*) AS views, COUNT(DISTINCT ip_hash) AS visitors
-            FROM page_views
-            WHERE created_at > now() - interval '{interval}'
-            """
-        )
+        try:
+            rows = await conn.fetch(
+                f"""
+                SELECT date_trunc('{bucket_unit}', created_at) AS bucket,
+                       COUNT(*) AS views,
+                       COUNT(DISTINCT ip_hash) AS visitors
+                FROM page_views
+                WHERE created_at > now() - interval '{interval}'
+                GROUP BY bucket
+                ORDER BY bucket
+                """
+            )
+            totals = await conn.fetchrow(
+                f"""
+                SELECT COUNT(*) AS views, COUNT(DISTINCT ip_hash) AS visitors
+                FROM page_views
+                WHERE created_at > now() - interval '{interval}'
+                """
+            )
+        except Exception as e:
+            print(f"[analytics] DB error (можливо, міграція ще не виконана): {e}")
+            raise HTTPException(
+                status_code=500,
+                detail="Таблиця статистики ще не готова — виконай migration-page-views.sql у Neon.",
+            )
     finally:
         await conn.close()
 
