@@ -2,7 +2,7 @@ import hashlib
 import hmac
 import os
 import time
-from fastapi import APIRouter, HTTPException, Header
+from fastapi import APIRouter, HTTPException, Header, Request
 from app.database import get_connection
 from app.models import VenueIn, VenueOut
 
@@ -12,22 +12,52 @@ ADMIN_API_KEY = os.environ["ADMIN_API_KEY"]
 CLOUDINARY_API_KEY = os.environ.get("CLOUDINARY_API_KEY")
 CLOUDINARY_API_SECRET = os.environ.get("CLOUDINARY_API_SECRET")
 CLOUDINARY_CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME")
+IP_SALT = os.environ.get("IP_HASH_SALT", "change-me")
+
+# Rate-limit на всі адмін-дії — другий незалежний шар захисту, окремий
+# від сили самого ключа. Навіть при криптографічно випадковому ключі це
+# захищає від навантаження на інфраструктуру (Neon-з'єднання, час
+# виконання функції) самим лише потоком запитів, і від сценарію витоку
+# ключа деінде (коміт, лог, скріншот) — другий шар не рятує перший, але
+# й не залежить від нього. Жорсткіший ліміт, ніж на /search, бо тут
+# легітимного навантаження в рази менше (тільки ти сама).
+_ADMIN_RATE_LIMIT = {}
+_ADMIN_RATE_LIMIT_WINDOW_SECONDS = 60
+_ADMIN_RATE_LIMIT_MAX_REQUESTS = 5
 
 
-def check_admin(x_admin_key: str | None):
+def _get_client_ip(request: Request) -> str:
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
+def check_admin(x_admin_key: str | None, request: Request):
     """Перевірка ключа для ендпоінтів, доступних тільки тобі.
     hmac.compare_digest замість != — захищає від timing-атак
-    (за час відповіді неможливо здогадатись, скільки символів ключа вгадано)."""
+    (за час відповіді неможливо здогадатись, скільки символів ключа вгадано).
+    Плюс rate-limit по IP — другий шар, незалежний від сили самого ключа."""
+    ip_hash = hashlib.sha256(f"{IP_SALT}{_get_client_ip(request)}".encode()).hexdigest()
+    now = time.time()
+    timestamps = [
+        t for t in _ADMIN_RATE_LIMIT.get(ip_hash, []) if now - t < _ADMIN_RATE_LIMIT_WINDOW_SECONDS
+    ]
+    if len(timestamps) >= _ADMIN_RATE_LIMIT_MAX_REQUESTS:
+        raise HTTPException(status_code=429, detail="Забагато спроб — зачекай хвилину.")
+    timestamps.append(now)
+    _ADMIN_RATE_LIMIT[ip_hash] = timestamps
+
     if not x_admin_key or not hmac.compare_digest(x_admin_key, ADMIN_API_KEY):
         raise HTTPException(status_code=403, detail="Невірний адмін-ключ")
 
 
 @router.post("/upload-signature")
-async def get_upload_signature(x_admin_key: str | None = Header(default=None)):
+async def get_upload_signature(request: Request, x_admin_key: str | None = Header(default=None)):
     """Генерує короткоживучий підпис для завантаження фото напряму з браузера
     в Cloudinary — заміна публічного unsigned preset. API_SECRET лишається
     тільки тут, на сервері, і ніколи не потрапляє у фронтенд-бандл."""
-    check_admin(x_admin_key)
+    check_admin(x_admin_key, request)
     if not CLOUDINARY_API_KEY or not CLOUDINARY_API_SECRET or not CLOUDINARY_CLOUD_NAME:
         raise HTTPException(status_code=500, detail="Cloudinary не налаштовано на бекенді")
 
@@ -89,9 +119,9 @@ async def get_venue(venue_id: int):
 
 
 @router.post("", response_model=VenueOut, status_code=201)
-async def create_venue(venue: VenueIn, x_admin_key: str | None = Header(default=None)):
+async def create_venue(venue: VenueIn, request: Request, x_admin_key: str | None = Header(default=None)):
     """Додавання закладу — тільки для тебе (адмінка), потребує заголовок X-Admin-Key."""
-    check_admin(x_admin_key)
+    check_admin(x_admin_key, request)
     conn = await get_connection()
     try:
         row = await conn.fetchrow(
@@ -113,8 +143,8 @@ async def create_venue(venue: VenueIn, x_admin_key: str | None = Header(default=
 
 
 @router.put("/{venue_id}", response_model=VenueOut)
-async def update_venue(venue_id: int, venue: VenueIn, x_admin_key: str | None = Header(default=None)):
-    check_admin(x_admin_key)
+async def update_venue(venue_id: int, venue: VenueIn, request: Request, x_admin_key: str | None = Header(default=None)):
+    check_admin(x_admin_key, request)
     conn = await get_connection()
     try:
         row = await conn.fetchrow(
@@ -138,8 +168,8 @@ async def update_venue(venue_id: int, venue: VenueIn, x_admin_key: str | None = 
 
 
 @router.delete("/{venue_id}", status_code=204)
-async def delete_venue(venue_id: int, x_admin_key: str | None = Header(default=None)):
-    check_admin(x_admin_key)
+async def delete_venue(venue_id: int, request: Request, x_admin_key: str | None = Header(default=None)):
+    check_admin(x_admin_key, request)
     conn = await get_connection()
     try:
         result = await conn.execute("DELETE FROM venues WHERE id=$1", venue_id)
