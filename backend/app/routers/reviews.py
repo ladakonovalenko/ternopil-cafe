@@ -69,7 +69,7 @@ async def create_review(venue_id: int, review: ReviewIn, request: Request):
         if recent:
             raise HTTPException(
                 status_code=429,
-                detail="Ви вже залишали відгук для цього закладу нещодавно",
+                detail="Схоже, з цієї мережі вже залишали відгук для цього закладу нещодавно. Якщо це не ти — спробуй з іншого Wi-Fi чи мобільного інтернету.",
             )
 
         row = await conn.fetchrow(
@@ -105,7 +105,7 @@ async def delete_review(
 ):
     """Видалення відгуку — тільки для тебе, той самий адмін-ключ і
     rate-limit, що й на закладах."""
-    check_admin(x_admin_key, request)
+    await check_admin(x_admin_key, request)
 
     conn = await get_connection()
     try:

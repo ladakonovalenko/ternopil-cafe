@@ -34,5 +34,5 @@ async def verify_admin(request: Request, x_admin_key: str | None = Header(defaul
     """Реальна перевірка ключа на сервері — та сама безпечна функція,
     що вже захищає POST/PUT/DELETE. Викликається формою входу в адмінку
     ДО того, як показати дашборд, а не замість перевірки на кожній дії."""
-    check_admin(x_admin_key, request)
+    await check_admin(x_admin_key, request)
     return {"valid": True}

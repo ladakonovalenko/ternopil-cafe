@@ -1,9 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { api } from "../api.js";
 import StarRating from "./StarRating.jsx";
 import ReviewForm from "./ReviewForm.jsx";
 
 export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
+  const modalRef = useRef(null);
   const [reviews, setReviews] = useState([]);
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [linkCopied, setLinkCopied] = useState(false);
@@ -60,11 +61,32 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
   }, [loadReviews]);
 
   useEffect(() => {
-    function handleEscape(e) {
-      if (e.key === "Escape") onClose();
+    function handleKeydown(e) {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      // Проста фокус-пастка: Tab не повинен виводити фокус за межі
+      // модалки на приховані елементи під затемненим фоном.
+      if (e.key === "Tab" && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll(
+          'button, a[href], input, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     }
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
+    document.addEventListener("keydown", handleKeydown);
+    modalRef.current?.focus();
+    return () => document.removeEventListener("keydown", handleKeydown);
   }, [onClose]);
 
   useEffect(() => {
@@ -80,6 +102,11 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
       onClick={onClose}
     >
       <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="venue-detail-title"
+        tabIndex={-1}
         className="relative bg-surface w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
@@ -117,7 +144,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
           </button>
 
           <div>
-            <h2 className="font-display text-3xl text-ink mb-2">{venue.name}</h2>
+            <h2 id="venue-detail-title" className="font-display text-3xl text-ink mb-2">{venue.name}</h2>
             <div className="flex items-center gap-2 font-body text-sm text-ink-soft mb-1">
               <StarRating value={venue.avg_rating} />
               <span>

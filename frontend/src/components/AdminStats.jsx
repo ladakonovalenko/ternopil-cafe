@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { api } from "../api.js";
 
 const PERIODS = [
-  { key: "day", label: "Day" },
-  { key: "week", label: "Week" },
-  { key: "month", label: "Month" },
-  { key: "year", label: "Year" },
+  { key: "day", label: "День" },
+  { key: "week", label: "Тиждень" },
+  { key: "month", label: "Місяць" },
+  { key: "year", label: "Рік" },
 ];
 
 export default function AdminStats({ adminKey }) {

@@ -59,7 +59,7 @@ async def log_pageview(request: Request):
 async def get_stats(period: str, request: Request, x_admin_key: str | None = Header(default=None)):
     """Статистика відвідувань — тільки для тебе. Ліміти на цей ендпоінт —
     той самий rate-limit, що й на решті адмін-дій (через check_admin)."""
-    check_admin(x_admin_key, request)
+    await check_admin(x_admin_key, request)
 
     if period not in PERIOD_CONFIG:
         raise HTTPException(status_code=400, detail="period має бути day/week/month/year")

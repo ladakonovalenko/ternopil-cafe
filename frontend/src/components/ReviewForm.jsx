@@ -58,6 +58,8 @@ export default function ReviewForm({ venueId, onSubmitted }) {
             <button
               key={n}
               type="button"
+              role="radio"
+              aria-checked={n === rating}
               onClick={() => setRating(n)}
               aria-label={`${n} з 5`}
               className="text-2xl leading-none transition-transform hover:scale-110"

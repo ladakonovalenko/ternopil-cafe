@@ -31,7 +31,7 @@ function iconForCategory(category) {
   });
 }
 
-export default function MapView({ venues, onSelect }) {
+export default function MapView({ venues, onSelect, emptyLabel }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const clusterRef = useRef(null);
@@ -107,10 +107,19 @@ export default function MapView({ venues, onSelect }) {
 
   return (
     <div>
-      <div
-        ref={containerRef}
-        className="w-full h-[420px] rounded-2xl overflow-hidden border border-line"
-      />
+      <div className="relative">
+        <div
+          ref={containerRef}
+          className="w-full h-[420px] rounded-2xl overflow-hidden border border-line"
+        />
+        {venues.length === 0 && (
+          <div className="absolute inset-0 flex items-center justify-center bg-surface/90 rounded-2xl pointer-events-none">
+            <p className="font-body text-sm text-ink-soft px-6 text-center">
+              {emptyLabel || "Тут поки нічого немає."}
+            </p>
+          </div>
+        )}
+      </div>
       {categoriesPresent.length > 1 && (
         <div className="flex flex-wrap gap-x-4 gap-y-1 justify-center mt-3">
           {categoriesPresent.map((cat) => (

@@ -3,6 +3,7 @@ import { api } from "./api.js";
 import Hero from "./components/Hero.jsx";
 import CategoryFilter from "./components/CategoryFilter.jsx";
 import VenueGrid from "./components/VenueGrid.jsx";
+import VenueGridSkeleton from "./components/VenueGridSkeleton.jsx";
 import MapView from "./components/MapView.jsx";
 import VenueDetail from "./components/VenueDetail.jsx";
 import AdminPanel from "./components/AdminPanel.jsx";
@@ -33,6 +34,34 @@ function PublicSite() {
   const [searchResults, setSearchResults] = useState(null); // [{venue_id, name, reason}]
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
+
+  // Відкриття закладу через клік (не через пряме посилання) — додає запис
+  // в історію браузера, щоб апаратна/жестова кнопка "назад" на мобільному
+  // закривала саме картку, а не виводила з сайту в попередню сторінку.
+  function openVenue(venue) {
+    setSelectedVenue(venue);
+    const url = new URL(window.location);
+    url.searchParams.set("venue", venue.id);
+    window.history.pushState({ venueId: venue.id }, "", url);
+  }
+
+  // Слухач "назад/вперед" — коли ?venue зникає з адреси через натискання
+  // "назад" (не через наш власний onClose), синхронізуємо стан з URL.
+  useEffect(() => {
+    function handlePopState() {
+      const venueId = new URLSearchParams(window.location.search).get("venue");
+      if (!venueId) {
+        setSelectedVenue(null);
+        return;
+      }
+      // URL після "назад/вперед" показує заклад, якого зараз не видно
+      // (чи видно інший) — підвантажуємо його заново, щоб адресний
+      // рядок і те, що бачить людина, завжди збігались.
+      api.getVenue(venueId).then(setSelectedVenue).catch(() => setSelectedVenue(null));
+    }
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   // Простий, анонімний облік відвідування — тільки для власної статистики
   // в адмінці, не для стороннього трекінгу. Fire-and-forget, нічого не
@@ -150,14 +179,14 @@ function PublicSite() {
             </div>
 
             {searchLoading ? (
-              <p className="text-center font-body text-ink-soft py-16">Шукаю…</p>
+              <VenueGridSkeleton />
             ) : searchError ? (
               <p className="text-center font-body text-ink-soft py-16">{searchError}</p>
             ) : (
               <VenueGrid
                 venues={searchVenues}
                 reasons={searchReasons}
-                onSelect={setSelectedVenue}
+                onSelect={openVenue}
                 emptyLabel="Нічого влучного не знайшлось — спробуй сформулювати інакше."
               />
             )}
@@ -171,16 +200,20 @@ function PublicSite() {
             </div>
 
             {loadingVenues ? (
-              <p className="text-center font-body text-ink-soft py-16">Завантажую заклади…</p>
+              <VenueGridSkeleton />
             ) : view === "grid" ? (
               <VenueGrid
                 venues={filteredVenues}
-                onSelect={setSelectedVenue}
+                onSelect={openVenue}
                 emptyLabel="У цій категорії поки немає закладів."
               />
             ) : (
               <div className="px-6">
-                <MapView venues={filteredVenues} onSelect={setSelectedVenue} />
+                <MapView
+                  venues={filteredVenues}
+                  onSelect={openVenue}
+                  emptyLabel="У цій категорії поки немає закладів."
+                />
               </div>
             )}
           </section>
@@ -188,6 +221,29 @@ function PublicSite() {
       </main>
 
       <footer className="border-t border-line px-6 py-8 text-center">
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
+          <a
+            href="https://t.me/твій_юзернейм"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block font-body text-xs text-accent hover:text-accent-dark
+                       underline underline-offset-2"
+          >
+            Запропонувати заклад →
+          </a>
+
+          <a
+            href="https://send.monobank.ua/твоє-посилання"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 font-body text-xs font-medium
+                       bg-accent-soft hover:bg-accent hover:text-surface text-accent-dark
+                       rounded-full px-4 py-1.5 transition-colors"
+          >
+            ☕ Підтримати проєкт
+          </a>
+        </div>
+
         <p className="font-body text-xs text-ink-soft leading-relaxed">
           Заклади додаю вручну й регулярно оновлюю. Знаєш місце, якого тут не вистачає —
           напиши мені.
@@ -200,7 +256,7 @@ function PublicSite() {
         <VenueDetail
           venue={selectedVenue}
           venues={venues}
-          onSelect={setSelectedVenue}
+          onSelect={openVenue}
           onClose={() => {
             setSelectedVenue(null);
             const url = new URL(window.location);

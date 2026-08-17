@@ -7,6 +7,7 @@ from google import genai
 from pydantic import ValidationError
 from app.database import get_connection
 from app.models import SearchRequest, SearchResponse, SearchResultItem
+from app.rate_limit import check_rate_limit_db
 
 router = APIRouter(prefix="/search", tags=["search"])
 
@@ -17,17 +18,13 @@ IP_SALT = os.environ["IP_HASH_SALT"]
 # Простий кеш в пам'яті процесу — рятує тільки поки serverless-функція
 # "тепла" (той самий контейнер), Vercel на безкоштовному тарифі часто
 # створює новий контейнер на кожен виклик, тож не розраховуй на це як
-# на надійний кеш — це просто приємний бонус, коли спрацьовує.
+# на надійний кеш — це просто приємний бонус, коли спрацьовує. На
+# відміну від rate-limit нижче, тут це прийнятно: гірший сценарій —
+# просто зайвий виклик Gemini замість кешованої відповіді, не діра
+# в захисті.
 _CACHE = {}
 _CACHE_TTL_SECONDS = 5 * 60
 
-# Rate-limit по IP — той самий принцип (хеш IP, не сирий IP), той самий
-# застереження: пам'ять живе, поки контейнер "теплий". Це не залізобетонний
-# захист, а бар'єр проти найпростішого зловживання (хтось лупить запити в
-# циклі й спалює денний ліміт Gemini) — саме та проблема, яку ми щойно
-# реально зловили. Для повністю надійного rate-limit знадобилась би БД чи
-# зовнішній сервіс типу Upstash — поза обсягом цього проєкту зараз.
-_RATE_LIMIT = {}
 _RATE_LIMIT_WINDOW_SECONDS = 60
 _RATE_LIMIT_MAX_REQUESTS = 10
 
@@ -42,21 +39,16 @@ def get_client_ip(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
-def check_rate_limit(request: Request):
+async def check_rate_limit(request: Request):
     client_ip = get_client_ip(request)
     ip_hash = hashlib.sha256(f"{IP_SALT}{client_ip}".encode()).hexdigest()
-
-    now = time.time()
-    timestamps = [t for t in _RATE_LIMIT.get(ip_hash, []) if now - t < _RATE_LIMIT_WINDOW_SECONDS]
-
-    if len(timestamps) >= _RATE_LIMIT_MAX_REQUESTS:
-        raise HTTPException(
-            status_code=429,
-            detail="Забагато запитів — зачекай хвилину і спробуй ще раз.",
+    conn = await get_connection()
+    try:
+        await check_rate_limit_db(
+            conn, f"search:{ip_hash}", _RATE_LIMIT_WINDOW_SECONDS, _RATE_LIMIT_MAX_REQUESTS
         )
-
-    timestamps.append(now)
-    _RATE_LIMIT[ip_hash] = timestamps
+    finally:
+        await conn.close()
 
 SYSTEM_PROMPT = """\
 Ти — рекомендаційний асистент для сайту закладів Тернополя.
@@ -98,7 +90,7 @@ SYSTEM_PROMPT = """\
 
 @router.post("", response_model=SearchResponse)
 async def search_venues(search: SearchRequest, request: Request):
-    check_rate_limit(request)
+    await check_rate_limit(request)
 
     cache_key = search.query.strip().lower()
     cached = _CACHE.get(cache_key)
@@ -174,7 +166,7 @@ SIMILAR_PROMPT = """\
 
 @router.get("/{venue_id}/similar", response_model=SearchResponse)
 async def similar_venues(venue_id: int, request: Request):
-    check_rate_limit(request)
+    await check_rate_limit(request)
 
     conn = await get_connection()
     try:

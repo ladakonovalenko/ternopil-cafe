@@ -6,6 +6,8 @@ from fastapi import APIRouter, HTTPException, Header, Request
 from app.database import get_connection
 from app.models import VenueIn, VenueOut
 
+from app.rate_limit import check_rate_limit_db
+
 router = APIRouter(prefix="/venues", tags=["venues"])
 
 ADMIN_API_KEY = os.environ["ADMIN_API_KEY"]
@@ -15,21 +17,18 @@ CLOUDINARY_CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME")
 IP_SALT = os.environ["IP_HASH_SALT"]
 
 # Rate-limit на "чутливі" адмін-дії (вхід, зміна/видалення закладів) —
-# другий незалежний шар захисту, окремий від сили самого ключа. Навіть при
-# криптографічно випадковому ключі це захищає від навантаження на
-# інфраструктуру (Neon-з'єднання, час виконання функції) самим лише
-# потоком запитів, і від сценарію витоку ключа деінде (коміт, лог,
-# скріншот) — другий шар не рятує перший, але й не залежить від нього.
-_ADMIN_RATE_LIMIT = {}
+# другий незалежний шар захисту, окремий від сили самого ключа. Через
+# Postgres, не пам'ять процесу — на Vercel новий контейнер обнуляв би
+# in-memory-лічильник, тобто захист працював би ненадійно саме в момент
+# найбільшого навантаження.
 _ADMIN_RATE_LIMIT_WINDOW_SECONDS = 60
 _ADMIN_RATE_LIMIT_MAX_REQUESTS = 5
 
 # Окремий, щедріший ліміт саме для підпису завантаження фото — інша вага
-# дії: не змінює жодних даних, не потребує підключення до БД, і легітимний
-# сценарій (додати заклад одразу з 10+ фото з галереї) реально потребує
-# кількох підписів поспіль за секунди. Спільний лічильник з чутливими
-# діями раніше ламав bulk-завантаження вже на 6-му файлі.
-_UPLOAD_RATE_LIMIT = {}
+# дії: не змінює жодних даних, і легітимний сценарій (додати заклад одразу
+# з 10+ фото з галереї) реально потребує кількох підписів поспіль за
+# секунди. Спільний лічильник з чутливими діями раніше ламав
+# bulk-завантаження вже на 6-му файлі.
 _UPLOAD_RATE_LIMIT_WINDOW_SECONDS = 60
 _UPLOAD_RATE_LIMIT_MAX_REQUESTS = 30
 
@@ -41,28 +40,27 @@ def _get_client_ip(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
-def _rate_limit(request: Request, store: dict, window: int, max_requests: int):
+async def _rate_limit(request: Request, key_prefix: str, window: int, max_requests: int):
     ip_hash = hashlib.sha256(f"{IP_SALT}{_get_client_ip(request)}".encode()).hexdigest()
-    now = time.time()
-    timestamps = [t for t in store.get(ip_hash, []) if now - t < window]
-    if len(timestamps) >= max_requests:
-        raise HTTPException(status_code=429, detail="Забагато спроб — зачекай хвилину.")
-    timestamps.append(now)
-    store[ip_hash] = timestamps
+    conn = await get_connection()
+    try:
+        await check_rate_limit_db(conn, f"{key_prefix}:{ip_hash}", window, max_requests)
+    finally:
+        await conn.close()
 
 
-def check_admin(x_admin_key: str | None, request: Request):
+async def check_admin(x_admin_key: str | None, request: Request):
     """Перевірка ключа для чутливих ендпоінтів (вхід, зміна/видалення
     закладів). hmac.compare_digest замість != — захищає від timing-атак."""
-    _rate_limit(request, _ADMIN_RATE_LIMIT, _ADMIN_RATE_LIMIT_WINDOW_SECONDS, _ADMIN_RATE_LIMIT_MAX_REQUESTS)
+    await _rate_limit(request, "admin", _ADMIN_RATE_LIMIT_WINDOW_SECONDS, _ADMIN_RATE_LIMIT_MAX_REQUESTS)
     if not x_admin_key or not hmac.compare_digest(x_admin_key, ADMIN_API_KEY):
         raise HTTPException(status_code=403, detail="Невірний адмін-ключ")
 
 
-def check_admin_for_upload(x_admin_key: str | None, request: Request):
+async def check_admin_for_upload(x_admin_key: str | None, request: Request):
     """Той самий ключ, той самий hmac.compare_digest — але окремий,
     щедріший rate-limit, розрахований саме на bulk-завантаження фото."""
-    _rate_limit(request, _UPLOAD_RATE_LIMIT, _UPLOAD_RATE_LIMIT_WINDOW_SECONDS, _UPLOAD_RATE_LIMIT_MAX_REQUESTS)
+    await _rate_limit(request, "upload", _UPLOAD_RATE_LIMIT_WINDOW_SECONDS, _UPLOAD_RATE_LIMIT_MAX_REQUESTS)
     if not x_admin_key or not hmac.compare_digest(x_admin_key, ADMIN_API_KEY):
         raise HTTPException(status_code=403, detail="Невірний адмін-ключ")
 
@@ -72,7 +70,7 @@ async def get_upload_signature(request: Request, x_admin_key: str | None = Heade
     """Генерує короткоживучий підпис для завантаження фото напряму з браузера
     в Cloudinary — заміна публічного unsigned preset. API_SECRET лишається
     тільки тут, на сервері, і ніколи не потрапляє у фронтенд-бандл."""
-    check_admin_for_upload(x_admin_key, request)
+    await check_admin_for_upload(x_admin_key, request)
     if not CLOUDINARY_API_KEY or not CLOUDINARY_API_SECRET or not CLOUDINARY_CLOUD_NAME:
         raise HTTPException(status_code=500, detail="Cloudinary не налаштовано на бекенді")
 
@@ -136,7 +134,7 @@ async def get_venue(venue_id: int):
 @router.post("", response_model=VenueOut, status_code=201)
 async def create_venue(venue: VenueIn, request: Request, x_admin_key: str | None = Header(default=None)):
     """Додавання закладу — тільки для тебе (адмінка), потребує заголовок X-Admin-Key."""
-    check_admin(x_admin_key, request)
+    await check_admin(x_admin_key, request)
     conn = await get_connection()
     try:
         row = await conn.fetchrow(
@@ -159,7 +157,7 @@ async def create_venue(venue: VenueIn, request: Request, x_admin_key: str | None
 
 @router.put("/{venue_id}", response_model=VenueOut)
 async def update_venue(venue_id: int, venue: VenueIn, request: Request, x_admin_key: str | None = Header(default=None)):
-    check_admin(x_admin_key, request)
+    await check_admin(x_admin_key, request)
     conn = await get_connection()
     try:
         row = await conn.fetchrow(
@@ -184,7 +182,7 @@ async def update_venue(venue_id: int, venue: VenueIn, request: Request, x_admin_
 
 @router.delete("/{venue_id}", status_code=204)
 async def delete_venue(venue_id: int, request: Request, x_admin_key: str | None = Header(default=None)):
-    check_admin(x_admin_key, request)
+    await check_admin(x_admin_key, request)
     conn = await get_connection()
     try:
         result = await conn.execute("DELETE FROM venues WHERE id=$1", venue_id)
