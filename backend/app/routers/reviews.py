@@ -14,6 +14,20 @@ def hash_ip(ip: str) -> str:
     return hashlib.sha256(f"{IP_SALT}{ip}".encode()).hexdigest()
 
 
+def get_client_ip(request: Request) -> str:
+    """На Vercel (і будь-якому проксі/edge) request.client.host часто показує
+    IP проксі, не кінцевого відвідувача — реальний IP зазвичай у заголовку
+    X-Forwarded-For. Цей заголовок може містити ланцюжок IP через кому
+    (кожен проксі на шляху дописує своє) — перший у списку і є оригінальним
+    клієнтом, тому беремо саме його, а не весь рядок як є (інакше хеш
+    виходив би різним для тієї самої людини щоразу, і rate-limit не
+    працював би)."""
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
 @router.get("", response_model=list[ReviewOut])
 async def list_reviews(venue_id: int):
     conn = await get_connection()
@@ -34,7 +48,7 @@ async def create_review(venue_id: int, review: ReviewIn, request: Request):
     if review.website:
         raise HTTPException(status_code=400, detail="Помилка валідації")
 
-    client_ip = request.client.host if request.client else "unknown"
+    client_ip = get_client_ip(request)
     ip_hash = hash_ip(client_ip)
 
     conn = await get_connection()

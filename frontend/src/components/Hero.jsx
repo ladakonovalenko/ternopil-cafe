@@ -62,7 +62,7 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
     <header className="px-4 sm:px-6 pt-14 sm:pt-20 pb-14 text-center max-w-2xl mx-auto">
       <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
         <a
-          href="https://t.me/твій_юзернейм"
+          href="https://t.me/ladookk"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block font-body text-xs text-accent hover:text-accent-dark
@@ -72,7 +72,7 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
         </a>
 
         <a
-          href="https://send.monobank.ua/твоє-посилання"
+          href="https://send.monobank.ua/jar/6MTqiY4SEb"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 font-body text-xs font-medium
