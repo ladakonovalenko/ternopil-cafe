@@ -28,6 +28,7 @@ function PublicSite() {
   const [selectedVenue, setSelectedVenue] = useState(null);
 
   const [query, setQuery] = useState("");
+  const [venueNotFound, setVenueNotFound] = useState(false);
   const [searchQuery, setSearchQuery] = useState(null);
   const [searchResults, setSearchResults] = useState(null); // [{venue_id, name, reason}]
   const [searchLoading, setSearchLoading] = useState(false);
@@ -42,10 +43,22 @@ function PublicSite() {
   }, []);
 
   // Пряме посилання на заклад: ?venue=<id> одразу відкриває його картку.
+  // Якщо заклад уже видалено — чесно повідомляємо, а не мовчки провалюємось
+  // (важливо саме тому, що це той самий лінк, який людина могла отримати
+  // від когось у Telegram — "порожня сторінка без пояснень" виглядає як
+  // зламаний сайт, а не як "цього закладу вже немає").
   useEffect(() => {
     const venueId = new URLSearchParams(window.location.search).get("venue");
     if (!venueId) return;
-    api.getVenue(venueId).then(setSelectedVenue).catch(() => {});
+    api
+      .getVenue(venueId)
+      .then(setSelectedVenue)
+      .catch(() => {
+        setVenueNotFound(true);
+        const url = new URL(window.location);
+        url.searchParams.delete("venue");
+        window.history.replaceState({}, "", url);
+      });
   }, []);
 
   async function handleSearch(query) {
@@ -93,6 +106,18 @@ function PublicSite() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {venueNotFound && (
+        <div className="bg-accent-soft text-accent-dark font-body text-sm text-center px-6 py-3
+                         flex items-center justify-center gap-3">
+          <span>Цей заклад більше не доступний — можливо, його прибрали з бази.</span>
+          <button
+            onClick={() => setVenueNotFound(false)}
+            className="underline underline-offset-2 hover:text-accent shrink-0"
+          >
+            Зрозуміло
+          </button>
+        </div>
+      )}
       <Hero
         onSearch={handleSearch}
         loading={searchLoading}

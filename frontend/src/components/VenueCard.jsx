@@ -27,7 +27,13 @@ export default function VenueCard({ venue, reason, onClick }) {
           </span>
         )}
         {image ? (
-          <img src={image} alt={venue.name} className="w-full h-full object-cover" />
+          <img
+            src={image}
+            alt={venue.name}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover"
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-ink-soft font-display italic">
             {venue.name}

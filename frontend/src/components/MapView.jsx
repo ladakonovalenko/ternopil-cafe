@@ -92,6 +92,15 @@ export default function MapView({ venues, onSelect }) {
         marker.on("click", () => onSelect(venue));
         clusterRef.current.addLayer(marker);
       });
+
+    // Підганяємо межі карти під видимі маркери — без цього при вузькому
+    // фільтрі (напр. "Бари") зум і центр лишались фіксовані на весь
+    // Тернопіль, і частина закладів могла опинитись поза кадром без
+    // жодної підказки, що вони взагалі є.
+    const coords = venues.filter((v) => v.lat && v.lng).map((v) => [v.lat, v.lng]);
+    if (coords.length > 0) {
+      mapRef.current.fitBounds(coords, { padding: [30, 30], maxZoom: 15 });
+    }
   }, [venues, onSelect]);
 
   const categoriesPresent = [...new Set(venues.map((v) => v.category))];

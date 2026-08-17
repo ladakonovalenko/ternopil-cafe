@@ -12,7 +12,7 @@ router = APIRouter(prefix="/search", tags=["search"])
 
 GEMINI_API_KEY = os.environ["GEMINI_API_KEY"]
 client = genai.Client(api_key=GEMINI_API_KEY)
-IP_SALT = os.environ.get("IP_HASH_SALT", "change-me")
+IP_SALT = os.environ["IP_HASH_SALT"]
 
 # Простий кеш в пам'яті процесу — рятує тільки поки serverless-функція
 # "тепла" (той самий контейнер), Vercel на безкоштовному тарифі часто
@@ -32,8 +32,18 @@ _RATE_LIMIT_WINDOW_SECONDS = 60
 _RATE_LIMIT_MAX_REQUESTS = 10
 
 
+def get_client_ip(request: Request) -> str:
+    """Той самий підхід, що й у reviews.py/venues.py — Vercel перезаписує
+    X-Forwarded-For власним значенням (не пропускає зовнішні IP), тож тут
+    завжди рівно один надійний запис, не ланцюжок, підконтрольний клієнту."""
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
 def check_rate_limit(request: Request):
-    client_ip = request.client.host if request.client else "unknown"
+    client_ip = get_client_ip(request)
     ip_hash = hashlib.sha256(f"{IP_SALT}{client_ip}".encode()).hexdigest()
 
     now = time.time()

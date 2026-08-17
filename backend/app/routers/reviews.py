@@ -7,7 +7,7 @@ from app.routers.venues import check_admin
 
 router = APIRouter(prefix="/venues/{venue_id}/reviews", tags=["reviews"])
 
-IP_SALT = os.environ.get("IP_HASH_SALT", "change-me")
+IP_SALT = os.environ["IP_HASH_SALT"]
 RATE_LIMIT_HOURS = 24  # одна людина — один відгук на заклад за добу
 
 

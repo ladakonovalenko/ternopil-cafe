@@ -12,18 +12,26 @@ ADMIN_API_KEY = os.environ["ADMIN_API_KEY"]
 CLOUDINARY_API_KEY = os.environ.get("CLOUDINARY_API_KEY")
 CLOUDINARY_API_SECRET = os.environ.get("CLOUDINARY_API_SECRET")
 CLOUDINARY_CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME")
-IP_SALT = os.environ.get("IP_HASH_SALT", "change-me")
+IP_SALT = os.environ["IP_HASH_SALT"]
 
-# Rate-limit на всі адмін-дії — другий незалежний шар захисту, окремий
-# від сили самого ключа. Навіть при криптографічно випадковому ключі це
-# захищає від навантаження на інфраструктуру (Neon-з'єднання, час
-# виконання функції) самим лише потоком запитів, і від сценарію витоку
-# ключа деінде (коміт, лог, скріншот) — другий шар не рятує перший, але
-# й не залежить від нього. Жорсткіший ліміт, ніж на /search, бо тут
-# легітимного навантаження в рази менше (тільки ти сама).
+# Rate-limit на "чутливі" адмін-дії (вхід, зміна/видалення закладів) —
+# другий незалежний шар захисту, окремий від сили самого ключа. Навіть при
+# криптографічно випадковому ключі це захищає від навантаження на
+# інфраструктуру (Neon-з'єднання, час виконання функції) самим лише
+# потоком запитів, і від сценарію витоку ключа деінде (коміт, лог,
+# скріншот) — другий шар не рятує перший, але й не залежить від нього.
 _ADMIN_RATE_LIMIT = {}
 _ADMIN_RATE_LIMIT_WINDOW_SECONDS = 60
 _ADMIN_RATE_LIMIT_MAX_REQUESTS = 5
+
+# Окремий, щедріший ліміт саме для підпису завантаження фото — інша вага
+# дії: не змінює жодних даних, не потребує підключення до БД, і легітимний
+# сценарій (додати заклад одразу з 10+ фото з галереї) реально потребує
+# кількох підписів поспіль за секунди. Спільний лічильник з чутливими
+# діями раніше ламав bulk-завантаження вже на 6-му файлі.
+_UPLOAD_RATE_LIMIT = {}
+_UPLOAD_RATE_LIMIT_WINDOW_SECONDS = 60
+_UPLOAD_RATE_LIMIT_MAX_REQUESTS = 30
 
 
 def _get_client_ip(request: Request) -> str:
@@ -33,21 +41,28 @@ def _get_client_ip(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
-def check_admin(x_admin_key: str | None, request: Request):
-    """Перевірка ключа для ендпоінтів, доступних тільки тобі.
-    hmac.compare_digest замість != — захищає від timing-атак
-    (за час відповіді неможливо здогадатись, скільки символів ключа вгадано).
-    Плюс rate-limit по IP — другий шар, незалежний від сили самого ключа."""
+def _rate_limit(request: Request, store: dict, window: int, max_requests: int):
     ip_hash = hashlib.sha256(f"{IP_SALT}{_get_client_ip(request)}".encode()).hexdigest()
     now = time.time()
-    timestamps = [
-        t for t in _ADMIN_RATE_LIMIT.get(ip_hash, []) if now - t < _ADMIN_RATE_LIMIT_WINDOW_SECONDS
-    ]
-    if len(timestamps) >= _ADMIN_RATE_LIMIT_MAX_REQUESTS:
+    timestamps = [t for t in store.get(ip_hash, []) if now - t < window]
+    if len(timestamps) >= max_requests:
         raise HTTPException(status_code=429, detail="Забагато спроб — зачекай хвилину.")
     timestamps.append(now)
-    _ADMIN_RATE_LIMIT[ip_hash] = timestamps
+    store[ip_hash] = timestamps
 
+
+def check_admin(x_admin_key: str | None, request: Request):
+    """Перевірка ключа для чутливих ендпоінтів (вхід, зміна/видалення
+    закладів). hmac.compare_digest замість != — захищає від timing-атак."""
+    _rate_limit(request, _ADMIN_RATE_LIMIT, _ADMIN_RATE_LIMIT_WINDOW_SECONDS, _ADMIN_RATE_LIMIT_MAX_REQUESTS)
+    if not x_admin_key or not hmac.compare_digest(x_admin_key, ADMIN_API_KEY):
+        raise HTTPException(status_code=403, detail="Невірний адмін-ключ")
+
+
+def check_admin_for_upload(x_admin_key: str | None, request: Request):
+    """Той самий ключ, той самий hmac.compare_digest — але окремий,
+    щедріший rate-limit, розрахований саме на bulk-завантаження фото."""
+    _rate_limit(request, _UPLOAD_RATE_LIMIT, _UPLOAD_RATE_LIMIT_WINDOW_SECONDS, _UPLOAD_RATE_LIMIT_MAX_REQUESTS)
     if not x_admin_key or not hmac.compare_digest(x_admin_key, ADMIN_API_KEY):
         raise HTTPException(status_code=403, detail="Невірний адмін-ключ")
 
@@ -57,7 +72,7 @@ async def get_upload_signature(request: Request, x_admin_key: str | None = Heade
     """Генерує короткоживучий підпис для завантаження фото напряму з браузера
     в Cloudinary — заміна публічного unsigned preset. API_SECRET лишається
     тільки тут, на сервері, і ніколи не потрапляє у фронтенд-бандл."""
-    check_admin(x_admin_key, request)
+    check_admin_for_upload(x_admin_key, request)
     if not CLOUDINARY_API_KEY or not CLOUDINARY_API_SECRET or not CLOUDINARY_CLOUD_NAME:
         raise HTTPException(status_code=500, detail="Cloudinary не налаштовано на бекенді")
 

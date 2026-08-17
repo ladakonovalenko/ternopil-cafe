@@ -26,13 +26,25 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
       });
   }
 
+  const [linkCopyFailed, setLinkCopyFailed] = useState(false);
+
   function copyLink() {
     const url = new URL(window.location);
     url.searchParams.set("venue", venue.id);
-    navigator.clipboard.writeText(url.toString()).then(() => {
-      setLinkCopied(true);
-      setTimeout(() => setLinkCopied(false), 2000);
-    });
+    navigator.clipboard
+      .writeText(url.toString())
+      .then(() => {
+        setLinkCopied(true);
+        setLinkCopyFailed(false);
+        setTimeout(() => setLinkCopied(false), 2000);
+      })
+      .catch(() => {
+        // У деяких вбудованих браузерах (Telegram/Instagram in-app) clipboard
+        // API мовчки не спрацьовує без явної помилки — показуємо це чесно
+        // замість того, щоб кнопка просто нічого не робила.
+        setLinkCopyFailed(true);
+        setTimeout(() => setLinkCopyFailed(false), 3000);
+      });
   }
 
   const loadReviews = useCallback(() => {
@@ -97,7 +109,11 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
             onClick={copyLink}
             className="self-end -mt-2 font-body text-sm text-ink-soft hover:text-accent"
           >
-            {linkCopied ? "Скопійовано ✓" : "Скопіювати посилання"}
+            {linkCopied
+              ? "Скопійовано ✓"
+              : linkCopyFailed
+              ? "Не вдалось скопіювати — виділи посилання вручну"
+              : "Скопіювати посилання"}
           </button>
 
           <div>
