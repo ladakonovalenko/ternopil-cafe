@@ -221,29 +221,6 @@ function PublicSite() {
       </main>
 
       <footer className="border-t border-line px-6 py-8 text-center">
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
-          <a
-            href="https://t.me/твій_юзернейм"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block font-body text-xs text-accent hover:text-accent-dark
-                       underline underline-offset-2"
-          >
-            Запропонувати заклад →
-          </a>
-
-          <a
-            href="https://send.monobank.ua/твоє-посилання"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 font-body text-xs font-medium
-                       bg-accent-soft hover:bg-accent hover:text-surface text-accent-dark
-                       rounded-full px-4 py-1.5 transition-colors"
-          >
-            ☕ Підтримати проєкт
-          </a>
-        </div>
-
         <p className="font-body text-xs text-ink-soft leading-relaxed">
           Заклади додаю вручну й регулярно оновлюю. Знаєш місце, якого тут не вистачає —
           напиши мені.
