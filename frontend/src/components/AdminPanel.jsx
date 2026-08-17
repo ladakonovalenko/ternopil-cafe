@@ -3,6 +3,7 @@ import { api } from "../api.js";
 import StarRating from "./StarRating.jsx";
 import AdminVenueForm from "./AdminVenueForm.jsx";
 import AdminReviews from "./AdminReviews.jsx";
+import AdminStats from "./AdminStats.jsx";
 
 const STORAGE_KEY = "ternopil-cafe-admin-key";
 
@@ -161,6 +162,8 @@ export default function AdminPanel() {
           Вийти
         </button>
       </div>
+
+      <AdminStats adminKey={adminKey} />
 
       {error && (
         <p className="font-body text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">

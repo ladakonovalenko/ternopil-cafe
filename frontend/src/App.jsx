@@ -34,6 +34,14 @@ function PublicSite() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
 
+  // Простий, анонімний облік відвідування — тільки для власної статистики
+  // в адмінці, не для стороннього трекінгу. Fire-and-forget, нічого не
+  // чекає й не блокує, помилки тихо ігноруються (api.logPageview сам
+  // ковтає .catch()).
+  useEffect(() => {
+    api.logPageview(window.location.pathname + window.location.search);
+  }, []);
+
   useEffect(() => {
     api
       .listVenues()

@@ -38,6 +38,17 @@ export const api = {
       headers: { "X-Admin-Key": adminKey },
     }),
 
+  logPageview: (path) =>
+    request("/analytics/pageview", {
+      method: "POST",
+      body: JSON.stringify({ path }),
+    }).catch(() => {}), // ніколи не заважати перегляду сайту, якщо облік не пройшов
+
+  getStats: (period, adminKey) =>
+    request(`/analytics/stats?period=${period}`, {
+      headers: { "X-Admin-Key": adminKey },
+    }),
+
   createReview: (venueId, review) =>
     request(`/venues/${venueId}/reviews`, {
       method: "POST",

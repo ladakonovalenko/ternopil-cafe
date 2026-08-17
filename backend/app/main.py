@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import venues, reviews, search
+from app.routers import venues, reviews, search, analytics
 from app.routers.venues import check_admin
 
 app = FastAPI(title="Заклади Тернополя API")
@@ -21,6 +21,7 @@ app.add_middleware(
 app.include_router(venues.router)
 app.include_router(reviews.router)
 app.include_router(search.router)
+app.include_router(analytics.router)
 
 
 @app.get("/health")
