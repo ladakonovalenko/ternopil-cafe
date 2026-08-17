@@ -1,4 +1,7 @@
+import hashlib
+import hmac
 import os
+import time
 from fastapi import APIRouter, HTTPException, Header
 from app.database import get_connection
 from app.models import VenueIn, VenueOut
@@ -6,12 +9,46 @@ from app.models import VenueIn, VenueOut
 router = APIRouter(prefix="/venues", tags=["venues"])
 
 ADMIN_API_KEY = os.environ["ADMIN_API_KEY"]
+CLOUDINARY_API_KEY = os.environ.get("CLOUDINARY_API_KEY")
+CLOUDINARY_API_SECRET = os.environ.get("CLOUDINARY_API_SECRET")
+CLOUDINARY_CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME")
 
 
 def check_admin(x_admin_key: str | None):
-    """Проста перевірка ключа для ендпоінтів, доступних тільки тобі."""
-    if x_admin_key != ADMIN_API_KEY:
+    """Перевірка ключа для ендпоінтів, доступних тільки тобі.
+    hmac.compare_digest замість != — захищає від timing-атак
+    (за час відповіді неможливо здогадатись, скільки символів ключа вгадано)."""
+    if not x_admin_key or not hmac.compare_digest(x_admin_key, ADMIN_API_KEY):
         raise HTTPException(status_code=403, detail="Невірний адмін-ключ")
+
+
+@router.post("/upload-signature")
+async def get_upload_signature(x_admin_key: str | None = Header(default=None)):
+    """Генерує короткоживучий підпис для завантаження фото напряму з браузера
+    в Cloudinary — заміна публічного unsigned preset. API_SECRET лишається
+    тільки тут, на сервері, і ніколи не потрапляє у фронтенд-бандл."""
+    check_admin(x_admin_key)
+    if not CLOUDINARY_API_KEY or not CLOUDINARY_API_SECRET or not CLOUDINARY_CLOUD_NAME:
+        raise HTTPException(status_code=500, detail="Cloudinary не налаштовано на бекенді")
+
+    timestamp = int(time.time())
+    folder = "ternopil-venues"
+
+    # Cloudinary вимагає підпис саме за такою схемою: параметри (без file/
+    # api_key/signature/cloud_name), відсортовані за ключем, склеєні в
+    # "key=value&key=value", і в кінці дописаний api_secret — усе разом
+    # хешується SHA-1.
+    params_to_sign = {"folder": folder, "timestamp": timestamp}
+    sorted_params = "&".join(f"{k}={v}" for k, v in sorted(params_to_sign.items()))
+    signature = hashlib.sha1((sorted_params + CLOUDINARY_API_SECRET).encode("utf-8")).hexdigest()
+
+    return {
+        "timestamp": timestamp,
+        "signature": signature,
+        "api_key": CLOUDINARY_API_KEY,
+        "cloud_name": CLOUDINARY_CLOUD_NAME,
+        "folder": folder,
+    }
 
 
 @router.get("", response_model=list[VenueOut])
