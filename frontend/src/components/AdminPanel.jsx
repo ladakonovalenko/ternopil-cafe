@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { api } from "../api.js";
 import StarRating from "./StarRating.jsx";
 import AdminVenueForm from "./AdminVenueForm.jsx";
+import AdminReviews from "./AdminReviews.jsx";
 
 const STORAGE_KEY = "ternopil-cafe-admin-key";
 
@@ -173,6 +174,7 @@ export default function AdminPanel() {
           submitting={submitting}
           onSubmit={editing === "new" ? handleCreate : handleUpdate}
           onCancel={() => setEditing(null)}
+          adminKey={adminKey}
         />
       ) : (
         <button
@@ -207,6 +209,7 @@ export default function AdminPanel() {
                     <span>·</span>
                     <span className="truncate">{v.address}</span>
                   </div>
+                  <AdminReviews venueId={v.id} adminKey={adminKey} onChanged={loadVenues} />
                 </div>
                 <div className="flex gap-2 shrink-0">
                   <button

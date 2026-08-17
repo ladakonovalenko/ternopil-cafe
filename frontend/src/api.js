@@ -32,6 +32,12 @@ export const api = {
 
   listReviews: (venueId) => request(`/venues/${venueId}/reviews`),
 
+  deleteReview: (venueId, reviewId, adminKey) =>
+    request(`/venues/${venueId}/reviews/${reviewId}`, {
+      method: "DELETE",
+      headers: { "X-Admin-Key": adminKey },
+    }),
+
   createReview: (venueId, review) =>
     request(`/venues/${venueId}/reviews`, {
       method: "POST",
