@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "./api.js";
+import { getFavorites, toggleFavorite } from "./favorites.js";
 import Hero from "./components/Hero.jsx";
 import CategoryFilter from "./components/CategoryFilter.jsx";
 import VenueGrid from "./components/VenueGrid.jsx";
@@ -27,6 +28,12 @@ function PublicSite() {
   const [category, setCategory] = useState(null);
   const [view, setView] = useState("grid"); // grid | map
   const [selectedVenue, setSelectedVenue] = useState(null);
+  const [favorites, setFavorites] = useState(() => getFavorites());
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+
+  function handleToggleFavorite(id) {
+    setFavorites(toggleFavorite(id));
+  }
 
   const [query, setQuery] = useState("");
   const [venueNotFound, setVenueNotFound] = useState(false);
@@ -121,12 +128,13 @@ function PublicSite() {
   }
 
   const filteredVenues = useMemo(() => {
-    const list = category ? venues.filter((v) => v.category === category) : venues;
+    let list = category ? venues.filter((v) => v.category === category) : venues;
+    if (showFavoritesOnly) list = list.filter((v) => favorites.includes(v.id));
     return [...list].sort((a, b) => {
       if (b.avg_rating !== a.avg_rating) return b.avg_rating - a.avg_rating;
       return a.name.localeCompare(b.name, "uk");
     });
-  }, [venues, category]);
+  }, [venues, category, showFavoritesOnly, favorites]);
 
   const searchVenues = useMemo(() => {
     if (!searchResults) return [];
@@ -188,6 +196,8 @@ function PublicSite() {
                 reasons={searchReasons}
                 onSelect={openVenue}
                 emptyLabel="Нічого влучного не знайшлось — спробуй сформулювати інакше."
+                favorites={favorites}
+                onToggleFavorite={handleToggleFavorite}
               />
             )}
           </section>
@@ -195,8 +205,19 @@ function PublicSite() {
           <section className="max-w-5xl mx-auto flex flex-col gap-8">
             <CategoryFilter active={category} onChange={setCategory} />
 
-            <div className="flex justify-center gap-2 px-6">
+            <div className="flex justify-center items-center gap-3 px-6">
               <ViewToggle view={view} onChange={setView} />
+              <button
+                onClick={() => setShowFavoritesOnly((v) => !v)}
+                aria-pressed={showFavoritesOnly}
+                className={`font-body text-sm px-4 py-1.5 rounded-full border transition-colors ${
+                  showFavoritesOnly
+                    ? "bg-accent text-surface border-accent"
+                    : "border-line text-ink-soft hover:border-accent hover:text-accent"
+                }`}
+              >
+                {showFavoritesOnly ? "♥" : "♡"} Обрані{favorites.length > 0 ? ` (${favorites.length})` : ""}
+              </button>
             </div>
 
             {loadingVenues ? (
@@ -205,14 +226,24 @@ function PublicSite() {
               <VenueGrid
                 venues={filteredVenues}
                 onSelect={openVenue}
-                emptyLabel="У цій категорії поки немає закладів."
+                emptyLabel={
+                  showFavoritesOnly
+                    ? "Ще немає обраних закладів — тисни ♡ на картці, щоб додати."
+                    : "У цій категорії поки немає закладів."
+                }
+                favorites={favorites}
+                onToggleFavorite={handleToggleFavorite}
               />
             ) : (
               <div className="px-6">
                 <MapView
                   venues={filteredVenues}
                   onSelect={openVenue}
-                  emptyLabel="У цій категорії поки немає закладів."
+                  emptyLabel={
+                    showFavoritesOnly
+                      ? "Ще немає обраних закладів."
+                      : "У цій категорії поки немає закладів."
+                  }
                 />
               </div>
             )}
@@ -234,6 +265,8 @@ function PublicSite() {
           venue={selectedVenue}
           venues={venues}
           onSelect={openVenue}
+          isFavorite={favorites.includes(selectedVenue.id)}
+          onToggleFavorite={handleToggleFavorite}
           onClose={() => {
             setSelectedVenue(null);
             const url = new URL(window.location);

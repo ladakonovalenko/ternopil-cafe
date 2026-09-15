@@ -3,11 +3,12 @@ import { api } from "../api.js";
 import StarRating from "./StarRating.jsx";
 import ReviewForm from "./ReviewForm.jsx";
 
-export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
+export default function VenueDetail({ venue, venues = [], onSelect, onClose, isFavorite, onToggleFavorite }) {
   const modalRef = useRef(null);
   const [reviews, setReviews] = useState([]);
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [linkCopied, setLinkCopied] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
   const [similar, setSimilar] = useState([]);
   const [loadingSimilar, setLoadingSimilar] = useState(false);
   const [similarLoaded, setSimilarLoaded] = useState(false);
@@ -94,6 +95,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
     // щоб знову треба було натиснути кнопку, а не одразу бити по Gemini
     setSimilar([]);
     setSimilarLoaded(false);
+    setPhotoIndex(0); // теж скидаємо — щоб не лишався індекс, якого може не бути в нового закладу
   }, [venue.id]);
 
   return (
@@ -111,6 +113,18 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         <button
+          onClick={() => onToggleFavorite?.(venue.id)}
+          aria-label={isFavorite ? "Прибрати з обраного" : "Додати в обране"}
+          aria-pressed={isFavorite}
+          className="absolute top-4 right-16 z-10 w-9 h-9 rounded-full bg-ink/50 hover:bg-ink/70
+                     text-surface flex items-center justify-center backdrop-blur-sm transition-colors"
+        >
+          <span className={isFavorite ? "text-red-500" : "text-surface"}>
+            {isFavorite ? "♥" : "♡"}
+          </span>
+        </button>
+
+        <button
           onClick={onClose}
           aria-label="Закрити"
           className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-ink/50 hover:bg-ink/70
@@ -119,17 +133,57 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose }) {
           ✕
         </button>
 
-        {venue.image_urls?.[0] && (
-          <img
-            src={venue.image_urls[0]}
-            alt={venue.name}
-            className="w-full aspect-[16/9] object-cover sm:rounded-t-3xl"
-          />
+        {venue.image_urls?.length > 0 && (
+          <div className="relative">
+            <img
+              src={venue.image_urls[photoIndex]}
+              alt={`${venue.name} — фото ${photoIndex + 1} з ${venue.image_urls.length}`}
+              className="w-full aspect-[16/9] object-cover sm:rounded-t-3xl"
+            />
+
+            {venue.image_urls.length > 1 && (
+              <>
+                <button
+                  onClick={() =>
+                    setPhotoIndex((i) => (i === 0 ? venue.image_urls.length - 1 : i - 1))
+                  }
+                  aria-label="Попереднє фото"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-ink/50 hover:bg-ink/70
+                             text-surface flex items-center justify-center backdrop-blur-sm transition-colors"
+                >
+                  ‹
+                </button>
+                <button
+                  onClick={() =>
+                    setPhotoIndex((i) => (i === venue.image_urls.length - 1 ? 0 : i + 1))
+                  }
+                  aria-label="Наступне фото"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-ink/50 hover:bg-ink/70
+                             text-surface flex items-center justify-center backdrop-blur-sm transition-colors"
+                >
+                  ›
+                </button>
+
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                  {venue.image_urls.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setPhotoIndex(i)}
+                      aria-label={`Фото ${i + 1}`}
+                      className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                        i === photoIndex ? "bg-surface" : "bg-surface/40"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         )}
 
         <div
           className={`p-6 sm:p-8 flex flex-col gap-6 ${
-            !venue.image_urls?.[0] ? "pt-14 sm:pt-16" : ""
+            !(venue.image_urls?.length > 0) ? "pt-14 sm:pt-16" : ""
           }`}
         >
           <button

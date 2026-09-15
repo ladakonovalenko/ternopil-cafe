@@ -8,14 +8,22 @@ function isRecentlyAdded(createdAt) {
   return days <= NEW_BADGE_DAYS;
 }
 
-export default function VenueCard({ venue, reason, onClick }) {
+export default function VenueCard({ venue, reason, onClick, isFavorite, onToggleFavorite }) {
   const image = venue.image_urls?.[0];
 
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       className="text-left bg-surface border border-line rounded-2xl overflow-hidden
-                 hover:border-accent transition-colors flex flex-col"
+                 hover:border-accent transition-colors flex flex-col cursor-pointer"
     >
       <div className="relative aspect-[4/3] bg-accent-soft overflow-hidden">
         {isRecentlyAdded(venue.created_at) && (
@@ -26,6 +34,22 @@ export default function VenueCard({ venue, reason, onClick }) {
             Нове
           </span>
         )}
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleFavorite?.(venue.id);
+          }}
+          aria-label={isFavorite ? "Прибрати з обраного" : "Додати в обране"}
+          aria-pressed={isFavorite}
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-ink/40 hover:bg-ink/60
+                     backdrop-blur-sm flex items-center justify-center transition-colors"
+        >
+          <span className={isFavorite ? "text-red-500" : "text-surface"}>
+            {isFavorite ? "♥" : "♡"}
+          </span>
+        </button>
+
         {image ? (
           <img
             src={image}
@@ -62,6 +86,6 @@ export default function VenueCard({ venue, reason, onClick }) {
           </p>
         )}
       </div>
-    </button>
+    </div>
   );
 }

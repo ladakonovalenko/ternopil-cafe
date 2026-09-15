@@ -3,6 +3,17 @@ import { uploadImage } from "../uploadImage.js";
 
 const CATEGORIES = ["кав'ярня", "ресторан", "бар", "інше"];
 const PRICE_LEVELS = ["$", "$$", "$$$"];
+
+// Домени, чиї посилання на фото рано чи пізно перестають працювати —
+// на відміну від Cloudinary, куди йде "Обрати фото", тут немає гарантії
+// постійності. Список можна доповнювати, якщо трапиться ще якийсь
+// подібний тимчасовий хостинг.
+const EPHEMERAL_IMAGE_HOSTS = ["googleusercontent.com", "ggpht.com"];
+
+function hasEphemeralImageUrl(imageUrlsText) {
+  const lower = imageUrlsText.toLowerCase();
+  return EPHEMERAL_IMAGE_HOSTS.some((host) => lower.includes(host));
+}
 const DISTRICTS = [
   "Центр",
   "Східний",
@@ -317,6 +328,13 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
           placeholder={"https://...\nhttps://..."}
           className={inputClass}
         />
+        {hasEphemeralImageUrl(form.image_urls) && (
+          <p className="font-body text-xs text-red-600 mt-1">
+            Це схоже на посилання з Google Maps/Фото — такі рано чи пізно перестають
+            працювати. Краще завантаж файл кнопкою "Обрати фото" вище — воно збережеться
+            назавжди.
+          </p>
+        )}
       </div>
 
       <div className="flex gap-3 pt-2">

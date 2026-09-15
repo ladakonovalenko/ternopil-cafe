@@ -1,6 +1,6 @@
 import VenueCard from "./VenueCard.jsx";
 
-export default function VenueGrid({ venues, reasons = {}, onSelect, emptyLabel }) {
+export default function VenueGrid({ venues, reasons = {}, onSelect, emptyLabel, favorites = [], onToggleFavorite }) {
   if (venues.length === 0) {
     return (
       <p className="text-center font-body text-ink-soft py-16">
@@ -17,6 +17,8 @@ export default function VenueGrid({ venues, reasons = {}, onSelect, emptyLabel }
           venue={venue}
           reason={reasons[venue.id]}
           onClick={() => onSelect(venue)}
+          isFavorite={favorites.includes(venue.id)}
+          onToggleFavorite={onToggleFavorite}
         />
       ))}
     </div>
