@@ -1,4 +1,5 @@
 import StarRating from "./StarRating.jsx";
+import { formatDistance } from "../distance.js";
 
 const NEW_BADGE_DAYS = 7;
 
@@ -78,6 +79,12 @@ export default function VenueCard({ venue, reason, onClick, isFavorite, onToggle
           <span>{venue.avg_rating > 0 ? venue.avg_rating.toFixed(1) : "ще без оцінок"}</span>
           <span>·</span>
           <span>{venue.category}</span>
+          {venue.distanceKm != null && (
+            <>
+              <span>·</span>
+              <span>{formatDistance(venue.distanceKm)}</span>
+            </>
+          )}
         </div>
 
         {reason && (

@@ -186,16 +186,38 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
             !(venue.image_urls?.length > 0) ? "pt-14 sm:pt-16" : ""
           }`}
         >
-          <button
-            onClick={copyLink}
-            className="self-end -mt-2 font-body text-sm text-ink-soft hover:text-accent"
-          >
-            {linkCopied
-              ? "Скопійовано ✓"
-              : linkCopyFailed
-              ? "Не вдалось скопіювати — виділи посилання вручну"
-              : "Скопіювати посилання"}
-          </button>
+          <div className="self-end -mt-2 flex items-center gap-4">
+            <a
+              href={`https://t.me/share/url?url=${encodeURIComponent(
+                `${window.location.origin}/?venue=${venue.id}`
+              )}&text=${encodeURIComponent(venue.name)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-body text-sm text-ink-soft hover:text-accent"
+              aria-label="Поділитись у Telegram"
+            >
+              Telegram
+            </a>
+            <a
+              href={`viber://forward?text=${encodeURIComponent(
+                `${venue.name} — ${window.location.origin}/?venue=${venue.id}`
+              )}`}
+              className="font-body text-sm text-ink-soft hover:text-accent"
+              aria-label="Поділитись у Viber"
+            >
+              Viber
+            </a>
+            <button
+              onClick={copyLink}
+              className="font-body text-sm text-ink-soft hover:text-accent"
+            >
+              {linkCopied
+                ? "Скопійовано ✓"
+                : linkCopyFailed
+                ? "Не вдалось скопіювати"
+                : "Скопіювати посилання"}
+            </button>
+          </div>
 
           <div>
             <h2 id="venue-detail-title" className="font-display text-3xl text-ink mb-2">{venue.name}</h2>
@@ -213,16 +235,28 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
 
           <p className="font-body text-ink leading-relaxed">{venue.description}</p>
 
-          {venue.social_link && (
+          <div className="flex items-center gap-4 flex-wrap">
+            {venue.social_link && (
+              <a
+                href={venue.social_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-body text-sm text-accent hover:text-accent-dark underline w-fit"
+              >
+                Соцмережа закладу →
+              </a>
+            )}
             <a
-              href={venue.social_link}
+              href={`https://t.me/твій_юзернейм?text=${encodeURIComponent(
+                `Заклад «${venue.name}»: `
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-body text-sm text-accent hover:text-accent-dark underline w-fit"
+              className="font-body text-xs text-ink-soft hover:text-accent underline underline-offset-2"
             >
-              Соцмережа закладу →
+              Повідомити про помилку в цьому закладі
             </a>
-          )}
+          </div>
 
           <hr className="border-line" />
 
