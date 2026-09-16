@@ -38,6 +38,19 @@ export const api = {
       headers: { "X-Admin-Key": adminKey },
     }),
 
+  updateMyReview: (venueId, reviewId, data, editToken) =>
+    request(`/venues/${venueId}/reviews/${reviewId}/mine`, {
+      method: "PUT",
+      headers: { "X-Edit-Token": editToken },
+      body: JSON.stringify(data),
+    }),
+
+  deleteMyReview: (venueId, reviewId, editToken) =>
+    request(`/venues/${venueId}/reviews/${reviewId}/mine`, {
+      method: "DELETE",
+      headers: { "X-Edit-Token": editToken },
+    }),
+
   logPageview: (path) =>
     request("/analytics/pageview", {
       method: "POST",

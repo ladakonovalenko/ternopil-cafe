@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { api } from "../api.js";
 import StarRating from "./StarRating.jsx";
 import ReviewForm from "./ReviewForm.jsx";
+import ReviewItem from "./ReviewItem.jsx";
 
 export default function VenueDetail({ venue, venues = [], onSelect, onClose, isFavorite, onToggleFavorite }) {
   const modalRef = useRef(null);
@@ -231,6 +232,11 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
             <p className="font-body text-sm text-ink-soft">
               {venue.category} {venue.price_level && `· ${venue.price_level}`} · {venue.address}
             </p>
+            {venue.working_hours && (
+              <p className="font-body text-sm text-ink-soft mt-1">
+                🕐 {venue.working_hours}
+              </p>
+            )}
           </div>
 
           <p className="font-body text-ink leading-relaxed">{venue.description}</p>
@@ -272,13 +278,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
             ) : (
               <ul className="flex flex-col gap-4 mb-6">
                 {reviews.map((r) => (
-                  <li key={r.id} className="border-b border-line pb-4 last:border-none">
-                    <div className="flex items-center gap-2 font-body text-sm mb-1">
-                      <span className="font-medium text-ink">{r.author_name}</span>
-                      <StarRating value={r.rating} size="text-xs" />
-                    </div>
-                    {r.comment && <p className="font-body text-sm text-ink-soft">{r.comment}</p>}
-                  </li>
+                  <ReviewItem key={r.id} review={r} venueId={venue.id} onChanged={loadReviews} />
                 ))}
               </ul>
             )}

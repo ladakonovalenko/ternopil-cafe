@@ -141,14 +141,14 @@ async def create_venue(venue: VenueIn, request: Request, x_admin_key: str | None
             """
             INSERT INTO venues
                 (name, category, district, tags, description, address, lat, lng,
-                 price_level, social_link, image_urls)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+                 price_level, social_link, working_hours, image_urls)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
             RETURNING *
             """,
             venue.name, venue.category, venue.district, venue.tags,
             venue.description, venue.address,
             venue.lat, venue.lng, venue.price_level, venue.social_link,
-            venue.image_urls,
+            venue.working_hours, venue.image_urls,
         )
         return dict(row)
     finally:
@@ -164,14 +164,14 @@ async def update_venue(venue_id: int, venue: VenueIn, request: Request, x_admin_
             """
             UPDATE venues SET
                 name=$1, category=$2, district=$3, tags=$4, description=$5, address=$6,
-                lat=$7, lng=$8, price_level=$9, social_link=$10, image_urls=$11
-            WHERE id=$12
+                lat=$7, lng=$8, price_level=$9, social_link=$10, working_hours=$11, image_urls=$12
+            WHERE id=$13
             RETURNING *
             """,
             venue.name, venue.category, venue.district, venue.tags,
             venue.description, venue.address,
             venue.lat, venue.lng, venue.price_level, venue.social_link,
-            venue.image_urls, venue_id,
+            venue.working_hours, venue.image_urls, venue_id,
         )
         if not row:
             raise HTTPException(status_code=404, detail="Заклад не знайдено")

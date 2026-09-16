@@ -1,8 +1,10 @@
 import hashlib
+import hmac
 import os
+import secrets
 from fastapi import APIRouter, Header, HTTPException, Request
 from app.database import get_connection
-from app.models import ReviewIn, ReviewOut
+from app.models import ReviewIn, ReviewOut, ReviewCreatedOut, ReviewUpdateIn
 from app.routers.venues import check_admin
 
 router = APIRouter(prefix="/venues/{venue_id}/reviews", tags=["reviews"])
@@ -43,7 +45,7 @@ async def list_reviews(venue_id: int):
         await conn.close()
 
 
-@router.post("", response_model=ReviewOut, status_code=201)
+@router.post("", response_model=ReviewCreatedOut, status_code=201)
 async def create_review(venue_id: int, review: ReviewIn, request: Request):
     # Honeypot: якщо приховане поле заповнене — це бот, тихо відхиляємо.
     if review.website:
@@ -51,6 +53,7 @@ async def create_review(venue_id: int, review: ReviewIn, request: Request):
 
     client_ip = get_client_ip(request)
     ip_hash = hash_ip(client_ip)
+    edit_token = secrets.token_urlsafe(24)  # приватний, тільки цей браузер його побачить
 
     conn = await get_connection()
     try:
@@ -74,11 +77,11 @@ async def create_review(venue_id: int, review: ReviewIn, request: Request):
 
         row = await conn.fetchrow(
             """
-            INSERT INTO reviews (venue_id, author_name, rating, comment, ip_hash)
-            VALUES ($1,$2,$3,$4,$5)
-            RETURNING id, venue_id, author_name, rating, comment, created_at
+            INSERT INTO reviews (venue_id, author_name, rating, comment, ip_hash, edit_token)
+            VALUES ($1,$2,$3,$4,$5,$6)
+            RETURNING id, venue_id, author_name, rating, comment, created_at, edit_token
             """,
-            venue_id, review.author_name, review.rating, review.comment, ip_hash,
+            venue_id, review.author_name, review.rating, review.comment, ip_hash, edit_token,
         )
 
         # Перерахунок середнього рейтингу закладу
@@ -92,6 +95,86 @@ async def create_review(venue_id: int, review: ReviewIn, request: Request):
             venue_id,
         )
         return dict(row)
+    finally:
+        await conn.close()
+
+
+async def _get_review_by_token(conn, venue_id: int, review_id: int, edit_token: str | None):
+    """Спільна перевірка для обох self-service ендпоінтів нижче —
+    hmac.compare_digest, той самий захист від timing-атак, що й на
+    адмін-ключі."""
+    if not edit_token:
+        raise HTTPException(status_code=403, detail="Немає токена для редагування")
+
+    row = await conn.fetchrow(
+        "SELECT edit_token FROM reviews WHERE id=$1 AND venue_id=$2", review_id, venue_id
+    )
+    if not row or not row["edit_token"]:
+        raise HTTPException(status_code=404, detail="Відгук не знайдено")
+    if not hmac.compare_digest(edit_token, row["edit_token"]):
+        raise HTTPException(status_code=403, detail="Невірний токен — це не твій відгук")
+
+
+@router.put("/{review_id}/mine", response_model=ReviewOut)
+async def update_my_review(
+    venue_id: int,
+    review_id: int,
+    update: ReviewUpdateIn,
+    x_edit_token: str | None = Header(default=None),
+):
+    """Самостійне редагування — тільки той, хто має правильний токен
+    (виданий саме цьому браузеру при створенні відгуку). Ім'я змінити
+    не можна навмисно — щоб не можна було "перевидати" відгук під іншим
+    автором."""
+    conn = await get_connection()
+    try:
+        await _get_review_by_token(conn, venue_id, review_id, x_edit_token)
+
+        row = await conn.fetchrow(
+            """
+            UPDATE reviews SET rating=$1, comment=$2 WHERE id=$3 AND venue_id=$4
+            RETURNING id, venue_id, author_name, rating, comment, created_at
+            """,
+            update.rating, update.comment, review_id, venue_id,
+        )
+
+        await conn.execute(
+            """
+            UPDATE venues SET
+                avg_rating = (SELECT ROUND(AVG(rating)::numeric, 1) FROM reviews WHERE venue_id=$1)
+            WHERE id=$1
+            """,
+            venue_id,
+        )
+        return dict(row)
+    finally:
+        await conn.close()
+
+
+@router.delete("/{review_id}/mine", status_code=204)
+async def delete_my_review(
+    venue_id: int,
+    review_id: int,
+    x_edit_token: str | None = Header(default=None),
+):
+    """Самостійне видалення власного відгуку — той самий принцип
+    токена, окремий шлях від адмінського DELETE нижче (щоб не
+    змішувати два різні механізми довіри на одному маршруті)."""
+    conn = await get_connection()
+    try:
+        await _get_review_by_token(conn, venue_id, review_id, x_edit_token)
+
+        await conn.execute("DELETE FROM reviews WHERE id=$1 AND venue_id=$2", review_id, venue_id)
+
+        await conn.execute(
+            """
+            UPDATE venues SET
+                avg_rating = COALESCE((SELECT ROUND(AVG(rating)::numeric, 1) FROM reviews WHERE venue_id=$1), 0),
+                reviews_count = (SELECT COUNT(*) FROM reviews WHERE venue_id=$1)
+            WHERE id=$1
+            """,
+            venue_id,
+        )
     finally:
         await conn.close()
 

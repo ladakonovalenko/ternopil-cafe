@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { api } from "../api.js";
+import { saveMyReview } from "../myReviews.js";
 
 export default function ReviewForm({ venueId, onSubmitted }) {
   const [name, setName] = useState("");
@@ -15,12 +16,13 @@ export default function ReviewForm({ venueId, onSubmitted }) {
     setStatus("sending");
     setError("");
     try {
-      await api.createReview(venueId, {
+      const created = await api.createReview(venueId, {
         author_name: name.trim(),
         rating,
         comment: comment.trim() || null,
         website: "", // honeypot — має лишитись порожнім
       });
+      saveMyReview(created.id, created.edit_token);
       setName("");
       setRating(0);
       setComment("");

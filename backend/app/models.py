@@ -15,6 +15,7 @@ class VenueIn(BaseModel):
     lng: Optional[float] = None
     price_level: Optional[str] = None
     social_link: Optional[str] = None
+    working_hours: Optional[str] = Field(default=None, max_length=200)
     image_urls: list[str] = Field(default_factory=list)
 
 
@@ -42,6 +43,20 @@ class ReviewOut(BaseModel):
     rating: int
     comment: Optional[str]
     created_at: datetime
+
+
+class ReviewCreatedOut(ReviewOut):
+    """Те саме, що ReviewOut, але з токеном редагування — повертається
+    ТІЛЬКИ одразу після створення відгуку, ніколи в загальному списку
+    (інакше будь-хто міг би редагувати чужі відгуки)."""
+    edit_token: str
+
+
+class ReviewUpdateIn(BaseModel):
+    """Для самостійного редагування — тільки рейтинг і коментар, ім'я
+    не змінюється (щоб не можна було видати себе за когось іншого)."""
+    rating: int = Field(ge=1, le=5)
+    comment: Optional[str] = Field(default=None, max_length=1000)
 
 
 class SearchRequest(BaseModel):

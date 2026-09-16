@@ -37,6 +37,7 @@ const emptyVenue = {
   lng: "",
   price_level: "$$",
   social_link: "",
+  working_hours: "",
   image_urls: "",
 };
 
@@ -62,6 +63,7 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
         lat: initial.lat != null ? String(initial.lat) : "",
         lng: initial.lng != null ? String(initial.lng) : "",
         social_link: initial.social_link ?? "",
+        working_hours: initial.working_hours ?? "",
         image_urls: (initial.image_urls || []).join("\n"),
       });
     } else {
@@ -139,6 +141,7 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
       lng: form.lng === "" ? null : parseFloat(form.lng),
       price_level: form.price_level,
       social_link: (form.social_link || "").trim() || null,
+      working_hours: (form.working_hours || "").trim() || null,
       image_urls: form.image_urls
         .split("\n")
         .map((s) => s.trim())
@@ -288,6 +291,18 @@ export default function AdminVenueForm({ initial, onSubmit, onCancel, submitting
           value={form.social_link}
           onChange={(e) => update("social_link", e.target.value)}
           placeholder="https://instagram.com/..."
+          className={inputClass}
+        />
+      </div>
+
+      <div>
+        <label className="font-body text-xs text-ink-soft mb-1 block">
+          Години роботи (необов'язково)
+        </label>
+        <input
+          value={form.working_hours}
+          onChange={(e) => update("working_hours", e.target.value)}
+          placeholder="Пн-Пт 8:00–20:00, Сб-Нд 9:00–18:00"
           className={inputClass}
         />
       </div>
