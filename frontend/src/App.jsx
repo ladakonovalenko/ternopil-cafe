@@ -28,6 +28,7 @@ function PublicSite() {
   const [loadingVenues, setLoadingVenues] = useState(true);
   const [category, setCategory] = useState([]);
   const [view, setView] = useState("grid"); // grid | map
+  const [focusVenueId, setFocusVenueId] = useState(null);
   const [searchView, setSearchView] = useState("grid"); // окремий перемикач для результатів пошуку
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [favorites, setFavorites] = useState(() => getFavorites());
@@ -91,6 +92,23 @@ function PublicSite() {
     const url = new URL(window.location);
     url.searchParams.set("venue", venue.id);
     window.history.pushState({ venueId: venue.id }, "", url);
+  }
+
+  // "Переглянути на карті" з картки закладу — скидаємо все, що могло б
+  // приховати цей заклад (пошук, фільтр категорій, обране, "поруч зі
+  // мною"), щоб гарантовано побачити саме його на карті, а не порожньо
+  // чи не той заклад через залишений фільтр.
+  function handleViewOnMap(venue) {
+    clearSearch();
+    setCategory([]);
+    setShowFavoritesOnly(false);
+    setUserLocation(null);
+    setView("map");
+    setFocusVenueId(venue.id);
+    setSelectedVenue(null);
+    const url = new URL(window.location);
+    url.searchParams.delete("venue");
+    window.history.replaceState({}, "", url);
   }
 
   // Слухач "назад/вперед" — коли ?venue зникає з адреси через натискання
@@ -364,6 +382,8 @@ function PublicSite() {
                 <MapView
                   venues={filteredVenues}
                   onSelect={openVenue}
+                  focusVenueId={focusVenueId}
+                  onFocusHandled={() => setFocusVenueId(null)}
                   emptyLabel={
                     showFavoritesOnly
                       ? "Ще немає обраних закладів."
@@ -392,6 +412,7 @@ function PublicSite() {
           onSelect={openVenue}
           isFavorite={favorites.includes(selectedVenue.id)}
           onToggleFavorite={handleToggleFavorite}
+          onViewOnMap={handleViewOnMap}
           onClose={() => {
             setSelectedVenue(null);
             const url = new URL(window.location);

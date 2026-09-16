@@ -4,7 +4,7 @@ import StarRating from "./StarRating.jsx";
 import ReviewForm from "./ReviewForm.jsx";
 import ReviewItem from "./ReviewItem.jsx";
 
-export default function VenueDetail({ venue, venues = [], onSelect, onClose, isFavorite, onToggleFavorite }) {
+export default function VenueDetail({ venue, venues = [], onSelect, onClose, isFavorite, onToggleFavorite, onViewOnMap }) {
   const modalRef = useRef(null);
   const [reviews, setReviews] = useState([]);
   const [loadingReviews, setLoadingReviews] = useState(true);
@@ -187,14 +187,15 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
             !(venue.image_urls?.length > 0) ? "pt-14 sm:pt-16" : ""
           }`}
         >
-          <div className="self-end -mt-2 flex items-center gap-4">
+          <div className="self-start -mt-2 flex items-center gap-4 flex-wrap">
+            <span className="font-body text-xs text-ink-soft">Надіслати комусь через:</span>
             <a
               href={`https://t.me/share/url?url=${encodeURIComponent(
                 `${window.location.origin}/?venue=${venue.id}`
               )}&text=${encodeURIComponent(venue.name)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-body text-sm text-ink-soft hover:text-accent"
+              className="font-body text-sm text-accent hover:text-accent-dark font-medium"
               aria-label="Поділитись у Telegram"
             >
               Telegram
@@ -203,14 +204,14 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
               href={`viber://forward?text=${encodeURIComponent(
                 `${venue.name} — ${window.location.origin}/?venue=${venue.id}`
               )}`}
-              className="font-body text-sm text-ink-soft hover:text-accent"
+              className="font-body text-sm text-accent hover:text-accent-dark font-medium"
               aria-label="Поділитись у Viber"
             >
               Viber
             </a>
             <button
               onClick={copyLink}
-              className="font-body text-sm text-ink-soft hover:text-accent"
+              className="font-body text-sm text-accent hover:text-accent-dark font-medium"
             >
               {linkCopied
                 ? "Скопійовано ✓"
@@ -251,6 +252,14 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
               >
                 Соцмережа закладу →
               </a>
+            )}
+            {venue.lat && venue.lng && (
+              <button
+                onClick={() => onViewOnMap?.(venue)}
+                className="font-body text-sm text-accent hover:text-accent-dark underline w-fit"
+              >
+                Переглянути на карті →
+              </button>
             )}
             <a
               href={`https://t.me/твій_юзернейм?text=${encodeURIComponent(

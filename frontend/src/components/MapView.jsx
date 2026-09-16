@@ -31,7 +31,7 @@ function iconForCategory(category) {
   });
 }
 
-export default function MapView({ venues, onSelect, emptyLabel }) {
+export default function MapView({ venues, onSelect, emptyLabel, focusVenueId = null, onFocusHandled }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const clusterRef = useRef(null);
@@ -80,6 +80,8 @@ export default function MapView({ venues, onSelect, emptyLabel }) {
 
     clusterRef.current.clearLayers();
 
+    const markersById = new Map();
+
     venues
       .filter((v) => v.lat && v.lng)
       .forEach((venue) => {
@@ -91,7 +93,23 @@ export default function MapView({ venues, onSelect, emptyLabel }) {
         );
         marker.on("click", () => onSelect(venue));
         clusterRef.current.addLayer(marker);
+        markersById.set(venue.id, marker);
       });
+
+    // Якщо прийшли з конкретного закладу ("Переглянути на карті") —
+    // наближаємось саме до нього (навіть якщо він захований у кластері),
+    // а не підганяємо межі під усі маркери одразу. Одразу після
+    // використання просимо App.jsx скинути focusVenueId назад у null —
+    // так навіть повторний клік на той самий заклад (null → id знову)
+    // гарантовано спрацює, а не проігнорується як "уже було".
+    if (focusVenueId && markersById.has(focusVenueId)) {
+      const target = markersById.get(focusVenueId);
+      clusterRef.current.zoomToShowLayer(target, () => {
+        target.openPopup();
+        onFocusHandled?.();
+      });
+      return;
+    }
 
     // Підганяємо межі карти під видимі маркери — без цього при вузькому
     // фільтрі (напр. "Бари") зум і центр лишались фіксовані на весь
@@ -101,7 +119,7 @@ export default function MapView({ venues, onSelect, emptyLabel }) {
     if (coords.length > 0) {
       mapRef.current.fitBounds(coords, { padding: [30, 30], maxZoom: 15 });
     }
-  }, [venues, onSelect]);
+  }, [venues, onSelect, focusVenueId, onFocusHandled]);
 
   const categoriesPresent = [...new Set(venues.map((v) => v.category))];
 
