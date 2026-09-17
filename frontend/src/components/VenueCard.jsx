@@ -1,3 +1,4 @@
+import { useState } from "react";
 import StarRating from "./StarRating.jsx";
 import { formatDistance } from "../distance.js";
 import { useLanguage } from "../i18n/LanguageContext.jsx";
@@ -14,6 +15,7 @@ function isRecentlyAdded(createdAt) {
 
 export default function VenueCard({ venue, reason, onClick, isFavorite, onToggleFavorite }) {
   const { t } = useLanguage();
+  const [justToggled, setJustToggled] = useState(false);
   const image = venue.image_urls?.[0];
   const categoryLabel = CATEGORY_KEY[venue.category] ? t(CATEGORY_KEY[venue.category]) : venue.category;
 
@@ -29,7 +31,7 @@ export default function VenueCard({ venue, reason, onClick, isFavorite, onToggle
         }
       }}
       className="text-left bg-surface border border-line rounded-2xl overflow-hidden
-                 hover:border-accent transition-colors flex flex-col cursor-pointer"
+                 hover:border-accent hover:-translate-y-1 hover:shadow-lg transition-all flex flex-col cursor-pointer"
     >
       <div className="relative aspect-[4/3] bg-accent-soft overflow-hidden">
         {isRecentlyAdded(venue.created_at) && (
@@ -45,13 +47,19 @@ export default function VenueCard({ venue, reason, onClick, isFavorite, onToggle
           onClick={(e) => {
             e.stopPropagation();
             onToggleFavorite?.(venue.id);
+            setJustToggled(true);
           }}
           aria-label={isFavorite ? t("venueCard.removeFavorite") : t("venueCard.addFavorite")}
           aria-pressed={isFavorite}
           className="absolute top-3 right-3 w-8 h-8 rounded-full bg-ink/40 hover:bg-ink/60
                      backdrop-blur-sm flex items-center justify-center transition-colors"
         >
-          <span className={isFavorite ? "text-red-500" : "text-surface"}>
+          <span
+            className={`inline-block ${isFavorite ? "text-red-500" : "text-surface"} ${
+              justToggled ? "animate-heart-pop" : ""
+            }`}
+            onAnimationEnd={() => setJustToggled(false)}
+          >
             {isFavorite ? "♥" : "♡"}
           </span>
         </button>

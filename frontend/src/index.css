@@ -64,3 +64,16 @@ body {
   font-family: "Golos Text", sans-serif;
   background: rgb(var(--color-bg));
 }
+
+/* "Пружний" відгук при тапі на обране — той самий прийом, що в
+   Instagram/X при лайку. Автоматично вимикається для людей із
+   налаштуванням prefers-reduced-motion (правило вище). */
+@keyframes heart-pop {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.35); }
+  60% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+.animate-heart-pop {
+  animation: heart-pop 0.35s ease-out;
+}

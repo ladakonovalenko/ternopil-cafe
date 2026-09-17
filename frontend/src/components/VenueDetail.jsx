@@ -14,6 +14,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [linkCopied, setLinkCopied] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
+  const [justToggledFavorite, setJustToggledFavorite] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [similar, setSimilar] = useState([]);
   const [loadingSimilar, setLoadingSimilar] = useState(false);
@@ -127,13 +128,21 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          onClick={() => onToggleFavorite?.(venue.id)}
+          onClick={() => {
+            onToggleFavorite?.(venue.id);
+            setJustToggledFavorite(true);
+          }}
           aria-label={isFavorite ? t("venueCard.removeFavorite") : t("venueCard.addFavorite")}
           aria-pressed={isFavorite}
           className="absolute top-4 right-16 z-10 w-9 h-9 rounded-full bg-ink/50 hover:bg-ink/70
                      text-surface flex items-center justify-center backdrop-blur-sm transition-colors"
         >
-          <span className={isFavorite ? "text-red-500" : "text-surface"}>
+          <span
+            className={`inline-block ${isFavorite ? "text-red-500" : "text-surface"} ${
+              justToggledFavorite ? "animate-heart-pop" : ""
+            }`}
+            onAnimationEnd={() => setJustToggledFavorite(false)}
+          >
             {isFavorite ? "♥" : "♡"}
           </span>
         </button>
