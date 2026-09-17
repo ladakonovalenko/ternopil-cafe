@@ -67,6 +67,7 @@ export const translations = {
   "venueDetail.nextPhoto": { uk: "Наступне фото", en: "Next photo" },
   "venueDetail.photoNum": { uk: "Фото {n}", en: "Photo {n}" },
   "venueDetail.photoAlt": { uk: "{name} — фото {n} з {total}", en: "{name} — photo {n} of {total}" },
+  "venueDetail.openFullPhoto": { uk: "Переглянути фото повністю", en: "View full photo" },
   "venueDetail.shareVia": { uk: "Надіслати комусь через:", en: "Send to someone via:" },
   "venueDetail.shareTelegram": { uk: "Поділитись у Telegram", en: "Share on Telegram" },
   "venueDetail.shareViber": { uk: "Поділитись у Viber", en: "Share on Viber" },

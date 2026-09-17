@@ -2,6 +2,7 @@ import StarRating from "./StarRating.jsx";
 import { formatDistance } from "../distance.js";
 import { useLanguage } from "../i18n/LanguageContext.jsx";
 import { CATEGORY_KEY } from "../i18n/translations.js";
+import { cloudinarySizes } from "../cloudinary.js";
 
 const NEW_BADGE_DAYS = 7;
 
@@ -57,7 +58,7 @@ export default function VenueCard({ venue, reason, onClick, isFavorite, onToggle
 
         {image ? (
           <img
-            src={image}
+            src={cloudinarySizes.card(image)}
             alt={venue.name}
             loading="lazy"
             decoding="async"

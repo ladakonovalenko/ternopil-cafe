@@ -5,6 +5,7 @@ import ReviewForm from "./ReviewForm.jsx";
 import ReviewItem from "./ReviewItem.jsx";
 import { useLanguage } from "../i18n/LanguageContext.jsx";
 import { CATEGORY_KEY } from "../i18n/translations.js";
+import { cloudinarySizes } from "../cloudinary.js";
 
 export default function VenueDetail({ venue, venues = [], onSelect, onClose, isFavorite, onToggleFavorite, onViewOnMap }) {
   const { t } = useLanguage();
@@ -13,6 +14,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [linkCopied, setLinkCopied] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const [similar, setSimilar] = useState([]);
   const [loadingSimilar, setLoadingSimilar] = useState(false);
   const [similarLoaded, setSimilarLoaded] = useState(false);
@@ -70,7 +72,11 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
   useEffect(() => {
     function handleKeydown(e) {
       if (e.key === "Escape") {
-        onClose();
+        if (lightboxOpen) {
+          setLightboxOpen(false);
+        } else {
+          onClose();
+        }
         return;
       }
       // Проста фокус-пастка: Tab не повинен виводити фокус за межі
@@ -94,7 +100,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
     document.addEventListener("keydown", handleKeydown);
     modalRef.current?.focus();
     return () => document.removeEventListener("keydown", handleKeydown);
-  }, [onClose]);
+  }, [onClose, lightboxOpen]);
 
   useEffect(() => {
     // при переході на інший заклад (через "Схожі заклади") — скидаємо,
@@ -102,9 +108,11 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
     setSimilar([]);
     setSimilarLoaded(false);
     setPhotoIndex(0); // теж скидаємо — щоб не лишався індекс, якого може не бути в нового закладу
+    setLightboxOpen(false);
   }, [venue.id]);
 
   return (
+    <>
     <div
       className="fixed inset-0 bg-ink/40 flex items-end sm:items-center justify-center z-[9999] p-0 sm:p-6"
       onClick={onClose}
@@ -141,11 +149,17 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
 
         {venue.image_urls?.length > 0 && (
           <div className="relative">
-            <img
-              src={venue.image_urls[photoIndex]}
-              alt={t("venueDetail.photoAlt", { name: venue.name, n: photoIndex + 1, total: venue.image_urls.length })}
-              className="w-full aspect-[16/9] object-cover sm:rounded-t-3xl"
-            />
+            <button
+              onClick={() => setLightboxOpen(true)}
+              className="block w-full cursor-zoom-in"
+              aria-label={t("venueDetail.openFullPhoto")}
+            >
+              <img
+                src={cloudinarySizes.detail(venue.image_urls[photoIndex])}
+                alt={t("venueDetail.photoAlt", { name: venue.name, n: photoIndex + 1, total: venue.image_urls.length })}
+                className="w-full aspect-[16/9] object-cover sm:rounded-t-3xl"
+              />
+            </button>
 
             {venue.image_urls.length > 1 && (
               <>
@@ -347,5 +361,56 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
         </div>
       </div>
     </div>
+
+    {lightboxOpen && venue.image_urls?.length > 0 && (
+      <div
+        className="fixed inset-0 bg-black/95 z-[10000] flex items-center justify-center p-4"
+        onClick={() => setLightboxOpen(false)}
+      >
+        <button
+          onClick={() => setLightboxOpen(false)}
+          aria-label={t("venueDetail.close")}
+          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20
+                     text-white flex items-center justify-center transition-colors"
+        >
+          ✕
+        </button>
+
+        <img
+          src={cloudinarySizes.full(venue.image_urls[photoIndex])}
+          alt={t("venueDetail.photoAlt", { name: venue.name, n: photoIndex + 1, total: venue.image_urls.length })}
+          className="max-w-full max-h-full object-contain"
+          onClick={(e) => e.stopPropagation()}
+        />
+
+        {venue.image_urls.length > 1 && (
+          <>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setPhotoIndex((i) => (i === 0 ? venue.image_urls.length - 1 : i - 1));
+              }}
+              aria-label={t("venueDetail.prevPhoto")}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20
+                         text-white flex items-center justify-center transition-colors"
+            >
+              ‹
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setPhotoIndex((i) => (i === venue.image_urls.length - 1 ? 0 : i + 1));
+              }}
+              aria-label={t("venueDetail.nextPhoto")}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20
+                         text-white flex items-center justify-center transition-colors"
+            >
+              ›
+            </button>
+          </>
+        )}
+      </div>
+    )}
+    </>
   );
 }

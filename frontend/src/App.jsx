@@ -3,6 +3,7 @@ import { api } from "./api.js";
 import { getFavorites, toggleFavorite, getRecentlyViewed, addRecentlyViewed } from "./favorites.js";
 import { getDistanceKm } from "./distance.js";
 import { getInitialTheme, applyTheme } from "./theme.js";
+import { cloudinarySizes } from "./cloudinary.js";
 import { useLanguage } from "./i18n/LanguageContext.jsx";
 import Hero from "./components/Hero.jsx";
 import CategoryFilter from "./components/CategoryFilter.jsx";
@@ -496,7 +497,7 @@ function HorizontalVenueStrip({ title, venues, onSelect }) {
             <div className="aspect-[4/3] bg-accent-soft overflow-hidden">
               {v.image_urls?.[0] && (
                 <img
-                  src={v.image_urls[0]}
+                  src={cloudinarySizes.strip(v.image_urls[0])}
                   alt={v.name}
                   loading="lazy"
                   decoding="async"
