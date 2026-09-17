@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { api } from "../api.js";
 import { saveMyReview } from "../myReviews.js";
+import { useLanguage } from "../i18n/LanguageContext.jsx";
 
 export default function ReviewForm({ venueId, onSubmitted }) {
+  const { t } = useLanguage();
   const [name, setName] = useState("");
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -38,7 +40,7 @@ export default function ReviewForm({ venueId, onSubmitted }) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div>
         <label className="font-body text-xs text-ink-soft mb-1 block">
-          Ваше ім'я <span className="text-red-600">*</span>
+          {t("reviewForm.nameLabel")} <span className="text-red-600">*</span>
         </label>
         <input
           type="text"
@@ -53,9 +55,9 @@ export default function ReviewForm({ venueId, onSubmitted }) {
 
       <div>
         <label className="font-body text-xs text-ink-soft mb-1 block">
-          Оцінка <span className="text-red-600">*</span>
+          {t("reviewForm.ratingLabel")} <span className="text-red-600">*</span>
         </label>
-        <div className="flex items-center gap-1" role="radiogroup" aria-label="Оцінка">
+        <div className="flex items-center gap-1" role="radiogroup" aria-label={t("reviewForm.ratingLabel")}>
           {[1, 2, 3, 4, 5].map((n) => (
             <button
               key={n}
@@ -63,7 +65,7 @@ export default function ReviewForm({ venueId, onSubmitted }) {
               role="radio"
               aria-checked={n === rating}
               onClick={() => setRating(n)}
-              aria-label={`${n} з 5`}
+              aria-label={t("reviewForm.starLabel", { n })}
               className="text-2xl leading-none transition-transform hover:scale-110"
               style={{ color: n <= rating ? "#B98A3E" : "#DFE3DD" }}
             >
@@ -76,7 +78,7 @@ export default function ReviewForm({ venueId, onSubmitted }) {
       <textarea
         value={comment}
         onChange={(e) => setComment(e.target.value)}
-        placeholder="Коротко про враження (необов'язково)"
+        placeholder={t("reviewForm.commentPlaceholder")}
         maxLength={1000}
         rows={3}
         className="bg-bg border border-line rounded-xl px-4 py-3
@@ -101,7 +103,7 @@ export default function ReviewForm({ venueId, onSubmitted }) {
         className="self-start bg-accent hover:bg-accent-dark disabled:opacity-40
                    text-surface font-body font-medium rounded-full px-6 py-3 transition-colors"
       >
-        {status === "sending" ? "Надсилаю…" : "Залишити відгук"}
+        {status === "sending" ? t("reviewForm.sending") : t("reviewForm.submit")}
       </button>
     </form>
   );

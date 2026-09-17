@@ -2,8 +2,10 @@ import { useState } from "react";
 import { api } from "../api.js";
 import { getMyReviewToken, removeMyReview } from "../myReviews.js";
 import StarRating from "./StarRating.jsx";
+import { useLanguage } from "../i18n/LanguageContext.jsx";
 
 export default function ReviewItem({ review, venueId, onChanged }) {
+  const { t } = useLanguage();
   const editToken = getMyReviewToken(review.id);
   const [editing, setEditing] = useState(false);
   const [rating, setRating] = useState(review.rating);
@@ -31,7 +33,7 @@ export default function ReviewItem({ review, venueId, onChanged }) {
   }
 
   async function handleDelete() {
-    if (!confirm("Видалити свій відгук? Це не можна скасувати.")) return;
+    if (!confirm(t("reviewItem.confirmDelete"))) return;
     setSaving(true);
     setError("");
     try {
@@ -47,7 +49,7 @@ export default function ReviewItem({ review, venueId, onChanged }) {
   if (editing) {
     return (
       <li className="border-b border-line pb-4 last:border-none">
-        <div className="flex items-center gap-1 mb-2" role="radiogroup" aria-label="Оцінка">
+        <div className="flex items-center gap-1 mb-2" role="radiogroup" aria-label={t("reviewForm.ratingLabel")}>
           {[1, 2, 3, 4, 5].map((n) => (
             <button
               key={n}
@@ -55,7 +57,7 @@ export default function ReviewItem({ review, venueId, onChanged }) {
               role="radio"
               aria-checked={n === rating}
               onClick={() => setRating(n)}
-              aria-label={`${n} з 5`}
+              aria-label={t("reviewForm.starLabel", { n })}
               className="text-xl leading-none transition-transform hover:scale-110"
               style={{ color: n <= rating ? "#B98A3E" : "#DFE3DD" }}
             >
@@ -78,14 +80,14 @@ export default function ReviewItem({ review, venueId, onChanged }) {
             disabled={saving || rating === 0}
             className="font-body text-xs text-accent hover:text-accent-dark disabled:opacity-40"
           >
-            {saving ? "Зберігаю…" : "Зберегти"}
+            {saving ? t("reviewItem.saving") : t("reviewItem.save")}
           </button>
           <button
             onClick={() => setEditing(false)}
             disabled={saving}
             className="font-body text-xs text-ink-soft hover:text-ink"
           >
-            Скасувати
+            {t("reviewItem.cancel")}
           </button>
         </div>
       </li>
@@ -107,14 +109,14 @@ export default function ReviewItem({ review, venueId, onChanged }) {
             onClick={() => setEditing(true)}
             className="font-body text-xs text-ink-soft hover:text-accent underline underline-offset-2"
           >
-            Редагувати
+            {t("reviewItem.edit")}
           </button>
           <button
             onClick={handleDelete}
             disabled={saving}
             className="font-body text-xs text-ink-soft hover:text-red-600 underline underline-offset-2"
           >
-            Видалити
+            {t("reviewItem.delete")}
           </button>
         </div>
       )}

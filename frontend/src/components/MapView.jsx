@@ -4,6 +4,8 @@ import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import { useLanguage } from "../i18n/LanguageContext.jsx";
+import { CATEGORY_KEY } from "../i18n/translations.js";
 
 const TERNOPIL_CENTER = [49.5535, 25.5948];
 
@@ -32,6 +34,7 @@ function iconForCategory(category) {
 }
 
 export default function MapView({ venues, onSelect, emptyLabel, focusVenueId = null, onFocusHandled }) {
+  const { t } = useLanguage();
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const clusterRef = useRef(null);
@@ -89,7 +92,9 @@ export default function MapView({ venues, onSelect, emptyLabel, focusVenueId = n
           icon: iconForCategory(venue.category),
         }).bindPopup(
           `<strong style="font-family: 'Golos Text', sans-serif;">${escapeHtml(venue.name)}</strong>` +
-            `<br/><span style="font-family: 'Golos Text', sans-serif; color:#5B6660;">${escapeHtml(venue.category)}</span>`
+            `<br/><span style="font-family: 'Golos Text', sans-serif; color:#5B6660;">${escapeHtml(
+              CATEGORY_KEY[venue.category] ? t(CATEGORY_KEY[venue.category]) : venue.category
+            )}</span>`
         );
         marker.on("click", () => onSelect(venue));
         clusterRef.current.addLayer(marker);
@@ -124,7 +129,7 @@ export default function MapView({ venues, onSelect, emptyLabel, focusVenueId = n
     if (coords.length > 0) {
       mapRef.current.fitBounds(coords, { padding: [30, 30], maxZoom: 15 });
     }
-  }, [venues, onSelect, focusVenueId, onFocusHandled]);
+  }, [venues, onSelect, focusVenueId, onFocusHandled, t]);
 
   const categoriesPresent = [...new Set(venues.map((v) => v.category))];
 
@@ -138,7 +143,7 @@ export default function MapView({ venues, onSelect, emptyLabel, focusVenueId = n
         {venues.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center bg-surface/90 rounded-2xl pointer-events-none">
             <p className="font-body text-sm text-ink-soft px-6 text-center">
-              {emptyLabel || "Тут поки нічого немає."}
+              {emptyLabel || t("grid.empty")}
             </p>
           </div>
         )}
@@ -151,7 +156,7 @@ export default function MapView({ venues, onSelect, emptyLabel, focusVenueId = n
                 className="inline-block w-2.5 h-2.5 rounded-full"
                 style={{ background: CATEGORY_COLORS[cat] || CATEGORY_COLORS["інше"] }}
               />
-              {cat}
+              {CATEGORY_KEY[cat] ? t(CATEGORY_KEY[cat]) : cat}
             </span>
           ))}
         </div>

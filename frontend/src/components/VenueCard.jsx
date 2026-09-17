@@ -1,5 +1,7 @@
 import StarRating from "./StarRating.jsx";
 import { formatDistance } from "../distance.js";
+import { useLanguage } from "../i18n/LanguageContext.jsx";
+import { CATEGORY_KEY } from "../i18n/translations.js";
 
 const NEW_BADGE_DAYS = 7;
 
@@ -10,7 +12,9 @@ function isRecentlyAdded(createdAt) {
 }
 
 export default function VenueCard({ venue, reason, onClick, isFavorite, onToggleFavorite }) {
+  const { t } = useLanguage();
   const image = venue.image_urls?.[0];
+  const categoryLabel = CATEGORY_KEY[venue.category] ? t(CATEGORY_KEY[venue.category]) : venue.category;
 
   return (
     <div
@@ -32,7 +36,7 @@ export default function VenueCard({ venue, reason, onClick, isFavorite, onToggle
             className="absolute top-3 left-3 bg-accent text-surface font-body text-xs
                        font-medium px-2.5 py-1 rounded-full"
           >
-            Нове
+            {t("venueCard.new")}
           </span>
         )}
 
@@ -41,7 +45,7 @@ export default function VenueCard({ venue, reason, onClick, isFavorite, onToggle
             e.stopPropagation();
             onToggleFavorite?.(venue.id);
           }}
-          aria-label={isFavorite ? "Прибрати з обраного" : "Додати в обране"}
+          aria-label={isFavorite ? t("venueCard.removeFavorite") : t("venueCard.addFavorite")}
           aria-pressed={isFavorite}
           className="absolute top-3 right-3 w-8 h-8 rounded-full bg-ink/40 hover:bg-ink/60
                      backdrop-blur-sm flex items-center justify-center transition-colors"
@@ -76,9 +80,9 @@ export default function VenueCard({ venue, reason, onClick, isFavorite, onToggle
 
         <div className="flex items-center gap-2 font-body text-sm text-ink-soft">
           <StarRating value={venue.avg_rating} />
-          <span>{venue.avg_rating > 0 ? venue.avg_rating.toFixed(1) : "ще без оцінок"}</span>
+          <span>{venue.avg_rating > 0 ? venue.avg_rating.toFixed(1) : t("venueCard.noRatingsYet")}</span>
           <span>·</span>
-          <span>{venue.category}</span>
+          <span>{categoryLabel}</span>
           {venue.distanceKm != null && (
             <>
               <span>·</span>

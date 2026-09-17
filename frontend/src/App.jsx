@@ -13,6 +13,7 @@ import VenueDetail from "./components/VenueDetail.jsx";
 import AdminPanel from "./components/AdminPanel.jsx";
 
 export default function App() {
+  const { t } = useLanguage();
   const isAdmin = useMemo(
     () => new URLSearchParams(window.location.search).has("admin"),
     []
@@ -27,7 +28,7 @@ export default function App() {
   const themeToggle = (
     <button
       onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
-      aria-label={theme === "dark" ? "Увімкнути світлу тему" : "Увімкнути темну тему"}
+      aria-label={theme === "dark" ? t("app.themeToLight") : t("app.themeToDark")}
       className="fixed top-4 right-4 z-40 w-10 h-10 rounded-full bg-surface border border-line
                  flex items-center justify-center hover:border-accent transition-colors"
     >
@@ -48,7 +49,7 @@ export default function App() {
 }
 
 function PublicSite({ themeToggle }) {
-  const { lang, setLang } = useLanguage();
+  const { t, lang, setLang } = useLanguage();
   const [venues, setVenues] = useState([]);
   const [loadingVenues, setLoadingVenues] = useState(true);
   const [category, setCategory] = useState([]);
@@ -69,7 +70,7 @@ function PublicSite({ themeToggle }) {
       return;
     }
     if (!navigator.geolocation) {
-      setLocationError("Твій браузер не підтримує геолокацію.");
+      setLocationError(t("app.geolocationUnsupported"));
       return;
     }
     setLocationLoading(true);
@@ -83,8 +84,8 @@ function PublicSite({ themeToggle }) {
         setLocationLoading(false);
         setLocationError(
           err.code === err.PERMISSION_DENIED
-            ? "Немає доступу до геолокації — дозволь у налаштуваннях браузера."
-            : "Не вдалось визначити місцезнаходження. Спробуй ще раз."
+            ? t("app.geolocationDenied")
+            : t("app.geolocationFailed")
         );
       },
       { timeout: 10000 }
@@ -197,7 +198,7 @@ function PublicSite({ themeToggle }) {
       const res = await api.search(query);
       setSearchResults(res.results);
     } catch (err) {
-      setSearchError(err.message || "Не вдалося виконати пошук");
+      setSearchError(err.message || t("app.searchFailed"));
       setSearchResults(null);
     } finally {
       setSearchLoading(false);
@@ -290,12 +291,12 @@ function PublicSite({ themeToggle }) {
       {venueNotFound && (
         <div className="bg-accent-soft text-accent-dark font-body text-sm text-center px-6 py-3
                          flex items-center justify-center gap-3">
-          <span>Цей заклад більше не доступний — можливо, його прибрали з бази.</span>
+          <span>{t("app.venueNotFound")}</span>
           <button
             onClick={() => setVenueNotFound(false)}
             className="underline underline-offset-2 hover:text-accent shrink-0"
           >
-            Зрозуміло
+            {t("app.gotIt")}
           </button>
         </div>
       )}
@@ -312,7 +313,7 @@ function PublicSite({ themeToggle }) {
           <section className="max-w-5xl mx-auto">
             <div className="flex items-center justify-between px-6 mb-6 flex-wrap gap-3">
               <p className="font-display italic text-lg text-ink">
-                Ось що я знайшла для «{searchQuery}»
+                {t("app.searchResultsFor", { query: searchQuery })}
               </p>
               <div className="flex items-center gap-3">
                 {!searchLoading && !searchError && searchVenues.length > 0 && (
@@ -322,7 +323,7 @@ function PublicSite({ themeToggle }) {
                   onClick={clearSearch}
                   className="font-body text-sm text-ink-soft hover:text-accent underline shrink-0"
                 >
-                  Скинути пошук
+                  {t("app.resetSearch")}
                 </button>
               </div>
             </div>
@@ -336,7 +337,7 @@ function PublicSite({ themeToggle }) {
                 venues={searchVenues}
                 reasons={searchReasons}
                 onSelect={openVenue}
-                emptyLabel="Нічого влучного не знайшлось — спробуй сформулювати інакше."
+                emptyLabel={t("app.searchEmpty")}
                 favorites={favorites}
                 onToggleFavorite={handleToggleFavorite}
               />
@@ -345,7 +346,7 @@ function PublicSite({ themeToggle }) {
                 <MapView
                   venues={searchVenues}
                   onSelect={openVenue}
-                  emptyLabel="Нічого влучного не знайшлось — спробуй сформулювати інакше."
+                  emptyLabel={t("app.searchEmpty")}
                 />
               </div>
             )}
@@ -353,12 +354,12 @@ function PublicSite({ themeToggle }) {
         ) : (
           <section className="max-w-5xl mx-auto flex flex-col gap-8">
             <HorizontalVenueStrip
-              title="Нещодавно переглянуті"
+              title={t("app.recentlyViewed")}
               venues={recentlyViewedVenues}
               onSelect={openVenue}
             />
             <HorizontalVenueStrip
-              title="Тобі може сподобатись"
+              title={t("app.recommendedForYou")}
               venues={recommendedVenues}
               onSelect={openVenue}
             />
@@ -376,7 +377,11 @@ function PublicSite({ themeToggle }) {
                     : "bg-transparent text-ink-soft border-line hover:border-accent hover:text-accent"
                 }`}
               >
-                {locationLoading ? "Визначаю…" : userLocation ? "📍 Поруч зі мною ✕" : "📍 Поруч зі мною"}
+                {locationLoading
+                  ? t("app.locating")
+                  : userLocation
+                  ? `📍 ${t("app.nearMe")} ✕`
+                  : `📍 ${t("app.nearMe")}`}
               </button>
               {locationError && (
                 <p className="font-body text-xs text-red-600 text-center">{locationError}</p>
@@ -394,7 +399,8 @@ function PublicSite({ themeToggle }) {
                     : "border-line text-ink-soft hover:border-accent hover:text-accent"
                 }`}
               >
-                {showFavoritesOnly ? "♥" : "♡"} Обрані{favorites.length > 0 ? ` (${favorites.length})` : ""}
+                {showFavoritesOnly ? "♥" : "♡"} {t("app.favoritesButton")}
+                {favorites.length > 0 ? ` (${favorites.length})` : ""}
               </button>
             </div>
 
@@ -404,11 +410,7 @@ function PublicSite({ themeToggle }) {
               <VenueGrid
                 venues={filteredVenues}
                 onSelect={openVenue}
-                emptyLabel={
-                  showFavoritesOnly
-                    ? "Ще немає обраних закладів — тисни ♡ на картці, щоб додати."
-                    : "У цій категорії поки немає закладів."
-                }
+                emptyLabel={showFavoritesOnly ? t("app.favoritesEmpty") : t("app.categoryEmpty")}
                 favorites={favorites}
                 onToggleFavorite={handleToggleFavorite}
               />
@@ -419,11 +421,7 @@ function PublicSite({ themeToggle }) {
                   onSelect={openVenue}
                   focusVenueId={focusVenueId}
                   onFocusHandled={() => setFocusVenueId(null)}
-                  emptyLabel={
-                    showFavoritesOnly
-                      ? "Ще немає обраних закладів."
-                      : "У цій категорії поки немає закладів."
-                  }
+                  emptyLabel={showFavoritesOnly ? t("app.favoritesEmptyMap") : t("app.categoryEmpty")}
                 />
               </div>
             )}
@@ -433,10 +431,9 @@ function PublicSite({ themeToggle }) {
 
       <footer className="border-t border-line px-6 py-8 text-center">
         <p className="font-body text-xs text-ink-soft leading-relaxed">
-          Заклади додаю вручну й регулярно оновлюю. Знаєш місце, якого тут не вистачає —
-          напиши мені.
+          {t("app.footerText")}
           <br />
-          Карта: © OpenStreetMap contributors
+          {t("app.mapAttribution")}
         </p>
       </footer>
 
@@ -461,11 +458,12 @@ function PublicSite({ themeToggle }) {
 }
 
 function ViewToggle({ view, onChange }) {
+  const { t } = useLanguage();
   return (
     <div className="inline-flex bg-accent-soft rounded-full p-1">
       {[
-        ["grid", "Список"],
-        ["map", "Карта"],
+        ["grid", t("app.viewList")],
+        ["map", t("app.viewMap")],
       ].map(([key, label]) => (
         <button
           key={key}

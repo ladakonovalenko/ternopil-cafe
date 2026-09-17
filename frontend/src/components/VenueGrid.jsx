@@ -1,10 +1,13 @@
 import VenueCard from "./VenueCard.jsx";
+import { useLanguage } from "../i18n/LanguageContext.jsx";
 
 export default function VenueGrid({ venues, reasons = {}, onSelect, emptyLabel, favorites = [], onToggleFavorite }) {
+  const { t } = useLanguage();
+
   if (venues.length === 0) {
     return (
       <p className="text-center font-body text-ink-soft py-16">
-        {emptyLabel || "Тут поки нічого немає."}
+        {emptyLabel || t("grid.empty")}
       </p>
     );
   }

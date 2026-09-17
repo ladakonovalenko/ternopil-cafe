@@ -3,8 +3,11 @@ import { api } from "../api.js";
 import StarRating from "./StarRating.jsx";
 import ReviewForm from "./ReviewForm.jsx";
 import ReviewItem from "./ReviewItem.jsx";
+import { useLanguage } from "../i18n/LanguageContext.jsx";
+import { CATEGORY_KEY } from "../i18n/translations.js";
 
 export default function VenueDetail({ venue, venues = [], onSelect, onClose, isFavorite, onToggleFavorite, onViewOnMap }) {
+  const { t } = useLanguage();
   const modalRef = useRef(null);
   const [reviews, setReviews] = useState([]);
   const [loadingReviews, setLoadingReviews] = useState(true);
@@ -13,6 +16,8 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
   const [similar, setSimilar] = useState([]);
   const [loadingSimilar, setLoadingSimilar] = useState(false);
   const [similarLoaded, setSimilarLoaded] = useState(false);
+
+  const categoryLabel = CATEGORY_KEY[venue.category] ? t(CATEGORY_KEY[venue.category]) : venue.category;
 
   function loadSimilar() {
     setLoadingSimilar(true);
@@ -115,7 +120,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
       >
         <button
           onClick={() => onToggleFavorite?.(venue.id)}
-          aria-label={isFavorite ? "Прибрати з обраного" : "Додати в обране"}
+          aria-label={isFavorite ? t("venueCard.removeFavorite") : t("venueCard.addFavorite")}
           aria-pressed={isFavorite}
           className="absolute top-4 right-16 z-10 w-9 h-9 rounded-full bg-ink/50 hover:bg-ink/70
                      text-surface flex items-center justify-center backdrop-blur-sm transition-colors"
@@ -127,7 +132,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
 
         <button
           onClick={onClose}
-          aria-label="Закрити"
+          aria-label={t("venueDetail.close")}
           className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-ink/50 hover:bg-ink/70
                      text-surface flex items-center justify-center backdrop-blur-sm transition-colors"
         >
@@ -138,7 +143,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
           <div className="relative">
             <img
               src={venue.image_urls[photoIndex]}
-              alt={`${venue.name} — фото ${photoIndex + 1} з ${venue.image_urls.length}`}
+              alt={t("venueDetail.photoAlt", { name: venue.name, n: photoIndex + 1, total: venue.image_urls.length })}
               className="w-full aspect-[16/9] object-cover sm:rounded-t-3xl"
             />
 
@@ -148,7 +153,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
                   onClick={() =>
                     setPhotoIndex((i) => (i === 0 ? venue.image_urls.length - 1 : i - 1))
                   }
-                  aria-label="Попереднє фото"
+                  aria-label={t("venueDetail.prevPhoto")}
                   className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-ink/50 hover:bg-ink/70
                              text-surface flex items-center justify-center backdrop-blur-sm transition-colors"
                 >
@@ -158,7 +163,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
                   onClick={() =>
                     setPhotoIndex((i) => (i === venue.image_urls.length - 1 ? 0 : i + 1))
                   }
-                  aria-label="Наступне фото"
+                  aria-label={t("venueDetail.nextPhoto")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-ink/50 hover:bg-ink/70
                              text-surface flex items-center justify-center backdrop-blur-sm transition-colors"
                 >
@@ -170,7 +175,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
                     <button
                       key={i}
                       onClick={() => setPhotoIndex(i)}
-                      aria-label={`Фото ${i + 1}`}
+                      aria-label={t("venueDetail.photoNum", { n: i + 1 })}
                       className={`w-1.5 h-1.5 rounded-full transition-colors ${
                         i === photoIndex ? "bg-surface" : "bg-surface/40"
                       }`}
@@ -188,7 +193,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
           }`}
         >
           <div className="self-start -mt-2 flex items-center gap-4 flex-wrap">
-            <span className="font-body text-xs text-ink-soft">Надіслати комусь через:</span>
+            <span className="font-body text-xs text-ink-soft">{t("venueDetail.shareVia")}</span>
             <a
               href={`https://t.me/share/url?url=${encodeURIComponent(
                 `${window.location.origin}/?venue=${venue.id}`
@@ -196,7 +201,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
               target="_blank"
               rel="noopener noreferrer"
               className="font-body text-sm text-accent hover:text-accent-dark font-medium"
-              aria-label="Поділитись у Telegram"
+              aria-label={t("venueDetail.shareTelegram")}
             >
               Telegram
             </a>
@@ -205,7 +210,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
                 `${venue.name} — ${window.location.origin}/?venue=${venue.id}`
               )}`}
               className="font-body text-sm text-accent hover:text-accent-dark font-medium"
-              aria-label="Поділитись у Viber"
+              aria-label={t("venueDetail.shareViber")}
             >
               Viber
             </a>
@@ -214,10 +219,10 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
               className="font-body text-sm text-accent hover:text-accent-dark font-medium"
             >
               {linkCopied
-                ? "Скопійовано ✓"
+                ? t("venueDetail.copied")
                 : linkCopyFailed
-                ? "Не вдалось скопіювати"
-                : "Скопіювати посилання"}
+                ? t("venueDetail.copyFailed")
+                : t("venueDetail.copyLink")}
             </button>
           </div>
 
@@ -226,12 +231,12 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
             <div className="flex items-center gap-2 font-body text-sm text-ink-soft mb-1">
               <StarRating value={venue.avg_rating} />
               <span>
-                {venue.avg_rating > 0 ? venue.avg_rating.toFixed(1) : "ще без оцінок"} · {venue.reviews_count}{" "}
-                відгуків
+                {venue.avg_rating > 0 ? venue.avg_rating.toFixed(1) : t("venueCard.noRatingsYet")} · {venue.reviews_count}{" "}
+                {t("venueDetail.reviewsWord")}
               </span>
             </div>
             <p className="font-body text-sm text-ink-soft">
-              {venue.category} {venue.price_level && `· ${venue.price_level}`} · {venue.address}
+              {categoryLabel} {venue.price_level && `· ${venue.price_level}`} · {venue.address}
             </p>
             {venue.working_hours && (
               <p className="font-body text-sm text-ink-soft mt-1">
@@ -250,7 +255,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
                 rel="noopener noreferrer"
                 className="font-body text-sm text-accent hover:text-accent-dark underline w-fit"
               >
-                Соцмережа закладу →
+                {t("venueDetail.socialLink")}
               </a>
             )}
             {venue.lat && venue.lng && (
@@ -259,7 +264,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
                   onClick={() => onViewOnMap?.(venue)}
                   className="font-body text-sm text-accent hover:text-accent-dark underline w-fit"
                 >
-                  Переглянути на карті →
+                  {t("venueDetail.viewOnMap")}
                 </button>
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${venue.lat},${venue.lng}`}
@@ -267,32 +272,32 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
                   rel="noopener noreferrer"
                   className="font-body text-sm text-accent hover:text-accent-dark underline w-fit"
                 >
-                  Відкрити в Google Maps →
+                  {t("venueDetail.openGoogleMaps")}
                 </a>
               </>
             )}
             <a
               href={`https://t.me/твій_юзернейм?text=${encodeURIComponent(
-                `Заклад «${venue.name}»: `
+                t("venueDetail.reportPrefix", { name: venue.name })
               )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="font-body text-xs text-ink-soft hover:text-accent underline underline-offset-2"
             >
-              Повідомити про помилку в цьому закладі
+              {t("venueDetail.reportIssue")}
             </a>
           </div>
 
           <hr className="border-line" />
 
           <div>
-            <h3 className="font-display text-xl text-ink mb-4">Відгуки</h3>
+            <h3 className="font-display text-xl text-ink mb-4">{t("venueDetail.reviewsTitle")}</h3>
 
             {loadingReviews ? (
-              <p className="font-body text-sm text-ink-soft">Завантажую…</p>
+              <p className="font-body text-sm text-ink-soft">{t("venueDetail.loading")}</p>
             ) : reviews.length === 0 ? (
               <p className="font-body text-sm text-ink-soft mb-6">
-                Ще ніхто не залишив відгук — будь першим.
+                {t("venueDetail.noReviewsYet")}
               </p>
             ) : (
               <ul className="flex flex-col gap-4 mb-6">
@@ -307,32 +312,35 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
 
           <hr className="border-line" />
           <div>
-            <h3 className="font-display text-xl text-ink mb-4">Схожі заклади</h3>
+            <h3 className="font-display text-xl text-ink mb-4">{t("venueDetail.similarTitle")}</h3>
             {!similarLoaded ? (
               <button
                 onClick={loadSimilar}
                 disabled={loadingSimilar}
                 className="font-body text-sm text-accent hover:text-accent-dark disabled:opacity-50"
               >
-                {loadingSimilar ? "Шукаю схожі…" : "Показати схожі заклади"}
+                {loadingSimilar ? t("venueDetail.findingSimilar") : t("venueDetail.showSimilar")}
               </button>
             ) : similar.length === 0 ? (
-              <p className="font-body text-sm text-ink-soft">Не вдалось підібрати схожі.</p>
+              <p className="font-body text-sm text-ink-soft">{t("venueDetail.noSimilarFound")}</p>
             ) : (
               <div className="flex flex-col gap-2">
-                {similar.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => onSelect?.(s)}
-                    className="text-left flex items-center justify-between gap-3
-                               border border-line rounded-xl px-4 py-3 hover:border-accent transition-colors"
-                  >
-                    <span className="font-display text-base text-ink">{s.name}</span>
-                    <span className="font-body text-xs text-ink-soft shrink-0">
-                      {s.category}
-                    </span>
-                  </button>
-                ))}
+                {similar.map((s) => {
+                  const simCategoryLabel = CATEGORY_KEY[s.category] ? t(CATEGORY_KEY[s.category]) : s.category;
+                  return (
+                    <button
+                      key={s.id}
+                      onClick={() => onSelect?.(s)}
+                      className="text-left flex items-center justify-between gap-3
+                                 border border-line rounded-xl px-4 py-3 hover:border-accent transition-colors"
+                    >
+                      <span className="font-display text-base text-ink">{s.name}</span>
+                      <span className="font-body text-xs text-ink-soft shrink-0">
+                        {simCategoryLabel}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>

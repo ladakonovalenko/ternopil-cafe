@@ -1,12 +1,18 @@
+import { useLanguage } from "../i18n/LanguageContext.jsx";
+
+// value лишається українською — це те саме значення, що зберігається
+// в базі й використовується для фільтрації, перекладається лише label.
 const CATEGORIES = [
-  { label: "Кав'ярні", value: "кав'ярня" },
-  { label: "Ресторани", value: "ресторан" },
-  { label: "Бари", value: "бар" },
-  { label: "Інше", value: "інше" },
+  { key: "categoryFilter.coffee", value: "кав'ярня" },
+  { key: "categoryFilter.restaurant", value: "ресторан" },
+  { key: "categoryFilter.bar", value: "бар" },
+  { key: "categoryFilter.other", value: "інше" },
 ];
 
-// active тепер масив обраних категорій ([] означає "усі").
+// active — масив обраних категорій ([] означає "усі").
 export default function CategoryFilter({ active, onChange }) {
+  const { t } = useLanguage();
+
   function toggle(value) {
     if (active.includes(value)) {
       onChange(active.filter((v) => v !== value));
@@ -26,13 +32,13 @@ export default function CategoryFilter({ active, onChange }) {
               : "bg-transparent text-ink-soft border-line hover:border-accent hover:text-accent"
           }`}
       >
-        Усі
+        {t("categoryFilter.all")}
       </button>
-      {CATEGORIES.map(({ label, value }) => {
+      {CATEGORIES.map(({ key, value }) => {
         const isActive = active.includes(value);
         return (
           <button
-            key={label}
+            key={value}
             onClick={() => toggle(value)}
             aria-pressed={isActive}
             className={`font-body text-sm px-4 py-2 rounded-full border transition-colors
@@ -42,7 +48,7 @@ export default function CategoryFilter({ active, onChange }) {
                   : "bg-transparent text-ink-soft border-line hover:border-accent hover:text-accent"
               }`}
           >
-            {label}
+            {t(key)}
           </button>
         );
       })}
