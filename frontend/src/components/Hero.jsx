@@ -1,6 +1,9 @@
 import { useRef, useState } from "react";
+import { useLanguage } from "../i18n/LanguageContext.jsx";
+import { pluralizeVenueNoun } from "../i18n/translations.js";
 
 export default function Hero({ onSearch, loading, venueCount, query, onQueryChange }) {
+  const { t, lang } = useLanguage();
   const [listening, setListening] = useState(false);
   const [voiceError, setVoiceError] = useState("");
   const recognitionRef = useRef(null);
@@ -13,15 +16,15 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
     switch (errorCode) {
       case "not-allowed":
       case "permission-denied":
-        return "Немає доступу до мікрофона — дозволь у налаштуваннях браузера.";
+        return t("hero.voiceError.notAllowed");
       case "no-speech":
-        return "Не почула нічого — спробуй ще раз.";
+        return t("hero.voiceError.noSpeech");
       case "audio-capture":
-        return "Не знайшла мікрофон.";
+        return t("hero.voiceError.audioCapture");
       case "network":
-        return "Проблема з мережею під час розпізнавання.";
+        return t("hero.voiceError.network");
       default:
-        return "Не вдалося розпізнати голос — спробуй ще раз.";
+        return t("hero.voiceError.default");
     }
   }
 
@@ -29,28 +32,28 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
     if (!SpeechRecognitionAPI) return;
     setVoiceError("");
 
-    if (!recognitionRef.current) {
-      const recognition = new SpeechRecognitionAPI();
-      recognition.lang = "uk-UA";
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
+    // Мова розпізнавання йде за поточною мовою інтерфейсу — інакше
+    // голосовий пошук англійською намагався б розпізнати мову як
+    // українську й помилявся б.
+    const recognition = new SpeechRecognitionAPI();
+    recognition.lang = lang === "en" ? "en-US" : "uk-UA";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
 
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        onQueryChange(transcript);
-        onSearch(transcript);
-      };
-      recognition.onend = () => setListening(false);
-      recognition.onerror = (event) => {
-        setListening(false);
-        setVoiceError(voiceErrorMessage(event.error));
-      };
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      onQueryChange(transcript);
+      onSearch(transcript);
+    };
+    recognition.onend = () => setListening(false);
+    recognition.onerror = (event) => {
+      setListening(false);
+      setVoiceError(voiceErrorMessage(event.error));
+    };
 
-      recognitionRef.current = recognition;
-    }
-
+    recognitionRef.current = recognition;
     setListening(true);
-    recognitionRef.current.start();
+    recognition.start();
   }
 
   function handleSubmit(e) {
@@ -58,36 +61,43 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
     if (query.trim()) onSearch(query.trim());
   }
 
+  const exampleQueries = [
+    t("hero.example1"),
+    t("hero.example2"),
+    t("hero.example3"),
+    t("hero.example4"),
+  ];
+
   return (
     <header className="px-4 sm:px-6 pt-14 sm:pt-20 pb-14 text-center max-w-2xl mx-auto">
       <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
         <a
-          href="https://t.me/ladookk"
+          href="https://t.me/твій_юзернейм"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block font-body text-xs text-accent hover:text-accent-dark
                      underline underline-offset-2"
         >
-          Запропонувати заклад →
+          {t("hero.proposeVenue")}
         </a>
 
         <a
-          href="https://send.monobank.ua/jar/6MTqiY4SEb"
+          href="https://send.monobank.ua/твоє-посилання"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 font-body text-xs font-medium
                      bg-accent-soft hover:bg-accent hover:text-surface text-accent-dark
                      rounded-full px-4 py-1.5 transition-colors"
         >
-          ☕ Підтримати проєкт
+          {t("hero.supportProject")}
         </a>
       </div>
 
       <p className="font-body text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase text-ink-soft mb-4">
-        Тернопіль · заклади від людей
+        {t("hero.tagline")}
       </p>
       <h1 className="font-display italic text-3xl sm:text-5xl leading-tight text-ink mb-8">
-        Куди підеш сьогодні?
+        {t("hero.headline")}
       </h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
@@ -96,7 +106,7 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
             type="text"
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
-            placeholder="Наприклад: тиха кав'ярня в центрі"
+            placeholder={t("hero.searchPlaceholder")}
             className={`w-full bg-surface border border-line rounded-full px-5 sm:px-6 py-4
                        font-body text-base text-ink placeholder:text-ink-soft/70
                        focus:outline-none focus:border-accent transition-colors
@@ -106,7 +116,7 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
             <button
               type="button"
               onClick={handleVoiceInput}
-              aria-label="Голосовий пошук"
+              aria-label={t("hero.voiceSearchLabel")}
               className={`absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full
                          flex items-center justify-center transition-colors
                          ${listening ? "bg-accent text-surface animate-pulse" : "text-ink-soft hover:text-accent"}`}
@@ -122,7 +132,7 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
                      text-surface font-body font-medium rounded-full px-8 py-4
                      transition-colors shrink-0"
         >
-          {loading ? "Шукаю…" : "Знайти"}
+          {loading ? t("hero.searching") : t("hero.findButton")}
         </button>
       </form>
 
@@ -131,7 +141,7 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
       )}
 
       <div className="flex flex-wrap justify-center gap-2 mt-4">
-        {EXAMPLE_QUERIES.map((ex) => (
+        {exampleQueries.map((ex) => (
           <button
             key={ex}
             type="button"
@@ -149,24 +159,9 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
 
       <p className="mt-6 font-body text-sm text-ink-soft">
         {venueCount > 0
-          ? `${venueCount} ${pluralizeVenues(venueCount)} у базі · оновлюю вручну щотижня`
-          : "База поки порожня — заклади додаються вручну"}
+          ? t("hero.venueCount", { count: venueCount, noun: pluralizeVenueNoun(venueCount, lang) })
+          : t("hero.venuesEmpty")}
       </p>
     </header>
   );
-}
-
-const EXAMPLE_QUERIES = [
-  "тиха кав'ярня в центрі",
-  "хочу на сніданок",
-  "куди піти з дитиною",
-  "випити пива з друзями",
-];
-
-function pluralizeVenues(n) {
-  const mod10 = n % 10;
-  const mod100 = n % 100;
-  if (mod10 === 1 && mod100 !== 11) return "заклад";
-  if ([2, 3, 4].includes(mod10) && ![12, 13, 14].includes(mod100)) return "заклади";
-  return "закладів";
 }

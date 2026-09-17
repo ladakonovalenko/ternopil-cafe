@@ -1,20 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        bg: "#F5F6F3",
-        surface: "#FFFFFF",
-        ink: "#202A24",
-        "ink-soft": "#5B6660",
+        bg: "var(--color-bg)",
+        surface: "var(--color-surface)",
+        ink: "var(--color-ink)",
+        "ink-soft": "var(--color-ink-soft)",
         accent: {
-          DEFAULT: "#2B6C5E",
-          soft: "#E4EEEA",
-          dark: "#1F4F45",
+          DEFAULT: "var(--color-accent)",
+          soft: "var(--color-accent-soft)",
+          dark: "var(--color-accent-dark)",
         },
-        gold: "#B98A3E",
-        line: "#DFE3DD",
+        gold: "var(--color-gold)",
+        line: "var(--color-line)",
       },
       fontFamily: {
         display: ["Literata", "serif"],

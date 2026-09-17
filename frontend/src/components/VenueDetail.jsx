@@ -254,12 +254,22 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
               </a>
             )}
             {venue.lat && venue.lng && (
-              <button
-                onClick={() => onViewOnMap?.(venue)}
-                className="font-body text-sm text-accent hover:text-accent-dark underline w-fit"
-              >
-                Переглянути на карті →
-              </button>
+              <>
+                <button
+                  onClick={() => onViewOnMap?.(venue)}
+                  className="font-body text-sm text-accent hover:text-accent-dark underline w-fit"
+                >
+                  Переглянути на карті →
+                </button>
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${venue.lat},${venue.lng}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-body text-sm text-accent hover:text-accent-dark underline w-fit"
+                >
+                  Відкрити в Google Maps →
+                </a>
+              </>
             )}
             <a
               href={`https://t.me/твій_юзернейм?text=${encodeURIComponent(

@@ -105,6 +105,11 @@ export default function MapView({ venues, onSelect, emptyLabel, focusVenueId = n
     if (focusVenueId && markersById.has(focusVenueId)) {
       const target = markersById.get(focusVenueId);
       clusterRef.current.zoomToShowLayer(target, () => {
+        // zoomToShowLayer наближає лише настільки, щоб "витягнути" маркер
+        // із кластера — цього замало, щоб побачити конкретну вулицю.
+        // Тому одразу після цього примусово ставимо тісний зум прямо на
+        // координати закладу.
+        mapRef.current.setView(target.getLatLng(), 18);
         target.openPopup();
         onFocusHandled?.();
       });

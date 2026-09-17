@@ -2,6 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-bg: #F5F6F3;
+  --color-surface: #FFFFFF;
+  --color-ink: #202A24;
+  --color-ink-soft: #5B6660;
+  --color-accent: #2B6C5E;
+  --color-accent-soft: #E4EEEA;
+  --color-accent-dark: #1F4F45;
+  --color-gold: #B98A3E;
+  --color-line: #DFE3DD;
+}
+
+/* Темна тема — той самий теал, адаптований для темного фону: яскравіший
+   акцент (темний теал на фоні читався б надто приглушено), теплий
+   світлий текст замість білого. */
+.dark {
+  --color-bg: #131B17;
+  --color-surface: #1D2721;
+  --color-ink: #E9F1EC;
+  --color-ink-soft: #93AFA2;
+  --color-accent: #4FB89C;
+  --color-accent-soft: #26362E;
+  --color-accent-dark: #6BCBB1;
+  --color-gold: #D9A65E;
+  --color-line: #2E3A34;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -18,7 +45,7 @@ body {
 
 /* Видимий фокус для клавіатурної навігації — не прибираємо доступність заради краси */
 :focus-visible {
-  outline: 2px solid #2b6c5e;
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
@@ -35,5 +62,5 @@ body {
 
 .leaflet-container {
   font-family: "Golos Text", sans-serif;
-  background: #f5f6f3;
+  background: var(--color-bg);
 }

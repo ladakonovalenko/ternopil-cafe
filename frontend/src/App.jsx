@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { api } from "./api.js";
 import { getFavorites, toggleFavorite, getRecentlyViewed, addRecentlyViewed } from "./favorites.js";
 import { getDistanceKm } from "./distance.js";
+import { getInitialTheme, applyTheme } from "./theme.js";
+import { useLanguage } from "./i18n/LanguageContext.jsx";
 import Hero from "./components/Hero.jsx";
 import CategoryFilter from "./components/CategoryFilter.jsx";
 import VenueGrid from "./components/VenueGrid.jsx";
@@ -16,14 +18,37 @@ export default function App() {
     []
   );
 
+  const [theme, setTheme] = useState(getInitialTheme);
+
+  useEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
+
+  const themeToggle = (
+    <button
+      onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+      aria-label={theme === "dark" ? "Увімкнути світлу тему" : "Увімкнути темну тему"}
+      className="fixed top-4 right-4 z-40 w-10 h-10 rounded-full bg-surface border border-line
+                 flex items-center justify-center hover:border-accent transition-colors"
+    >
+      {theme === "dark" ? "☀️" : "🌙"}
+    </button>
+  );
+
   if (isAdmin) {
-    return <AdminPanel />;
+    return (
+      <>
+        {themeToggle}
+        <AdminPanel />
+      </>
+    );
   }
 
-  return <PublicSite />;
+  return <PublicSite themeToggle={themeToggle} />;
 }
 
-function PublicSite() {
+function PublicSite({ themeToggle }) {
+  const { lang, setLang } = useLanguage();
   const [venues, setVenues] = useState([]);
   const [loadingVenues, setLoadingVenues] = useState(true);
   const [category, setCategory] = useState([]);
@@ -252,6 +277,16 @@ function PublicSite() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {themeToggle}
+      <button
+        onClick={() => setLang((l) => (l === "uk" ? "en" : "uk"))}
+        aria-label={lang === "uk" ? "Switch to English" : "Перемкнути на українську"}
+        className="fixed top-4 right-16 z-40 h-10 px-3 rounded-full bg-surface border border-line
+                   flex items-center justify-center font-body text-sm text-ink-soft
+                   hover:border-accent hover:text-accent transition-colors"
+      >
+        {lang === "uk" ? "EN" : "UK"}
+      </button>
       {venueNotFound && (
         <div className="bg-accent-soft text-accent-dark font-body text-sm text-center px-6 py-3
                          flex items-center justify-center gap-3">
