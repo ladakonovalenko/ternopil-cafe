@@ -6,11 +6,19 @@ from fastapi import APIRouter, Header, HTTPException, Request
 from app.database import get_connection
 from app.models import ReviewIn, ReviewOut, ReviewCreatedOut, ReviewUpdateIn
 from app.routers.venues import check_admin
+from app.rate_limit import check_rate_limit_db
 
 router = APIRouter(prefix="/venues/{venue_id}/reviews", tags=["reviews"])
 
 IP_SALT = os.environ["IP_HASH_SALT"]
 RATE_LIMIT_HOURS = 24  # одна людина — один відгук на заклад за добу
+
+# Rate-limit на самостійне редагування/видалення — той самий принцип,
+# що вже є на адмін-діях: токен неможливо підібрати (192 біти ентропії),
+# але без цього другого шару можна нескінченно бомбардувати ендпоінт
+# запитами до бази, кожен з яких усе одно доходить до SELECT/порівняння.
+SELF_SERVICE_RATE_WINDOW_SECONDS = 60
+SELF_SERVICE_RATE_MAX_REQUESTS = 10
 
 
 def hash_ip(ip: str) -> str:
@@ -99,10 +107,15 @@ async def create_review(venue_id: int, review: ReviewIn, request: Request):
         await conn.close()
 
 
-async def _get_review_by_token(conn, venue_id: int, review_id: int, edit_token: str | None):
+async def _get_review_by_token(conn, request: Request, venue_id: int, review_id: int, edit_token: str | None):
     """Спільна перевірка для обох self-service ендпоінтів нижче —
     hmac.compare_digest, той самий захист від timing-атак, що й на
-    адмін-ключі."""
+    адмін-ключі, плюс rate-limit як другий незалежний шар."""
+    ip_hash = hashlib.sha256(f"{IP_SALT}{get_client_ip(request)}".encode()).hexdigest()
+    await check_rate_limit_db(
+        conn, f"review-self:{ip_hash}", SELF_SERVICE_RATE_WINDOW_SECONDS, SELF_SERVICE_RATE_MAX_REQUESTS
+    )
+
     if not edit_token:
         raise HTTPException(status_code=403, detail="Немає токена для редагування")
 
@@ -120,6 +133,7 @@ async def update_my_review(
     venue_id: int,
     review_id: int,
     update: ReviewUpdateIn,
+    request: Request,
     x_edit_token: str | None = Header(default=None),
 ):
     """Самостійне редагування — тільки той, хто має правильний токен
@@ -128,7 +142,7 @@ async def update_my_review(
     автором."""
     conn = await get_connection()
     try:
-        await _get_review_by_token(conn, venue_id, review_id, x_edit_token)
+        await _get_review_by_token(conn, request, venue_id, review_id, x_edit_token)
 
         row = await conn.fetchrow(
             """
@@ -155,6 +169,7 @@ async def update_my_review(
 async def delete_my_review(
     venue_id: int,
     review_id: int,
+    request: Request,
     x_edit_token: str | None = Header(default=None),
 ):
     """Самостійне видалення власного відгуку — той самий принцип
@@ -162,7 +177,7 @@ async def delete_my_review(
     змішувати два різні механізми довіри на одному маршруті)."""
     conn = await get_connection()
     try:
-        await _get_review_by_token(conn, venue_id, review_id, x_edit_token)
+        await _get_review_by_token(conn, request, venue_id, review_id, x_edit_token)
 
         await conn.execute("DELETE FROM reviews WHERE id=$1 AND venue_id=$2", review_id, venue_id)
 
