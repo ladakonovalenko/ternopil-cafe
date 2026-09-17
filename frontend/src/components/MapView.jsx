@@ -138,7 +138,7 @@ export default function MapView({ venues, onSelect, emptyLabel, focusVenueId = n
       <div className="relative">
         <div
           ref={containerRef}
-          className="w-full h-[420px] rounded-2xl overflow-hidden border border-line"
+          className="w-full h-[420px] lg:h-[560px] xl:h-[640px] rounded-2xl overflow-hidden border border-line"
         />
         {venues.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center bg-surface/90 rounded-2xl pointer-events-none">

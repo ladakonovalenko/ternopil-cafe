@@ -133,6 +133,7 @@ export const translations = {
     uk: "Нічого влучного не знайшлось — спробуй сформулювати інакше.",
     en: "Nothing quite fit — try rephrasing.",
   },
+  "app.allVenuesFallback": { uk: "Усі заклади", en: "All venues" },
   "app.locating": { uk: "Визначаю…", en: "Locating…" },
   "app.nearMe": { uk: "Поруч зі мною", en: "Near me" },
   "app.favoritesButton": { uk: "Обрані", en: "Favorites" },

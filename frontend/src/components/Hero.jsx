@@ -61,12 +61,23 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
     if (query.trim()) onSearch(query.trim());
   }
 
-  const exampleQueries = [
-    t("hero.example1"),
-    t("hero.example2"),
-    t("hero.example3"),
-    t("hero.example4"),
-  ];
+  // Ті самі чотири приклади, просто найдоречніший зараз — першим.
+  // Не вигадуємо нових категорій запитів, лише міняємо порядок.
+  const hour = new Date().getHours();
+  let exampleQueries;
+  if (hour >= 5 && hour < 11) {
+    // ранок — сніданок найдоречніший
+    exampleQueries = [t("hero.example2"), t("hero.example1"), t("hero.example3"), t("hero.example4")];
+  } else if (hour >= 11 && hour < 17) {
+    // день — тиха кав'ярня, з дитиною
+    exampleQueries = [t("hero.example1"), t("hero.example3"), t("hero.example2"), t("hero.example4")];
+  } else if (hour >= 17 && hour < 23) {
+    // вечір — пиво з друзями
+    exampleQueries = [t("hero.example4"), t("hero.example1"), t("hero.example3"), t("hero.example2")];
+  } else {
+    // ніч — бар усе ще доречний, сніданок і дитина — ні
+    exampleQueries = [t("hero.example4"), t("hero.example1"), t("hero.example2"), t("hero.example3")];
+  }
 
   return (
     <header className="px-4 sm:px-6 pt-14 sm:pt-20 pb-14 text-center max-w-2xl mx-auto">

@@ -311,7 +311,7 @@ function PublicSite({ themeToggle }) {
 
       <main className="flex-1 pb-24">
         {searchQuery ? (
-          <section className="max-w-5xl mx-auto">
+          <section className="max-w-5xl xl:max-w-7xl mx-auto">
             <div className="flex items-center justify-between px-6 mb-6 flex-wrap gap-3">
               <p className="font-display italic text-lg text-ink">
                 {t("app.searchResultsFor", { query: searchQuery })}
@@ -334,14 +334,29 @@ function PublicSite({ themeToggle }) {
             ) : searchError ? (
               <p className="text-center font-body text-ink-soft py-16">{searchError}</p>
             ) : searchView === "grid" ? (
-              <VenueGrid
-                venues={searchVenues}
-                reasons={searchReasons}
-                onSelect={openVenue}
-                emptyLabel={t("app.searchEmpty")}
-                favorites={favorites}
-                onToggleFavorite={handleToggleFavorite}
-              />
+              <>
+                <VenueGrid
+                  venues={searchVenues}
+                  reasons={searchReasons}
+                  onSelect={openVenue}
+                  emptyLabel={t("app.searchEmpty")}
+                  favorites={favorites}
+                  onToggleFavorite={handleToggleFavorite}
+                />
+                {searchVenues.length === 0 && venues.length > 0 && (
+                  <div className="mt-4">
+                    <p className="font-body text-xs uppercase tracking-wide text-ink-soft mb-3 px-6">
+                      {t("app.allVenuesFallback")}
+                    </p>
+                    <VenueGrid
+                      venues={venues}
+                      onSelect={openVenue}
+                      favorites={favorites}
+                      onToggleFavorite={handleToggleFavorite}
+                    />
+                  </div>
+                )}
+              </>
             ) : (
               <div className="px-6">
                 <MapView
@@ -353,7 +368,7 @@ function PublicSite({ themeToggle }) {
             )}
           </section>
         ) : (
-          <section className="max-w-5xl mx-auto flex flex-col gap-8">
+          <section className="max-w-5xl xl:max-w-7xl mx-auto flex flex-col gap-8">
             <HorizontalVenueStrip
               title={t("app.recentlyViewed")}
               venues={recentlyViewedVenues}
