@@ -283,8 +283,8 @@ function PublicSite({ themeToggle }) {
       <button
         onClick={() => setLang((l) => (l === "uk" ? "en" : "uk"))}
         aria-label={lang === "uk" ? "Switch to English" : "Перемкнути на українську"}
-        className="fixed top-4 right-16 z-40 h-10 px-3 rounded-full bg-surface border border-line
-                   flex items-center justify-center font-body text-sm text-ink-soft
+        className="fixed top-4 right-16 z-40 w-10 h-10 rounded-full bg-surface border border-line
+                   flex items-center justify-center font-body text-xs font-medium text-ink-soft
                    hover:border-accent hover:text-accent transition-colors"
       >
         {lang === "uk" ? "EN" : "UK"}
