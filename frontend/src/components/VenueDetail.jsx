@@ -300,7 +300,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
               </>
             )}
             <a
-              href={`https://t.me/твій_юзернейм?text=${encodeURIComponent(
+              href={`https://t.me/ladookk?text=${encodeURIComponent(
                 t("venueDetail.reportPrefix", { name: venue.name })
               )}`}
               target="_blank"
