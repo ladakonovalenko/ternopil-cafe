@@ -250,7 +250,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
           </div>
 
           <div>
-            <h2 id="venue-detail-title" className="font-display text-3xl text-ink mb-2">{venue.name}</h2>
+            <h2 id="venue-detail-title" className="font-display font-light text-3xl text-ink mb-2">{venue.name}</h2>
             <div className="flex items-center gap-2 font-body text-sm text-ink-soft mb-1">
               <StarRating value={venue.avg_rating} />
               <span>
@@ -314,7 +314,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
           <hr className="border-line" />
 
           <div>
-            <h3 className="font-display text-xl text-ink mb-4">{t("venueDetail.reviewsTitle")}</h3>
+            <h3 className="font-display font-light text-xl text-ink mb-4">{t("venueDetail.reviewsTitle")}</h3>
 
             {loadingReviews ? (
               <p className="font-body text-sm text-ink-soft">{t("venueDetail.loading")}</p>
@@ -335,7 +335,7 @@ export default function VenueDetail({ venue, venues = [], onSelect, onClose, isF
 
           <hr className="border-line" />
           <div>
-            <h3 className="font-display text-xl text-ink mb-4">{t("venueDetail.similarTitle")}</h3>
+            <h3 className="font-display font-light text-xl text-ink mb-4">{t("venueDetail.similarTitle")}</h3>
             {!similarLoaded ? (
               <button
                 onClick={loadSimilar}

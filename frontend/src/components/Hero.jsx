@@ -107,7 +107,7 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
       <p className="font-body text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase text-ink-soft mb-4">
         {t("hero.tagline")}
       </p>
-      <h1 className="font-display italic text-3xl sm:text-5xl leading-tight text-ink mb-8">
+      <h1 className="font-display font-light italic text-3xl sm:text-5xl xl:text-6xl leading-tight text-ink mb-8">
         {t("hero.headline")}
       </h1>
 
@@ -120,7 +120,7 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
             placeholder={t("hero.searchPlaceholder")}
             className={`w-full bg-surface border border-line rounded-full px-5 sm:px-6 py-4
                        font-body text-base text-ink placeholder:text-ink-soft/70
-                       focus:outline-none focus:border-accent transition-colors
+                       focus:outline-none focus:border-accent transition-colors warm-shadow
                        ${SpeechRecognitionAPI ? "pr-14" : ""}`}
           />
           {SpeechRecognitionAPI && (
@@ -160,7 +160,7 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
               onQueryChange(ex);
               onSearch(ex);
             }}
-            className="font-body text-xs text-ink-soft border border-line rounded-full
+            className="font-body text-xs text-ink-soft border border-line rounded-full warm-shadow
                        px-3 py-1.5 hover:border-accent hover:text-accent transition-colors"
           >
             {ex}
