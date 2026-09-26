@@ -77,7 +77,7 @@ export default function AdminStats({ adminKey }) {
           ) : (
             <div className="flex items-end gap-1 h-40">
               {stats.buckets.map((b) => (
-                <div key={b.date} className="flex-1 flex flex-col items-center gap-1 group relative">
+                <div key={b.date} className="flex-1 flex flex-col justify-end items-center gap-1 group relative h-full">
                   <div
                     className="w-full bg-accent rounded-t-sm transition-all hover:bg-accent-dark"
                     style={{ height: `${Math.max(4, (b.views / maxViews) * 100)}%` }}
