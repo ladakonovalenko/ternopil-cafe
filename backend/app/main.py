@@ -15,7 +15,7 @@ app.add_middleware(
         "https://www.ternopilcafes.com",
     ],
     allow_methods=["GET", "POST", "PUT", "DELETE"],
-    allow_headers=["Content-Type", "X-Admin-Key"],
+    allow_headers=["Content-Type", "X-Admin-Key", "X-Edit-Token"],
 )
 
 app.include_router(venues.router)
