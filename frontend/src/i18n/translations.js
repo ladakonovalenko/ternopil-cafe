@@ -43,6 +43,10 @@ export const translations = {
     uk: "База поки порожня — заклади додаються вручну",
     en: "The list is empty for now — venues are added manually",
   },
+  "hero.venuesLoading": {
+    uk: "Завантажую заклади…",
+    en: "Loading venues…",
+  },
 
   "categoryFilter.all": { uk: "Усі", en: "All" },
   "categoryFilter.coffee": { uk: "Кав'ярні", en: "Cafés" },
@@ -103,6 +107,12 @@ export const translations = {
   "reviewForm.sending": { uk: "Надсилаю…", en: "Sending…" },
   "reviewForm.submit": { uk: "Залишити відгук", en: "Leave a review" },
   "reviewForm.starLabel": { uk: "{n} з 5", en: "{n} out of 5" },
+  "reviewForm.missingBoth": {
+    uk: "Вкажи ім'я і постав оцінку, щоб залишити відгук",
+    en: "Add your name and a rating to leave a review",
+  },
+  "reviewForm.missingName": { uk: "Вкажи своє ім'я", en: "Add your name" },
+  "reviewForm.missingRating": { uk: "Постав оцінку зірками", en: "Pick a star rating" },
 
   "reviewItem.saving": { uk: "Зберігаю…", en: "Saving…" },
   "reviewItem.save": { uk: "Зберегти", en: "Save" },

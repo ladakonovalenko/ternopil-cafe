@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useLanguage } from "../i18n/LanguageContext.jsx";
 import { pluralizeVenueNoun } from "../i18n/translations.js";
 
-export default function Hero({ onSearch, loading, venueCount, query, onQueryChange }) {
+export default function Hero({ onSearch, loading, venuesLoading, venueCount, query, onQueryChange }) {
   const { t, lang } = useLanguage();
   const [listening, setListening] = useState(false);
   const [voiceError, setVoiceError] = useState("");
@@ -171,6 +171,8 @@ export default function Hero({ onSearch, loading, venueCount, query, onQueryChan
       <p className="mt-6 font-body text-sm text-ink-soft">
         {venueCount > 0
           ? t("hero.venueCount", { count: venueCount, noun: pluralizeVenueNoun(venueCount, lang) })
+          : venuesLoading
+          ? t("hero.venuesLoading")
           : t("hero.venuesEmpty")}
       </p>
     </header>

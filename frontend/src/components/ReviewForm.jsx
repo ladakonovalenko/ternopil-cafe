@@ -105,6 +105,20 @@ export default function ReviewForm({ venueId, onSubmitted }) {
       >
         {status === "sending" ? t("reviewForm.sending") : t("reviewForm.submit")}
       </button>
+
+      {/* Кнопка вище неактивна, доки не заповнені обов'язкові поля — без
+          цього підказка людина бачила тільки сіру кнопку без пояснення,
+          чому клік нічого не робить (DOM-валідація at the browser level
+          працює коректно, але не показує сама по собі, чого саме бракує). */}
+      {status !== "sending" && (!name.trim() || rating === 0) && (
+        <p className="font-body text-xs text-ink-soft -mt-2" aria-live="polite">
+          {!name.trim() && rating === 0
+            ? t("reviewForm.missingBoth")
+            : !name.trim()
+            ? t("reviewForm.missingName")
+            : t("reviewForm.missingRating")}
+        </p>
+      )}
     </form>
   );
 }

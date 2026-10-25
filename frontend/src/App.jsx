@@ -304,6 +304,7 @@ function PublicSite({ themeToggle }) {
       <Hero
         onSearch={handleSearch}
         loading={searchLoading}
+        venuesLoading={loadingVenues}
         venueCount={venues.length}
         query={query}
         onQueryChange={setQuery}

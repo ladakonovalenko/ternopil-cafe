@@ -1,9 +1,22 @@
+import os
+
 from fastapi import FastAPI, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import venues, reviews, search, analytics
 from app.routers.venues import check_admin
 
-app = FastAPI(title="Заклади Тернополя API")
+# Vercel сам виставляє VERCEL_ENV=production/preview/development — за цим
+# ховаємо Swagger/ReDoc і схему OpenAPI на живому проді, лишаючи їх
+# доступними в preview-деплоях і локальній розробці, де вони реально
+# потрібні для дебагу.
+IS_PRODUCTION = os.environ.get("VERCEL_ENV") == "production"
+
+app = FastAPI(
+    title="Заклади Тернополя API",
+    docs_url=None if IS_PRODUCTION else "/docs",
+    redoc_url=None if IS_PRODUCTION else "/redoc",
+    openapi_url=None if IS_PRODUCTION else "/openapi.json",
+)
 
 # Звужено до реального фронтенду замість "*" — див. security review.
 # Якщо колись підключиш власний домен, додай його в цей список теж.

@@ -10,7 +10,13 @@ async function request(path, options = {}) {
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error(body.detail || `Помилка запиту: ${res.status}`);
+    // FastAPI/Pydantic повертає 422 з detail у вигляді МАСИВУ об'єктів
+    // валідації ({loc, msg, type}), а не рядка — без цієї перевірки
+    // new Error(masyv) перетворював би помилку на "[object Object]".
+    const detail = Array.isArray(body.detail)
+      ? body.detail.map((e) => e.msg).join(", ")
+      : body.detail;
+    throw new Error(detail || `Помилка запиту: ${res.status}`);
   }
   if (res.status === 204) return null;
   return res.json();

@@ -76,12 +76,17 @@ async def get_upload_signature(request: Request, x_admin_key: str | None = Heade
 
     timestamp = int(time.time())
     folder = "ternopil-venues"
+    # Дозволені формати фото закладів — Cloudinary сам відхилить файл, якщо
+    # його формат не входить у цей список, бо allowed_formats тепер частина
+    # підписаних параметрів (підпис стане невалідним, якщо хтось спробує
+    # підмінити це значення при фактичному завантаженні).
+    allowed_formats = "jpg,jpeg,png,webp"
 
     # Cloudinary вимагає підпис саме за такою схемою: параметри (без file/
     # api_key/signature/cloud_name), відсортовані за ключем, склеєні в
     # "key=value&key=value", і в кінці дописаний api_secret — усе разом
     # хешується SHA-1.
-    params_to_sign = {"folder": folder, "timestamp": timestamp}
+    params_to_sign = {"allowed_formats": allowed_formats, "folder": folder, "timestamp": timestamp}
     sorted_params = "&".join(f"{k}={v}" for k, v in sorted(params_to_sign.items()))
     signature = hashlib.sha1((sorted_params + CLOUDINARY_API_SECRET).encode("utf-8")).hexdigest()
 
@@ -91,6 +96,7 @@ async def get_upload_signature(request: Request, x_admin_key: str | None = Heade
         "api_key": CLOUDINARY_API_KEY,
         "cloud_name": CLOUDINARY_CLOUD_NAME,
         "folder": folder,
+        "allowed_formats": allowed_formats,
     }
 
 
