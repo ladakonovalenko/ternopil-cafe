@@ -119,7 +119,7 @@ export default function Hero({ onSearch, loading, venuesLoading, venueCount, que
             onChange={(e) => onQueryChange(e.target.value)}
             placeholder={t("hero.searchPlaceholder")}
             className={`w-full bg-surface border border-line rounded-full px-5 sm:px-6 py-4
-                       font-body text-base text-ink placeholder:text-ink-soft/70
+                       font-body text-base text-ink placeholder:text-ink-soft
                        focus:outline-none focus:border-accent transition-colors warm-shadow
                        ${SpeechRecognitionAPI ? "pr-14" : ""}`}
           />

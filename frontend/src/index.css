@@ -6,12 +6,14 @@
   --color-bg: 245 246 243;
   --color-surface: 255 255 255;
   --color-ink: 32 42 36;
-  --color-ink-soft: 91 102 96;
+  --color-ink-soft: 74 84 79;
   --color-accent: 43 108 94;
   --color-accent-soft: 228 238 234;
   --color-accent-dark: 31 79 69;
-  --color-gold: 185 138 62;
+  --color-gold: 150 108 38;
   --color-line: 223 227 221;
+  /* Рамки полів форм: ≥ 3:1 до фону (WCAG 1.4.11), на відміну від декоративних ліній */
+  --color-line-strong: 135 146 140;
 }
 
 /* Темна тема — той самий теал, адаптований для темного фону: яскравіший
@@ -21,12 +23,32 @@
   --color-bg: 19 27 23;
   --color-surface: 29 39 33;
   --color-ink: 233 241 236;
-  --color-ink-soft: 147 175 162;
+  --color-ink-soft: 172 196 185;
   --color-accent: 79 184 156;
   --color-accent-soft: 38 54 46;
   --color-accent-dark: 107 203 177;
   --color-gold: 217 166 94;
   --color-line: 46 58 52;
+  --color-line-strong: 108 128 118;
+}
+
+/* Контраст (WCAG 2.1 AA): плейсхолдери замість типового gray-400 Tailwind (~2,5:1),
+   рамки полів ≥ 3:1, червоний текст помилок і «Видалити» світліший у темній темі. */
+input::placeholder,
+textarea::placeholder {
+  color: rgb(var(--color-ink-soft));
+  opacity: 1;
+}
+input.border-line,
+textarea.border-line,
+select.border-line {
+  border-color: rgb(var(--color-line-strong));
+}
+.dark .text-red-600 {
+  color: rgb(248 113 113);
+}
+.dark .hover\:text-red-800:hover {
+  color: rgb(252 165 165);
 }
 
 html {
